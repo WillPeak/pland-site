@@ -1,1 +1,601 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pland — The family calendar that plans your week</title>
+  <meta name="description" content="Pland keeps your household in sync and turns “we should hang out” into real plans on the calendar. Join the household beta." />
+  <meta property="og:title" content="Pland — The family calendar that plans your week" />
+  <meta property="og:description" content="Shared family calendar + auto-planning so family time and friend time actually happen." />
+  <meta property="og:type" content="website" />
+  <style>
+    :root {
+      --bg: #000000;
+      --bg-elevated: #121212;
+      --bg-card: #1c1c1e;
+      --border: #2c2c2c;
+      --text: #ffffff;
+      --muted: #a1a1a6;
+      --accent: #ff4545;
+      --accent-hover: #ff6060;
+      --blue: #007aff;
+      --green: #34c759;
+      --orange: #e67300;
+      --radius: 14px;
+      --max: 880px;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 1.25rem; }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 0;
+      position: sticky;
+      top: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(10px);
+      z-index: 20;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+    .logo {
+      font-weight: 750;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: none;
+      gap: 1.25rem;
+      align-items: center;
+    }
+    @media (min-width: 720px) {
+      .nav-links { display: flex; }
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 550;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta, .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.65rem 1.1rem;
+      border-radius: 999px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-cta:hover, .btn-primary:hover {
+      background: var(--accent-hover);
+      text-decoration: none;
+    }
+    .btn-secondary {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: var(--text);
+      font-weight: 600;
+      padding: 0.65rem 1.1rem;
+      border-radius: 999px;
+      text-decoration: none;
+      background: transparent;
+      font-size: 0.95rem;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.06); text-decoration: none; }
+    section { padding: 4rem 0; }
+    section + section { border-top: 1px solid var(--border); }
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 5.5vw, 3.1rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.1rem;
+      font-weight: 780;
+    }
+    h1 .mark { color: var(--accent); }
+    h2 {
+      font-size: clamp(1.45rem, 3.5vw, 2rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.85rem;
+      font-weight: 740;
+    }
+    h3 { font-size: 1.08rem; margin-bottom: 0.4rem; font-weight: 680; }
+    .lead {
+      font-size: 1.12rem;
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+      max-width: 40em;
+    }
+    .quote {
+      border-left: 3px solid var(--accent);
+      padding-left: 1rem;
+      color: var(--muted);
+      font-style: italic;
+      margin: 0 0 1.75rem;
+      max-width: 38em;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .fine {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.9rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) {
+      .grid.three { grid-template-columns: repeat(3, 1fr); }
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.35rem;
+    }
+    .card p, .card li { color: var(--muted); font-size: 0.95rem; }
+    .card ul { margin: 0.55rem 0 0 1.05rem; }
+    .card li { margin-bottom: 0.3rem; }
+    .dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.45rem;
+      vertical-align: middle;
+    }
+    .dot.blue { background: var(--blue); }
+    .dot.red { background: var(--accent); }
+    .dot.green { background: var(--green); }
+    .timeline {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+    .timeline article {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.2rem;
+    }
+    .timeline .when {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .pill {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .pill.active {
+      border-color: var(--accent);
+      background: rgba(255, 69, 69, 0.14);
+      color: #fff;
+    }
+    .beta {
+      background: linear-gradient(165deg, #1a1010 0%, var(--bg-card) 55%);
+      border: 1px solid rgba(255, 69, 69, 0.35);
+      border-radius: 18px;
+      padding: 2rem 1.4rem;
+    }
+    form { display: grid; gap: 0.9rem; margin-top: 1.25rem; text-align: left; }
+    label {
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      font-weight: 650;
+      color: var(--muted);
+    }
+    input, select, textarea {
+      width: 100%;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.8rem 0.9rem;
+      font: inherit;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .form-status {
+      display: none;
+      margin-top: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+    .form-status.ok {
+      display: block;
+      background: rgba(52, 199, 89, 0.12);
+      border: 1px solid rgba(52, 199, 89, 0.35);
+      color: #b7f0c6;
+    }
+    .form-status.err {
+      display: block;
+      background: rgba(255, 69, 69, 0.12);
+      border: 1px solid rgba(255, 69, 69, 0.35);
+      color: #ffc0c0;
+    }
+    footer {
+      padding: 2.25rem 0 3rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    footer .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.25rem;
+      margin: 1rem 0;
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+    .hero-mock {
+      margin-top: 2.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.15rem 1.2rem 1.35rem;
+      max-width: 420px;
+    }
+    .hero-layout {
+      display: grid;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (min-width: 900px) {
+      .hero-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: center;
+      }
+      .hero-mock { margin-top: 0; }
+    }
+    .mock-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+    .mock-scores { display: flex; gap: 0.35rem; }
+    .score {
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      font-size: 0.62rem;
+      font-weight: 750;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .score.g { background: var(--green); }
+    .score.o { background: var(--orange); }
+    .score.r { background: var(--accent); }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.25rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+    .cal-grid .day.on {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .event {
+      border-radius: 8px;
+      padding: 0.45rem 0.55rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.4rem;
+    }
+    .event.blue { background: rgba(0, 122, 255, 0.22); color: #9cc9ff; }
+    .event.red { background: rgba(255, 69, 69, 0.2); color: #ffb0b0; }
+    .event.dash {
+      border: 1px dashed rgba(255,255,255,0.28);
+      background: transparent;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a class="logo" href="#">Pland</a>
+      <div class="nav-links">
+        <a href="#flow">Life in flow</a>
+        <a href="#features">Features</a>
+        <a href="#beta">Join beta</a>
+      </div>
+      <a class="nav-cta" href="#beta">Join Beta</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero">
+      <div class="wrap hero-layout">
+        <div>
+          <p class="eyebrow">Household beta</p>
+          <h1>The family calendar that <span class="mark">actually plans your week</span></h1>
+          <p class="lead">
+            Pland keeps your household in sync and turns “we should hang out” into real plans on the calendar —
+            so family time and friend time actually happen.
+          </p>
+          <p class="quote">“We’re Pland” means there’s a real plan, not another vague intention.</p>
+          <div class="btn-row">
+            <a class="btn-primary" href="#beta">Join the household beta</a>
+            <a class="btn-secondary" href="#flow">See how it works</a>
+          </div>
+          <p class="fine">Built for busy families. iOS today. Free while we’re in beta.</p>
+        </div>
+        <div class="hero-mock" aria-hidden="true">
+          <div class="mock-top">
+            <div>
+              <div class="logo" style="font-size:1.1rem">Pland</div>
+              <div style="color:var(--muted);font-size:0.8rem">Family Calendar</div>
+            </div>
+            <div class="mock-scores">
+              <div class="score g">72</div>
+              <div class="score o">45</div>
+              <div class="score r">34</div>
+            </div>
+          </div>
+          <div class="cal-grid">
+            <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+            <div></div><div></div><div></div><div></div><div></div><div></div><div class="day on">18</div>
+          </div>
+          <div class="event blue">School pickup · shared</div>
+          <div class="event red">Dinner with the Lees</div>
+          <div class="event dash">Suggested: walk after kids’ bedtime</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow">
+      <div class="wrap">
+        <p class="eyebrow">Life in flow</p>
+        <h2>Your day, planned around the people who matter</h2>
+        <p class="lead">Pland reads the shared family calendar, fills open space with smart suggestions, and leaves you in control — accept, tweak, or ignore.</p>
+        <div class="timeline">
+          <article>
+            <div class="when">Morning</div>
+            <h3>Household already aligned</h3>
+            <p style="color:var(--muted);font-size:0.95rem">Everyone’s fixed events are on one calendar. Conflicts surface before they become texts at 4pm.</p>
+          </article>
+          <article>
+            <div class="when">Afternoon</div>
+            <h3>Suggestions, not homework</h3>
+            <p style="color:var(--muted);font-size:0.95rem">Life Planner proposes workouts, tasks, and social time in open slots. Tap to accept or dismiss.</p>
+          </article>
+          <article>
+            <div class="when">Evening</div>
+            <h3>Family time protected</h3>
+            <p style="color:var(--muted);font-size:0.95rem">Plans respect partner and kid constraints so social nights don’t crowd out the people at home.</p>
+          </article>
+          <article>
+            <div class="when">This week</div>
+            <h3>Meals that match the schedule</h3>
+            <p style="color:var(--muted);font-size:0.95rem">Weekly household meal planning and grocery lists when you want them — tied to the same week you’re living.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <p class="eyebrow">What ships in beta</p>
+        <h2>Focused on what families actually use</h2>
+        <p class="lead">We’re not pretending to automate your entire life on day one. Here’s what’s real in the household beta.</p>
+        <div class="grid three" style="margin-top:1.5rem">
+          <div class="card">
+            <h3><span class="dot blue"></span>Family calendar</h3>
+            <p>Shared household calendar with Apple Calendar import, multi-person views, and instant local adds.</p>
+          </div>
+          <div class="card">
+            <h3><span class="dot red"></span>Life Planner</h3>
+            <p>Auto-suggestions in open time — accept or dismiss. Built to avoid stacking on top of busy blocks.</p>
+          </div>
+          <div class="card">
+            <h3><span class="dot green"></span>Meals &amp; wellness</h3>
+            <p>Weekly meal plans, grocery lists, workouts, mental check-ins, and health scores that steer planning.</p>
+          </div>
+        </div>
+        <p class="fine" style="margin-top:1.25rem">Coming later (not in the beta promise): full travel booking, investment management, and outfit automation.</p>
+      </div>
+    </section>
+
+    <section id="who">
+      <div class="wrap">
+        <p class="eyebrow">Fit</p>
+        <h2>Who this beta is for</h2>
+        <div class="grid two" style="margin-top:1.25rem">
+          <div class="card">
+            <h3>Great fit</h3>
+            <ul>
+              <li>Dual-income households juggling kids, partners, and friends</li>
+              <li>Families already living in a shared calendar</li>
+              <li>People willing to try iOS beta software and send blunt feedback</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Not yet</h3>
+            <ul>
+              <li>Teams looking for enterprise calendar SaaS</li>
+              <li>Anyone who needs Android or web-first today</li>
+              <li>People who want “set and forget” with zero review of suggestions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beta">
+      <div class="wrap">
+        <div class="beta">
+          <p class="eyebrow">Join beta</p>
+          <h2>Request household access</h2>
+          <p class="lead" style="margin-bottom:0">Tell us about your family. We’ll reach out with TestFlight details as spots open.</p>
+
+          <form id="beta-form">
+            <label>
+              Email
+              <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+            </label>
+            <label>
+              Household size
+              <select name="familySize" required>
+                <option value="" disabled selected>Select one</option>
+                <option value="2">2 people</option>
+                <option value="3-5">3–5 people</option>
+                <option value="6-10">6–10 people</option>
+                <option value="11+">11+</option>
+              </select>
+            </label>
+            <div>
+              <div style="font-size:0.85rem;font-weight:650;color:var(--muted);margin-bottom:0.45rem">What do you want help with?</div>
+              <div class="pill-row" id="interest-pills">
+                <button type="button" class="pill active" data-value="Family Calendar">Family Calendar</button>
+                <button type="button" class="pill active" data-value="Life Planner">Life Planner</button>
+                <button type="button" class="pill" data-value="Meal Planning">Meal Planning</button>
+                <button type="button" class="pill" data-value="Workouts">Workouts</button>
+                <button type="button" class="pill" data-value="Health Scores">Health Scores</button>
+              </div>
+            </div>
+            <label>
+              Why Pland?
+              <textarea name="reason" required minlength="10" maxlength="500" placeholder="What’s the painful part of family logistics for you?"></textarea>
+            </label>
+            <button class="btn-primary" type="submit" style="justify-self:start">Request Beta Access</button>
+            <div id="form-status" class="form-status" role="status"></div>
+            <p class="fine">Opens your email app with a pre-filled note to us. No spam list, no sold data.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="logo" style="font-size:1.2rem;color:#fff">Pland</div>
+      <p style="margin-top:0.65rem;max-width:32em">
+        Pland connects your household calendar, health signals, and routines so planning stops being a second job.
+      </p>
+      <div class="links">
+        <a href="#features">Features</a>
+        <a href="#beta">Join beta</a>
+        <a href="mailto:hello@pland.ai?subject=Pland%20beta">Contact</a>
+      </div>
+      <p>© <span id="year"></span> Pland. All rights reserved.</p>
+      <p class="fine">We ask for calendar and optional health data to plan your household — never sold. Privacy policy coming with public launch.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = String(new Date().getFullYear());
+
+    const pills = document.querySelectorAll("#interest-pills .pill");
+    pills.forEach((pill) => {
+      pill.addEventListener("click", () => pill.classList.toggle("active"));
+    });
+
+    const form = document.getElementById("beta-form");
+    const status = document.getElementById("form-status");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      status.className = "form-status";
+      status.textContent = "";
+
+      const data = new FormData(form);
+      const email = String(data.get("email") || "").trim();
+      const familySize = String(data.get("familySize") || "").trim();
+      const reason = String(data.get("reason") || "").trim();
+      const interests = Array.from(document.querySelectorAll("#interest-pills .pill.active"))
+        .map((el) => el.getAttribute("data-value"))
+        .filter(Boolean);
+
+      if (!email || !familySize || reason.length < 10) {
+        status.className = "form-status err";
+        status.textContent = "Please fill email, household size, and a short reason (10+ characters).";
+        return;
+      }
+
+      const subject = "Pland household beta request";
+      const body = [
+        "New Pland beta request",
+        "",
+        "Email: " + email,
+        "Household size: " + familySize,
+        "Interests: " + (interests.length ? interests.join(", ") : "n/a"),
+        "",
+        "Why Pland:",
+        reason,
+      ].join("\n");
+
+      const mailto = "mailto:hello@pland.ai?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      window.location.href = mailto;
+      status.className = "form-status ok";
+      status.textContent = "Opening your email app… If nothing opens, write us at hello@pland.ai.";
+    });
+  </script>
+</body>
+</html>
