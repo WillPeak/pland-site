@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "4AG6TBW5HY.ai.pland.PlandFamily",
+        "paths": [
+          "/plaid/redirect",
+          "/plaid/redirect/*"
+        ]
+      }
+    ]
+  }
+}
