@@ -10,17 +10,16 @@
   </style>
 </head>
 <body>
-  <h1>Opening Pland…</h1>
-  <p>If the app doesn’t open automatically, tap below to finish linking your bank.</p>
+  <h1>Returning to Pland…</h1>
+  <p>If you’re not taken back into the app automatically, tap below.</p>
   <p><a id="open-pland" href="pland://plaid/redirect">Open Pland</a></p>
   <script>
     (function () {
       var q = window.location.search || "";
-      var deep = "pland://plaid/redirect" + q;
       var a = document.getElementById("open-pland");
-      if (a) a.href = deep;
-      // Fallback if Universal Links did not claim https://pland.ai/plaid/redirect
-      window.location.replace(deep);
+      if (a) a.href = "pland://plaid/redirect" + q;
+      // Do NOT auto-redirect to pland:// — LinkKit 6+ expects the https
+      // Universal Link (pland.ai/plaid/redirect) and handles OAuth itself.
     })();
   </script>
 </body>
