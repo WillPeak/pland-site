@@ -11,7 +11,17 @@
 </head>
 <body>
   <h1>Opening Pland…</h1>
-  <p>If the app doesn’t open automatically, switch back to <strong>Pland</strong> to finish linking your bank.</p>
-  <p><a href="pland://plaid/redirect">Open Pland</a></p>
+  <p>If the app doesn’t open automatically, tap below to finish linking your bank.</p>
+  <p><a id="open-pland" href="pland://plaid/redirect">Open Pland</a></p>
+  <script>
+    (function () {
+      var q = window.location.search || "";
+      var deep = "pland://plaid/redirect" + q;
+      var a = document.getElementById("open-pland");
+      if (a) a.href = deep;
+      // Fallback if Universal Links did not claim https://pland.ai/plaid/redirect
+      window.location.replace(deep);
+    })();
+  </script>
 </body>
 </html>
