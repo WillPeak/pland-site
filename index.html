@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pland — The family calendar that plans your week</title>
-  <meta name="description" content="Pland keeps your household in sync and turns “we should hang out” into real plans on the calendar. Join the household beta." />
-  <meta property="og:title" content="Pland — The family calendar that plans your week" />
-  <meta property="og:description" content="Shared family calendar + auto-planning so family time and friend time actually happen." />
-  <meta property="og:type" content="website" />
+  <title>Pland — Maximize family mental, physical, and financial health</title>
+  <meta name="description" content="Pland arranges real life so mental, physical, and financial health move — automatically. Household iOS beta." />
   <style>
     :root {
       --bg: #000000;
@@ -16,11 +13,17 @@
       --border: #2c2c2c;
       --text: #ffffff;
       --muted: #a1a1a6;
-      --accent: #ff4545;
-      --accent-hover: #ff6060;
+      --accent: #c9893a;
+      --accent-hover: #d49a4e;
+      --gold: #c9893a;
+      --gold-bright: #D48C2C;
+      --date-red: #E5485D;
+      --dial-green: #34c759;
+      --dial-red: #ff453a;
       --blue: #007aff;
       --green: #34c759;
-      --orange: #e67300;
+      --orange: #ff9f0a;
+      --purple: #bf5af2;
       --radius: 14px;
       --max: 880px;
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
@@ -60,17 +63,11 @@
       font-weight: 750;
       font-size: 1.35rem;
       letter-spacing: -0.03em;
-      color: var(--text);
+      color: var(--gold);
       text-decoration: none;
     }
-    .nav-links {
-      display: none;
-      gap: 1.25rem;
-      align-items: center;
-    }
-    @media (min-width: 720px) {
-      .nav-links { display: flex; }
-    }
+    .nav-links { display: none; gap: 1.25rem; align-items: center; }
+    @media (min-width: 720px) { .nav-links { display: flex; } }
     .nav-links a {
       color: var(--muted);
       font-size: 0.92rem;
@@ -106,6 +103,19 @@
       font-size: 0.95rem;
     }
     .btn-secondary:hover { background: rgba(255,255,255,0.06); text-decoration: none; }
+    .btn-disabled {
+      display: inline-block;
+      background: #3a3a3c;
+      color: #8e8e93;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.15rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      cursor: not-allowed;
+      width: 100%;
+      text-align: center;
+    }
     section { padding: 4rem 0; }
     section + section { border-top: 1px solid var(--border); }
     .eyebrow {
@@ -118,13 +128,12 @@
       margin-bottom: 0.9rem;
     }
     h1 {
-      font-size: clamp(2rem, 5.5vw, 3.1rem);
+      font-size: clamp(2rem, 5.5vw, 3.05rem);
       line-height: 1.08;
       letter-spacing: -0.035em;
       margin-bottom: 1.1rem;
       font-weight: 780;
     }
-    h1 .mark { color: var(--accent); }
     h2 {
       font-size: clamp(1.45rem, 3.5vw, 2rem);
       letter-spacing: -0.02em;
@@ -138,13 +147,8 @@
       margin-bottom: 1.6rem;
       max-width: 40em;
     }
-    .quote {
-      border-left: 3px solid var(--accent);
-      padding-left: 1rem;
-      color: var(--muted);
-      font-style: italic;
-      margin: 0 0 1.75rem;
-      max-width: 38em;
+    @media (max-width: 600px) {
+      .lead { font-size: 1.02rem; }
     }
     .btn-row {
       display: flex;
@@ -157,10 +161,7 @@
       color: var(--muted);
       margin-top: 0.9rem;
     }
-    .grid {
-      display: grid;
-      gap: 1rem;
-    }
+    .grid { display: grid; gap: 1rem; }
     @media (min-width: 700px) {
       .grid.three { grid-template-columns: repeat(3, 1fr); }
       .grid.two { grid-template-columns: 1fr 1fr; }
@@ -174,428 +175,1982 @@
     .card p, .card li { color: var(--muted); font-size: 0.95rem; }
     .card ul { margin: 0.55rem 0 0 1.05rem; }
     .card li { margin-bottom: 0.3rem; }
-    .dot {
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 0.45rem;
-      vertical-align: middle;
+    .card .out {
+      display: block;
+      margin-top: 0.65rem;
+      padding-top: 0.65rem;
+      border-top: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 550;
     }
-    .dot.blue { background: var(--blue); }
-    .dot.red { background: var(--accent); }
-    .dot.green { background: var(--green); }
-    .timeline {
-      display: grid;
-      gap: 0.85rem;
-      margin-top: 1.5rem;
-    }
-    .timeline article {
+    .scene {
       background: var(--bg-card);
       border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
       border-radius: var(--radius);
-      padding: 1.1rem 1.2rem;
+      padding: 1.4rem 1.5rem;
+      margin-top: 1.5rem;
     }
-    .timeline .when {
+    .scene .when {
       font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.55rem;
+    }
+    .scene h3 { margin-bottom: 0.65rem; }
+    .scene p { color: var(--muted); margin-bottom: 0.75rem; }
+    .scene p:last-child { margin-bottom: 0; }
+    .scene .after {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--text);
+    }
+    .scene-caption {
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .pill {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+    }
+    .proof-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1rem;
+    }
+    .proof-chip {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.38rem 0.7rem;
+      border-radius: 999px;
+    }
+    .honest-line {
+      margin-top: 1.1rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .vs {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    @media (min-width: 700px) { .vs { grid-template-columns: 1fr 1fr; } }
+    .vs .live { border-color: rgba(52,199,89,0.35); }
+    .vs .next { border-color: rgba(0,122,255,0.35); }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.5rem;
     }
-    .pill-row {
+    .tag.green { color: var(--green); }
+    .tag.blue { color: var(--blue); }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .contrast {
+      margin-top: 1.25rem;
+      padding: 1rem 1.15rem;
+      background: var(--bg-elevated);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Hero + Saturday mock layouts */
+    .hero-layout {
+      display: grid;
+      gap: 1.75rem;
+      margin-top: 1.75rem;
+      align-items: start;
+    }
+    @media (min-width: 780px) {
+      .hero-layout {
+        grid-template-columns: 1fr minmax(260px, 300px);
+        gap: 2rem;
+      }
+    }
+    .saturday-layout {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      align-items: start;
+    }
+    @media (min-width: 780px) {
+      .saturday-layout {
+        grid-template-columns: 1fr minmax(300px, 360px);
+        gap: 1.75rem;
+      }
+    }
+    .mock.cal-mock {
+      max-width: 360px;
+    }
+    .phone.cal {
+      max-width: 340px;
+    }
+
+    .mock {
+      background: linear-gradient(165deg, #1a1a1e 0%, #0e0e10 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 0.75rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      max-width: 300px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .mock-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+      text-align: center;
+    }
+    .mock-note {
+      margin-top: 0.55rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Phone chrome */
+    .phone {
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+      aspect-ratio: 9 / 19.2;
+      display: flex;
+      flex-direction: column;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .phone-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 1rem 0.2rem;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .phone-status .island {
+      width: 52px;
+      height: 12px;
+      background: #1a1a1a;
+      border-radius: 999px;
+    }
+    .phone-status .sys {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+      opacity: 0.9;
+    }
+    .phone-status .sys i {
+      display: block;
+      width: 10px;
+      height: 6px;
+      border: 1px solid #fff;
+      border-radius: 1px;
+      position: relative;
+    }
+    .phone-status .sys i::after {
+      content: "";
+      position: absolute;
+      right: -3px;
+      top: 1px;
+      width: 1.5px;
+      height: 3px;
+      background: #fff;
+      border-radius: 0 1px 1px 0;
+    }
+    .phone-body {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      padding: 0 0.55rem 3.4rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    /* Home header */
+    .home-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.35rem;
+      align-items: start;
+      padding: 0.15rem 0.15rem 0.35rem;
+    }
+    .home-brand {
+      font-size: 1.05rem;
+      font-weight: 780;
+      color: var(--gold);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .home-greet {
+      font-size: 0.78rem;
+      font-weight: 650;
+      color: #fff;
+      margin-top: 0.35rem;
+      line-height: 1.25;
+    }
+    .home-date {
+      font-size: 0.58rem;
+      font-weight: 600;
+      color: var(--date-red);
+      margin-top: 0.2rem;
+    }
+
+    /* Dial triangle cluster */
+    .dials {
+      width: 96px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      justify-items: center;
+      gap: 4px 4px;
+      padding-top: 0.15rem;
+    }
+    .dials .dial-wrap:first-child {
+      grid-column: 1 / -1;
+    }
+    .dial {
+      position: relative;
+      width: 38px;
+      height: 38px;
+    }
+    .dial-ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .dial-ring::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(var(--ring) calc(var(--p) * 1%), #2a2a2c 0);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+      mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+    }
+    .dial-num {
+      position: relative;
+      z-index: 1;
+      font-size: 0.62rem;
+      font-weight: 780;
+      color: #fff;
+      line-height: 1;
+    }
+    .dial-trend {
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      font-size: 0.42rem;
+      font-weight: 800;
+      line-height: 1;
+      z-index: 2;
+    }
+    .dial-trend.down { color: var(--dial-red); }
+    .dial-trend.side { color: var(--dial-green); }
+    .dial.mental { --ring: var(--dial-green); --p: 72; }
+    .dial.physical { --ring: #ff6b4a; --p: 58; }
+    .dial.financial { --ring: var(--dial-green); --p: 91; }
+    .dial-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+    .dial-wrap .dial { flex-shrink: 0; }
+    .dial-label {
+      font-size: 0.36rem;
+      font-weight: 700;
+      color: #8e8e93;
+      text-align: center;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .meal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      padding: 0.35rem 0.25rem 0.55rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 0.45rem;
+    }
+    .meal-row .meal-title {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .meal-row .meal-stats {
+      font-size: 0.5rem;
+      color: #8e8e93;
+      margin-top: 0.1rem;
+    }
+    .meal-row .meal-open {
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .sched {
+      display: flex;
+      flex-direction: column;
+      gap: 0.32rem;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+      scrollbar-width: thin;
+    }
+    .sched-card {
+      background: #1c1c1e;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 0.4rem 0.55rem;
+    }
+    .sched-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.35rem;
+      align-items: flex-start;
+    }
+    .sched-title {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .sched-time {
+      font-size: 0.5rem;
+      font-weight: 650;
+      color: #8e8e93;
+      text-align: right;
+      line-height: 1.25;
+      flex-shrink: 0;
+    }
+    .sched-loc {
+      font-size: 0.48rem;
+      color: #636366;
+      margin-top: 0.12rem;
+    }
+    .attendees {
+      display: flex;
+      gap: 3px;
+      margin-top: 0.35rem;
+    }
+    .attendees span {
+      display: block;
+      width: 14px;
+      height: 4px;
+      border-radius: 999px;
+    }
+    .attendees .a-blue { background: #007aff; }
+    .attendees .a-green { background: #34c759; }
+    .attendees .a-purple { background: #bf5af2; }
+    .attendees .a-amber { background: #ff9f0a; }
+    .sched-hint {
+      font-size: 0.42rem;
+      color: #636366;
+      padding: 0 0.15rem 0.2rem;
+      line-height: 1.25;
+    }
+    .form-card .btn-primary {
+      width: 100%;
+      text-align: center;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.15rem;
+    }
+
+    /* Floating tab bar */
+    .tabbar {
+      position: absolute;
+      left: 50%;
+      bottom: 0.55rem;
+      transform: translateX(-50%);
+      width: calc(100% - 1.1rem);
+      max-width: 250px;
+      height: 36px;
+      background: #f2f2f7;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 0.25rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+      z-index: 5;
+    }
+    .tab {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #636366;
+      border-radius: 50%;
+    }
+    .tab.active {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+    .tab svg { width: 14px; height: 14px; display: block; }
+
+    /* Calendar phone (dark chrome, match Home) */
+    .phone.cal {
+      background: #000;
+      color: #fff;
+    }
+    .phone.cal .phone-status { color: #fff; }
+    .phone.cal .phone-status .island { background: #1a1a1a; }
+    .phone.cal .phone-status .sys i { border-color: #fff; }
+    .phone.cal .phone-status .sys i::after { background: #fff; }
+    .cal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.1rem 0.1rem 0.35rem;
+    }
+    .cal-brand {
+      font-size: 1rem;
+      font-weight: 780;
+      color: var(--gold);
+    }
+    .cal-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .cal-icon {
+      width: 16px;
+      height: 16px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cal-icon svg { width: 14px; height: 14px; }
+    .cal-btn {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .cal-btn.spark { font-size: 0.55rem; }
+    .cal-month {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.15rem;
+      font-size: 0.72rem;
+      font-weight: 750;
+      color: #fff;
+    }
+    .date-strip {
+      display: flex;
+      gap: 0.15rem;
+      justify-content: space-between;
+      padding: 0.4rem 0.05rem 0.25rem;
+      overflow: hidden;
+    }
+    .date-cell {
+      flex: 1;
+      text-align: center;
+      min-width: 0;
+    }
+    .date-cell .dow {
+      font-size: 0.4rem;
+      font-weight: 700;
+      color: #8e8e93;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .date-cell .dom {
+      margin: 0.18rem auto 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .date-cell.sel .dow { color: var(--date-red); }
+    .date-cell.sel .dom {
+      background: var(--date-red);
+      color: #fff;
+    }
+    .cal-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.42rem;
+      color: #8e8e93;
+      padding: 0.15rem 0.15rem 0.35rem;
+      border-bottom: 1px solid #2c2c2e;
+    }
+    .cal-meta .mid { color: #fff; font-weight: 650; }
+    .cal-meta .link { color: var(--blue); font-weight: 650; }
+
+    .hour-grid {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 0.15rem;
+      font-size: 0.42rem;
+      color: #8e8e93;
+    }
+    .hour-row {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      height: 22px;
+      align-items: start;
+    }
+    .hour-row .label {
+      padding-top: 0;
+      font-weight: 600;
+      transform: translateY(-3px);
+    }
+    .hour-row .line {
+      border-top: 1px solid #2c2c2e;
+      height: 100%;
+      position: relative;
+    }
+    .evt-layer {
+      position: absolute;
+      left: 30px;
+      right: 2px;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+    .cal-people {
+      display: grid;
+      grid-template-columns: 28px 1fr 1fr 1fr 1fr;
+      gap: 2px;
+      padding: 0.2rem 0 0.25rem;
+      border-bottom: 1px solid #2c2c2e;
+      align-items: center;
+    }
+    .cal-people .gutter { font-size: 0; }
+    .cal-person {
+      text-align: center;
+      min-width: 0;
+      padding: 0.14rem 0.08rem;
+      border-radius: 6px;
+      font-size: 0.44rem;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cal-person.alex { background: rgba(0,122,255,0.22); color: #64b5ff; }
+    .cal-person.jordan { background: rgba(175,82,222,0.22); color: #d28fff; }
+    .cal-person.maya { background: rgba(52,199,89,0.22); color: #6dde8f; }
+    .cal-person.leo { background: rgba(255,159,10,0.24); color: #ffc14d; }
+
+    .cal-evt {
+      position: absolute;
+      border-radius: 5px;
+      padding: 0.12rem 0.2rem 0.14rem;
+      font-size: 0.4rem;
+      font-weight: 700;
+      line-height: 1.15;
+      overflow: hidden;
+      color: #fff;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0.02rem;
+    }
+    .cal-evt .t {
+      font-weight: 750;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.01em;
+    }
+    .cal-evt .loc {
+      font-weight: 550;
+      font-size: 0.32rem;
+      opacity: 0.88;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.1;
+    }
+    .cal-evt.multi {
+      white-space: normal;
+    }
+    .cal-evt.green .loc,
+    .cal-evt.amber .loc { opacity: 0.8; }
+    .cal-evt.sleep .loc { opacity: 0.85; }
+    .cal-evt.blue { background: #007aff; }
+    .cal-evt.purple { background: #af52de; }
+    .cal-evt.green { background: #34c759; color: #003d14; }
+    .cal-evt.amber { background: #ff9f0a; color: #4a2c00; }
+    .cal-evt.sleep {
+      background: linear-gradient(180deg, #5e5ce6 0%, #7d7aff 100%);
+      opacity: 0.92;
+      font-weight: 650;
+      white-space: normal;
+    }
+    /* Solid shared / whole-household plans (Saturday already set) */
+    /* Whole-household: prefer per-column person colors (same label). Kept for any residual .family use. */
+    .cal-evt.family {
+      background: linear-gradient(90deg,
+        rgba(0,122,255,0.75) 0%,
+        rgba(175,82,222,0.75) 33%,
+        rgba(52,199,89,0.75) 66%,
+        rgba(255,159,10,0.75) 100%);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+      font-weight: 700;
+    }
+    /* 4 person columns inside evt-layer (left gutter already applied) */
+    .cal-evt.c1 { left: 0%; width: 24%; }
+    .cal-evt.c2 { left: 25.5%; width: 24%; }
+    .cal-evt.c3 { left: 51%; width: 24%; }
+    .cal-evt.c4 { left: 76.5%; width: 23.5%; }
+    .cal-evt.c12 { left: 0%; width: 49.5%; }
+    .cal-evt.c23 { left: 25.5%; width: 49.5%; }
+    .cal-evt.c34 { left: 51%; width: 49%; }
+    .cal-evt.c234 { left: 25.5%; width: 74.5%; }
+    .cal-evt.c1234 { left: 0%; width: 100%; }
+    .cal-evt.c13 { left: 0%; width: 24%; } /* unused helpers kept minimal */
+
+    .phone.cal .tabbar { background: #1c1c1e; }
+    .phone.cal .tab.active {
+      background: #fff;
+      color: #000;
+      border-radius: 8px;
+    }
+
+    /* Waitlist form (mailto on submit — no backend) */
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.4rem;
+      margin-top: 1.25rem;
+      max-width: 28rem;
+    }
+    .form-card label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 650;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      margin-top: 0.85rem;
+    }
+    .form-card label:first-of-type { margin-top: 0; }
+    .form-card input,
+    .form-card select {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 0.65rem 0.75rem;
+      font-family: inherit;
+    }
+    .form-card input:focus,
+    .form-card select:focus {
+      outline: none;
+      border-color: rgba(201,137,58,0.55);
+    }
+    .form-card input::placeholder { color: #636366; }
+    .form-actions { margin-top: 1.15rem; }
+    .form-secondary {
+      margin-top: 0.85rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .sensor-list {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-top: 1rem;
     }
-    .pill {
+    .sensor-item {
       border: 1px solid var(--border);
       background: var(--bg-elevated);
-      color: var(--text);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.45rem 0.8rem;
       border-radius: 999px;
-      padding: 0.45rem 0.85rem;
-      font-size: 0.85rem;
-      cursor: pointer;
-      user-select: none;
     }
-    .pill.active {
-      border-color: var(--accent);
-      background: rgba(255, 69, 69, 0.14);
-      color: #fff;
-    }
-    .beta {
-      background: linear-gradient(165deg, #1a1010 0%, var(--bg-card) 55%);
-      border: 1px solid rgba(255, 69, 69, 0.35);
-      border-radius: 18px;
-      padding: 2rem 1.4rem;
-    }
-    form { display: grid; gap: 0.9rem; margin-top: 1.25rem; text-align: left; }
-    label {
-      display: grid;
-      gap: 0.35rem;
-      font-size: 0.85rem;
-      font-weight: 650;
-      color: var(--muted);
-    }
-    input, select, textarea {
-      width: 100%;
-      background: #0a0a0a;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+    .sensor-item span {
       color: var(--text);
-      padding: 0.8rem 0.9rem;
-      font: inherit;
+      font-weight: 650;
     }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-    textarea { min-height: 110px; resize: vertical; }
-    .form-status {
-      display: none;
-      margin-top: 0.85rem;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      font-size: 0.92rem;
-    }
-    .form-status.ok {
-      display: block;
-      background: rgba(52, 199, 89, 0.12);
-      border: 1px solid rgba(52, 199, 89, 0.35);
-      color: #b7f0c6;
-    }
-    .form-status.err {
-      display: block;
-      background: rgba(255, 69, 69, 0.12);
-      border: 1px solid rgba(255, 69, 69, 0.35);
-      color: #ffc0c0;
-    }
-    footer {
-      padding: 2.25rem 0 3rem;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-    footer .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem 1.25rem;
-      margin: 1rem 0;
-    }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--text); }
-    .hero-mock {
-      margin-top: 2.25rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.15rem 1.2rem 1.35rem;
-      max-width: 420px;
-    }
-    .hero-layout {
+
+    /* In-app marketing mocks (Workouts / Meals / Friends) */
+    .in-app-grid {
       display: grid;
-      gap: 2rem;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
       align-items: start;
     }
-    @media (min-width: 900px) {
-      .hero-layout {
-        grid-template-columns: 1.15fr 0.85fr;
-        align-items: center;
+    @media (min-width: 780px) {
+      .in-app-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.75rem;
       }
-      .hero-mock { margin-top: 0; }
+      .in-app-friends {
+        grid-column: 1 / -1;
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+      }
     }
-    .mock-top {
+    .mock.app-mock { max-width: 300px; }
+    .mock.app-mock.friends-mock { max-width: 300px; }
+    .phone.app-screen { max-width: 280px; }
+
+    .app-title {
+      font-size: 1.05rem;
+      font-weight: 780;
+      color: #fff;
+      letter-spacing: -0.02em;
+      padding: 0.1rem 0.15rem 0.15rem;
+    }
+    .app-sub {
+      font-size: 0.62rem;
+      font-weight: 650;
+      color: #fff;
+      padding: 0 0.15rem;
+    }
+    .app-hint {
+      font-size: 0.5rem;
+      color: #8e8e93;
+      padding: 0.12rem 0.15rem 0.45rem;
+    }
+
+    /* Workout in-session delivery */
+    .wo-rec-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin: 0.05rem 0.1rem 0.4rem;
+      padding: 0.22rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(255,55,95,0.18);
+      border: 1px solid rgba(255,55,95,0.35);
+      font-size: 0.42rem;
+      font-weight: 700;
+      color: #ff8fa3;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .wo-session {
+      margin: 0 0.05rem 0.35rem;
+      text-align: center;
+    }
+    .wo-session .wo-name {
+      font-size: 0.78rem;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 0.2rem;
+    }
+    .wo-session .wo-phase {
+      font-size: 0.5rem;
+      font-weight: 700;
+      color: #8e8e93;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .wo-session .wo-timer {
+      font-size: 1.85rem;
+      font-weight: 780;
+      letter-spacing: -0.04em;
+      color: #fff;
+      margin: 0.15rem 0 0.35rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .wo-coach {
+      margin: 0 0.05rem 0.45rem;
+      padding: 0.45rem 0.55rem;
+      background: #1c1c1e;
+      border: 1px solid rgba(52,199,89,0.35);
+      border-radius: 12px;
+      text-align: left;
+      position: relative;
+    }
+    .wo-coach::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: -5px;
+      width: 9px;
+      height: 9px;
+      background: #1c1c1e;
+      border-left: 1px solid rgba(52,199,89,0.35);
+      border-top: 1px solid rgba(52,199,89,0.35);
+      transform: rotate(45deg);
+    }
+    .wo-coach-label {
+      font-size: 0.42rem;
+      font-weight: 750;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.18rem;
+    }
+    .wo-coach-text {
+      font-size: 0.52rem;
+      color: #e5e5ea;
+      line-height: 1.35;
+      font-weight: 550;
+    }
+    .wo-intervals {
+      margin: 0 0.05rem 0.4rem;
+      background: #1c1c1e;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .wo-iv {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.85rem;
+      padding: 0.28rem 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.48rem;
+      color: #aeaeb2;
     }
-    .mock-scores { display: flex; gap: 0.35rem; }
-    .score {
-      width: 1.7rem;
-      height: 1.7rem;
-      border-radius: 50%;
-      font-size: 0.62rem;
+    .wo-iv:last-child { border-bottom: none; }
+    .wo-iv .iv-name { font-weight: 650; color: #d1d1d6; }
+    .wo-iv .iv-time {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: #8e8e93;
+    }
+    .wo-iv.on {
+      background: rgba(52,199,89,0.12);
+    }
+    .wo-iv.on .iv-name { color: #fff; font-weight: 750; }
+    .wo-iv.on .iv-time { color: var(--green); }
+    .wo-status {
+      text-align: center;
+      margin: 0 0.1rem 0.25rem;
+    }
+    .wo-status .badge {
+      display: inline-block;
+      font-size: 0.52rem;
       font-weight: 750;
+      color: #003d14;
+      background: var(--green);
+      padding: 0.28rem 0.85rem;
+      border-radius: 999px;
+    }
+    .wo-caption {
+      font-size: 0.46rem;
+      color: #8e8e93;
+      text-align: center;
+      padding: 0.1rem 0.25rem 0.3rem;
+      line-height: 1.35;
+    }
+
+    /* Meals planner */
+    .meal-head-meta {
+      font-size: 0.55rem;
+      color: #8e8e93;
+      padding: 0 0.15rem 0.35rem;
+      line-height: 1.4;
+    }
+    .meal-head-meta strong { color: #fff; font-weight: 650; }
+    .meal-toggles {
+      display: flex;
+      gap: 0.3rem;
+      padding: 0 0.1rem 0.5rem;
+    }
+    .meal-tog {
+      flex: 1;
+      text-align: center;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 0.32rem 0.2rem;
+      border-radius: 999px;
+      background: #2c2c2e;
+      color: #8e8e93;
+    }
+    .meal-tog.on {
+      background: var(--gold);
+      color: #fff;
+    }
+    .meal-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      padding-bottom: 0.15rem;
+    }
+    .meal-day {
+      font-size: 0.55rem;
+      font-weight: 780;
+      color: #fff;
+      padding: 0.35rem 0.15rem 0.25rem;
+      position: sticky;
+      top: 0;
+      background: #000;
+      z-index: 2;
+      letter-spacing: -0.01em;
+    }
+    .meal-day:first-child { padding-top: 0.1rem; }
+    .meal-day .meal-today {
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .mcard.compact {
+      padding: 0.32rem 0.45rem;
+      margin-bottom: 0.28rem;
+    }
+    .mcard.compact .mcard-name { font-size: 0.56rem; margin: 0.1rem 0 0.08rem; }
+    .mcard.compact .mcard-portions { margin-bottom: 0.12rem; }
+    .mcard.compact .mcard-tags { margin-bottom: 0.12rem; }
+    .mcard.summary {
+      padding: 0.28rem 0.45rem;
+      margin-bottom: 0.28rem;
+    }
+    .mcard.summary .mcard-name {
+      font-size: 0.52rem;
+      margin: 0.08rem 0 0;
+      color: #d1d1d6;
+      font-weight: 650;
+    }
+    .mcard {
+      background: #1c1c1e;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 0.45rem 0.55rem;
+      margin: 0 0.05rem 0.35rem;
+    }
+    .mcard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+    .mcard-slot {
+      font-size: 0.48rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .mcard-mins {
+      font-size: 0.46rem;
+      color: #8e8e93;
+      font-weight: 650;
+    }
+    .mcard-name {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0.18rem 0 0.15rem;
+      line-height: 1.2;
+    }
+    .mcard-portions {
+      font-size: 0.46rem;
+      color: #8e8e93;
+      margin-bottom: 0.25rem;
+    }
+    .mcard-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-bottom: 0.28rem;
+    }
+    .mcard-tags span {
+      font-size: 0.4rem;
+      font-weight: 650;
+      color: #aeaeb2;
+      background: rgba(255,255,255,0.06);
+      padding: 0.12rem 0.32rem;
+      border-radius: 999px;
+    }
+    .mcard-links {
+      display: flex;
+      gap: 0.65rem;
+      font-size: 0.48rem;
+      font-weight: 650;
+      color: var(--blue);
+    }
+    .meal-regen {
+      text-align: center;
+      font-size: 0.48rem;
+      font-weight: 650;
+      color: #8e8e93;
+      padding: 0.25rem 0 0.15rem;
+    }
+
+
+    .mock.app-mock.meals-mock .phone {
+      aspect-ratio: auto;
+      min-height: 540px;
+      height: auto;
+    }
+    .mock.app-mock.meals-mock .phone-body {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .mock.app-mock.wo-mock .phone {
+      aspect-ratio: auto;
+      min-height: 520px;
+      height: auto;
+    }
+    /* Friends beat */
+    .fr-lead {
+      font-size: 0.48rem;
+      color: #8e8e93;
+      padding: 0 0.15rem 0.3rem;
+      line-height: 1.3;
+    }
+    .fr-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.32rem 0.3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .fr-row:last-of-type { border-bottom: none; }
+    .fr-av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.55rem;
+      font-weight: 780;
       color: #fff;
     }
-    .score.g { background: var(--green); }
-    .score.o { background: var(--orange); }
-    .score.r { background: var(--accent); }
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.25rem;
-      text-align: center;
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-bottom: 0.85rem;
+    .fr-av.a { background: #007aff; }
+    .fr-av.j { background: #af52de; }
+    .fr-av.m { background: #34c759; color: #003d14; }
+    .fr-av.l { background: #ff9f0a; color: #4a2c00; }
+    .fr-av.s { background: #64d2ff; color: #00344d; }
+    .fr-av.p { background: #ff375f; }
+    .fr-av.c { background: #bf5af2; }
+    .fr-sec {
+      font-size: 0.46rem;
+      font-weight: 750;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8e8e93;
+      padding: 0.4rem 0.15rem 0.12rem;
     }
-    .cal-grid .day.on {
-      background: var(--accent);
-      color: #fff;
-      border-radius: 999px;
+    .fr-sec:first-of-type { padding-top: 0.15rem; }
+    .friends-mock .phone,
+    .phone.friends-tall {
+      aspect-ratio: auto;
+      min-height: 540px;
+      height: auto;
+    }
+    .friends-mock .phone-body {
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    .fr-list {
+      max-height: none;
+      overflow-y: visible;
+      flex: 1;
+      min-height: 0;
+    }
+    .fr-row .fr-meta {
+      font-size: 0.42rem;
+      color: #c9893a;
+      margin-top: 0.1rem;
+      font-weight: 600;
+    }
+    .fr-name {
+      font-size: 0.62rem;
       font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
     }
-    .event {
-      border-radius: 8px;
-      padding: 0.45rem 0.55rem;
-      font-size: 0.75rem;
-      margin-bottom: 0.4rem;
+    .fr-traits {
+      font-size: 0.48rem;
+      color: #8e8e93;
+      margin-top: 0.08rem;
     }
-    .event.blue { background: rgba(0, 122, 255, 0.22); color: #9cc9ff; }
-    .event.red { background: rgba(255, 69, 69, 0.2); color: #ffb0b0; }
-    .event.dash {
-      border: 1px dashed rgba(255,255,255,0.28);
-      background: transparent;
-      color: var(--muted);
+    .fr-note {
+      margin: 0.3rem 0.1rem 0.1rem;
+      padding: 0.32rem 0.45rem;
+      background: rgba(201,137,58,0.12);
+      border: 1px solid rgba(201,137,58,0.28);
+      border-radius: 12px;
+      font-size: 0.45rem;
+      color: #e8c48a;
+      line-height: 1.3;
+      font-weight: 550;
+    }
+    .fr-household {
+      font-size: 0.48rem;
+      color: #8e8e93;
+      padding: 0.35rem 0.25rem 0.15rem;
+      line-height: 1.35;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <header>
+<header>
     <div class="nav">
       <a class="logo" href="#">Pland</a>
       <div class="nav-links">
-        <a href="#flow">Life in flow</a>
-        <a href="#features">Features</a>
-        <a href="#beta">Join beta</a>
+        <a href="#saturday">Saturday</a>
+        <a href="#health">Health</a>
+        <a href="#loops">In real life</a>
+        <a href="#in-app">In-app</a>
+        <a href="#live">What’s live</a>
+        <a href="#trust">Trust</a>
       </div>
-      <a class="nav-cta" href="#beta">Join Beta</a>
+      <a class="nav-cta" href="#access">Request access</a>
     </div>
   </header>
 
-  <main>
-    <section id="hero">
-      <div class="wrap hero-layout">
+  <!-- 1. Hero + contrast + proof chips + Home-style phone mock -->
+  <section>
+    <div class="wrap">
+      <div class="hero-layout">
         <div>
-          <p class="eyebrow">Household beta</p>
-          <h1>The family calendar that <span class="mark">actually plans your week</span></h1>
+          <span class="eyebrow">Household automation · iOS beta</span>
+          <h1>Maximize your family’s mental, physical, and financial health — automatically.</h1>
           <p class="lead">
-            Pland keeps your household in sync and turns “we should hang out” into real plans on the calendar —
-            so family time and friend time actually happen.
+            Pland watches calendar, body, and money — then puts real plans on the family calendar so mental, physical, and financial health actually move. A full calendar isn’t the goal.
           </p>
-          <p class="quote">“We’re Pland” means there’s a real plan, not another vague intention.</p>
-          <div class="btn-row">
-            <a class="btn-primary" href="#beta">Join the household beta</a>
-            <a class="btn-secondary" href="#flow">See how it works</a>
+          <div class="contrast">
+            Not another family calendar. Not a budgeting app.
+            The system that arranges life to move real health.
           </div>
-          <p class="fine">Built for busy families. iOS today. Free while we’re in beta.</p>
+          <div class="btn-row" style="margin-top: 1.25rem;">
+            <a class="btn-primary" href="#access">Join the household waitlist</a>
+            <a class="btn-secondary" href="#saturday">See the Saturday problem ↓</a>
+          </div>
+          <div class="proof-chips">
+            <span class="proof-chip">iOS household beta</span>
+            <span class="proof-chip">You can dismiss anything</span>
+            <span class="proof-chip">Free while early</span>
+          </div>
+          <p class="honest-line">Built by parents · Household iOS beta · Spots limited</p>
         </div>
-        <div class="hero-mock" aria-hidden="true">
-          <div class="mock-top">
-            <div>
-              <div class="logo" style="font-size:1.1rem">Pland</div>
-              <div style="color:var(--muted);font-size:0.8rem">Family Calendar</div>
+
+        <aside class="mock" aria-label="Illustrative Home product mock">
+          <div class="mock-label">Illustrative · Home</div>
+          <div class="phone" aria-hidden="true">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span class="island"></span>
+              <span class="sys"><i></i></span>
             </div>
-            <div class="mock-scores">
-              <div class="score g">72</div>
-              <div class="score o">45</div>
-              <div class="score r">34</div>
-            </div>
-          </div>
-          <div class="cal-grid">
-            <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
-            <div></div><div></div><div></div><div></div><div></div><div></div><div class="day on">18</div>
-          </div>
-          <div class="event blue">School pickup · shared</div>
-          <div class="event red">Dinner with the Lees</div>
-          <div class="event dash">Suggested: walk after kids’ bedtime</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="flow">
-      <div class="wrap">
-        <p class="eyebrow">Life in flow</p>
-        <h2>Your day, planned around the people who matter</h2>
-        <p class="lead">Pland reads the shared family calendar, fills open space with smart suggestions, and leaves you in control — accept, tweak, or ignore.</p>
-        <div class="timeline">
-          <article>
-            <div class="when">Morning</div>
-            <h3>Household already aligned</h3>
-            <p style="color:var(--muted);font-size:0.95rem">Everyone’s fixed events are on one calendar. Conflicts surface before they become texts at 4pm.</p>
-          </article>
-          <article>
-            <div class="when">Afternoon</div>
-            <h3>Suggestions, not homework</h3>
-            <p style="color:var(--muted);font-size:0.95rem">Life Planner proposes workouts, tasks, and social time in open slots. Tap to accept or dismiss.</p>
-          </article>
-          <article>
-            <div class="when">Evening</div>
-            <h3>Family time protected</h3>
-            <p style="color:var(--muted);font-size:0.95rem">Plans respect partner and kid constraints so social nights don’t crowd out the people at home.</p>
-          </article>
-          <article>
-            <div class="when">This week</div>
-            <h3>Meals that match the schedule</h3>
-            <p style="color:var(--muted);font-size:0.95rem">Weekly household meal planning and grocery lists when you want them — tied to the same week you’re living.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="features">
-      <div class="wrap">
-        <p class="eyebrow">What ships in beta</p>
-        <h2>Focused on what families actually use</h2>
-        <p class="lead">We’re not pretending to automate your entire life on day one. Here’s what’s real in the household beta.</p>
-        <div class="grid three" style="margin-top:1.5rem">
-          <div class="card">
-            <h3><span class="dot blue"></span>Family calendar</h3>
-            <p>Shared household calendar with Apple Calendar import, multi-person views, and instant local adds.</p>
-          </div>
-          <div class="card">
-            <h3><span class="dot red"></span>Life Planner</h3>
-            <p>Auto-suggestions in open time — accept or dismiss. Built to avoid stacking on top of busy blocks.</p>
-          </div>
-          <div class="card">
-            <h3><span class="dot green"></span>Meals &amp; wellness</h3>
-            <p>Weekly meal plans, grocery lists, workouts, mental check-ins, and health scores that steer planning.</p>
-          </div>
-        </div>
-        <p class="fine" style="margin-top:1.25rem">Coming later (not in the beta promise): full travel booking, investment management, and outfit automation.</p>
-      </div>
-    </section>
-
-    <section id="who">
-      <div class="wrap">
-        <p class="eyebrow">Fit</p>
-        <h2>Who this beta is for</h2>
-        <div class="grid two" style="margin-top:1.25rem">
-          <div class="card">
-            <h3>Great fit</h3>
-            <ul>
-              <li>Dual-income households juggling kids, partners, and friends</li>
-              <li>Families already living in a shared calendar</li>
-              <li>People willing to try iOS beta software and send blunt feedback</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Not yet</h3>
-            <ul>
-              <li>Teams looking for enterprise calendar SaaS</li>
-              <li>Anyone who needs Android or web-first today</li>
-              <li>People who want “set and forget” with zero review of suggestions</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="beta">
-      <div class="wrap">
-        <div class="beta">
-          <p class="eyebrow">Join beta</p>
-          <h2>Request household access</h2>
-          <p class="lead" style="margin-bottom:0">Tell us about your family. We’ll reach out with TestFlight details as spots open.</p>
-
-          <form id="beta-form">
-            <label>
-              Email
-              <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
-            </label>
-            <label>
-              Household size
-              <select name="familySize" required>
-                <option value="" disabled selected>Select one</option>
-                <option value="2">2 people</option>
-                <option value="3-5">3–5 people</option>
-                <option value="6-10">6–10 people</option>
-                <option value="11+">11+</option>
-              </select>
-            </label>
-            <div>
-              <div style="font-size:0.85rem;font-weight:650;color:var(--muted);margin-bottom:0.45rem">What do you want help with?</div>
-              <div class="pill-row" id="interest-pills">
-                <button type="button" class="pill active" data-value="Family Calendar">Family Calendar</button>
-                <button type="button" class="pill active" data-value="Life Planner">Life Planner</button>
-                <button type="button" class="pill" data-value="Meal Planning">Meal Planning</button>
-                <button type="button" class="pill" data-value="Workouts">Workouts</button>
-                <button type="button" class="pill" data-value="Health Scores">Health Scores</button>
+            <div class="phone-body">
+              <div class="home-top">
+                <div>
+                  <div class="home-brand">Pland</div>
+                  <div class="home-greet">Good morning,<br>Alex</div>
+                  <div class="home-date">Saturday, Sep 26, 2026</div>
+                </div>
+                <div class="dials" title="Mental · Physical · Financial">
+                  <div class="dial-wrap">
+                    <div class="dial mental">
+                      <div class="dial-ring"><span class="dial-num">72</span></div>
+                      <span class="dial-trend down" aria-hidden="true">▼</span>
+                    </div>
+                    <div class="dial-label">Mental</div>
+                  </div>
+                  <div class="dial-wrap">
+                    <div class="dial physical">
+                      <div class="dial-ring"><span class="dial-num">58</span></div>
+                      <span class="dial-trend down" aria-hidden="true">▼</span>
+                    </div>
+                    <div class="dial-label">Physical</div>
+                  </div>
+                  <div class="dial-wrap">
+                    <div class="dial financial">
+                      <div class="dial-ring"><span class="dial-num">91</span></div>
+                      <span class="dial-trend side" aria-hidden="true">▸</span>
+                    </div>
+                    <div class="dial-label">Financial</div>
+                  </div>
+                </div>
               </div>
+
+              <div class="meal-row">
+                <div>
+                  <div class="meal-title">Household Meal Plan</div>
+                  <div class="meal-stats">3 dinners · prep ready</div>
+                </div>
+                <div class="meal-open">Open</div>
+              </div>
+
+              <p class="sched-hint">Day arranged · matches calendar</p>
+
+              <div class="sched">
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Soccer</div>
+                      <div class="sched-loc">Riverside Field · Alex + kids</div>
+                    </div>
+                    <div class="sched-time">10:00 AM<br>10:50 AM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Museum outing</div>
+                      <div class="sched-loc">City Science Museum</div>
+                    </div>
+                    <div class="sched-time">11:20 AM<br>12:50 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Park</div>
+                      <div class="sched-loc">Riverside Park · Alex at Neighborhood Gym</div>
+                    </div>
+                    <div class="sched-time">1:30 PM<br>3:00 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Board games · home</div>
+                      <div class="sched-loc">Home</div>
+                    </div>
+                    <div class="sched-time">3:30 PM<br>4:45 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Dinner out · family</div>
+                      <div class="sched-loc">Harbor Kitchen</div>
+                    </div>
+                    <div class="sched-time">5:30 PM<br>7:00 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Stories</div>
+                      <div class="sched-loc">Home · Jordan relaxing bath</div>
+                    </div>
+                    <div class="sched-time">7:20 PM<br>7:50 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Sleeping</div>
+                      <div class="sched-loc">Home · Maya + Leo</div>
+                    </div>
+                    <div class="sched-time">8:00 PM<br>9:00 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
+                </div>
+                <div class="sched-card">
+                  <div class="sched-top">
+                    <div>
+                      <div class="sched-title">Movie night</div>
+                      <div class="sched-loc">Home · Alex + Jordan</div>
+                    </div>
+                    <div class="sched-time">8:00 PM<br>9:00 PM</div>
+                  </div>
+                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span></div>
+                </div>
+              </div>
+<nav class="tabbar" aria-hidden="true">
+                <div class="tab active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
+              </nav>
             </div>
-            <label>
-              Why Pland?
-              <textarea name="reason" required minlength="10" maxlength="500" placeholder="What’s the painful part of family logistics for you?"></textarea>
-            </label>
-            <button class="btn-primary" type="submit" style="justify-self:start">Request Beta Access</button>
-            <div id="form-status" class="form-status" role="status"></div>
-            <p class="fine">Opens your email app with a pre-filled note to us. No spam list, no sold data.</p>
-          </form>
+          </div>
+          <p class="mock-note">Dials are the scoreboard — illustrative scores, not a live screenshot.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Saturday scene + Calendar-style phone mock -->
+  <section id="saturday">
+    <div class="wrap">
+      <span class="eyebrow">The problem we automate</span>
+      <h2>Saturday morning, exhausted. No plan.</h2>
+      <p class="lead">
+        The classic failure mode: you and your partner worked hard all week. Young kids.
+        You wake up Saturday with nothing on the calendar and no energy to invent a day —
+        so you improvise. It’s fine-ish. Suboptimal. Draining.
+      </p>
+
+      <div class="saturday-layout">
+        <div class="scene" style="margin-top: 0;">
+          <div class="when">Without Pland · Saturday 8:12am</div>
+          <h3>Blank calendar. Decision fatigue. Ad‑hoc day.</h3>
+          <p>
+            Daycare week is over. You’re both wiped. Nobody planned Friday night because
+            you were surviving the week. Now you’re negotiating a museum vs playground vs
+            “just stay home” while the kids ask what’s for breakfast.
+          </p>
+          <p class="after">
+            <strong>With Pland:</strong> the day was already on the calendar before you woke up —
+            plans land ahead of the morning so you can shape them earlier if you want (you can still dismiss).
+            Something that fits energy, the kids, and what the household can actually afford.
+            No planning meeting. You weren’t the family project manager at 8am.
+          </p>
+        </div>
+
+        <aside class="mock cal-mock" aria-label="Illustrative Calendar product mock">
+          <div class="mock-label">Illustrative · Calendar — 4 people, side-by-side</div>
+          <div class="phone cal" aria-hidden="true">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span class="island"></span>
+              <span class="sys"><i></i></span>
+            </div>
+            <div class="phone-body">
+              <div class="cal-head">
+                <div class="cal-brand">Pland</div>
+                <div class="cal-actions">
+                  <div class="cal-btn spark" title="Suggestions">✨</div>
+                  <div class="cal-icon" title="Search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+                  </div>
+                  <div class="cal-icon" title="Camera">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8.5h3l1.2-2h7.6l1.2 2H20a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18v-8A1.5 1.5 0 0 1 4 8.5z"/><circle cx="12" cy="13.5" r="3"/></svg>
+                  </div>
+                  <div class="cal-btn" title="Add">+</div>
+                </div>
+              </div>
+              <div class="cal-month">
+                <span>Sep 2026</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+              </div>
+              <div class="date-strip">
+                <div class="date-cell"><div class="dow">FRI</div><div class="dom">25</div></div>
+                <div class="date-cell sel"><div class="dow">SAT</div><div class="dom">26</div></div>
+                <div class="date-cell"><div class="dow">SUN</div><div class="dom">27</div></div>
+                <div class="date-cell"><div class="dow">MON</div><div class="dom">28</div></div>
+                <div class="date-cell"><div class="dow">TUE</div><div class="dom">29</div></div>
+                <div class="date-cell"><div class="dow">WED</div><div class="dom">30</div></div>
+                <div class="date-cell"><div class="dow">THU</div><div class="dom">1</div></div>
+              </div>
+              <div class="cal-meta">
+                <span>H: 72° L: 58°</span>
+                <span class="mid">Saturday, Sep 26</span>
+                <span class="link">Calendars</span>
+              </div>
+
+
+              <div class="cal-people" title="Alex · Jordan · Maya · Leo">
+                <div class="gutter"></div>
+                <div class="cal-person alex">Alex</div>
+                <div class="cal-person jordan">Jordan</div>
+                <div class="cal-person maya">Maya</div>
+                <div class="cal-person leo">Leo</div>
+              </div>
+
+              <div class="hour-grid">
+                <div class="hour-row"><div class="label">10am</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">11am</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">12pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">1pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">2pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">3pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">4pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">5pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">6pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">7pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">8pm</div><div class="line"></div></div>
+                <div class="hour-row"><div class="label">9pm</div><div class="line"></div></div>
+
+                                                <div class="evt-layer">
+                  <!-- Hour rows = 22px/hour from 10am. Gaps = travel. Title + location like the real app. -->
+
+                  <!-- 10:00–10:50 Soccer -->
+                  <div class="cal-evt blue c1 multi" style="top:0px;height:20px;"><span class="t">Soccer</span><span class="loc">Riverside Field</span></div>
+                  <div class="cal-evt green c3 multi" style="top:0px;height:20px;"><span class="t">Soccer</span><span class="loc">Riverside Field</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:0px;height:20px;"><span class="t">Soccer</span><span class="loc">Riverside Field</span></div>
+
+                  <!-- 11:20–12:50 Museum -->
+                  <div class="cal-evt blue c1 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
+                  <div class="cal-evt purple c2 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
+                  <div class="cal-evt green c3 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
+
+                  <!-- 1:30–3:00 Workout | Park -->
+                  <div class="cal-evt blue c1 multi" style="top:77px;height:33px;"><span class="t">Workout</span><span class="loc">Neighborhood Gym</span></div>
+                  <div class="cal-evt purple c2 multi" style="top:77px;height:33px;"><span class="t">Park</span><span class="loc">Riverside Park</span></div>
+                  <div class="cal-evt green c3 multi" style="top:77px;height:33px;"><span class="t">Park</span><span class="loc">Riverside Park</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:77px;height:33px;"><span class="t">Park</span><span class="loc">Riverside Park</span></div>
+
+                  <!-- 3:30–4:45 Games -->
+                  <div class="cal-evt blue c1 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
+                  <div class="cal-evt purple c2 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
+                  <div class="cal-evt green c3 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
+
+                  <!-- 5:30–7:00 Dinner -->
+                  <div class="cal-evt blue c1 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
+                  <div class="cal-evt purple c2 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
+                  <div class="cal-evt green c3 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
+
+                  <!-- 7:20–7:50 Stories (Alex+kids) | Bath (Jordan) · ends before bedtime -->
+                  <div class="cal-evt blue c1 multi" style="top:205px;height:14px;"><span class="t">Stories</span><span class="loc">Home</span></div>
+                  <div class="cal-evt purple c2 multi" style="top:205px;height:14px;"><span class="t">Bath</span><span class="loc">Home</span></div>
+                  <div class="cal-evt green c3 multi" style="top:205px;height:14px;"><span class="t">Stories</span><span class="loc">Home</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:205px;height:14px;"><span class="t">Stories</span><span class="loc">Home</span></div>
+
+                  <!-- 8:00–9:00 Kids sleeping | Parents together at home -->
+                  <div class="cal-evt blue c1 multi" style="top:220px;height:22px;"><span class="t">Movie night</span><span class="loc">Home</span></div>
+                  <div class="cal-evt purple c2 multi" style="top:220px;height:22px;"><span class="t">Movie night</span><span class="loc">Home</span></div>
+                  <div class="cal-evt green c3 multi" style="top:220px;height:22px;"><span class="t">Sleeping</span><span class="loc">Home</span></div>
+                  <div class="cal-evt amber c4 multi" style="top:220px;height:22px;"><span class="t">Sleeping</span><span class="loc">Home</span></div>
+                </div>
+              </div>
+
+              <nav class="tabbar" aria-hidden="true">
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
+                <div class="tab active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 4h10v2H7V7zm0 4h4v2H7v-2zm6 0h4v2h-4v-2zm-6 4h4v2H7v-2zm6 0h4v2h-4v-2z"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
+              </nav>
+            </div>
+          </div>
+          <p class="mock-note">Same label across columns = together. Gaps between blocks are travel time Pland bakes in — no teleporting. This Saturday is already set.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. What health means -->
+  <section id="health">
+    <div class="wrap">
+      <span class="eyebrow">What health means here</span>
+      <h2>Outcomes — not busywork.</h2>
+      <p class="lead">Activities are how Pland tries. The dials are the scoreboard.</p>
+      <div class="grid three">
+        <div class="card">
+          <h3>Mental</h3>
+          <p>How you actually feel — from ongoing check-ins. Not “we had dinner, so you’re fine.”</p>
+        </div>
+        <div class="card">
+          <h3>Physical</h3>
+          <p>Body outcomes — weight, fitness, composition from Health. Not “workouts logged.”</p>
+        </div>
+        <div class="card">
+          <h3>Financial</h3>
+          <p>Quality of life you can keep — including a path to retire with it. Outings only when objective finances say they’re affordable. No typed dinner budget.</p>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+  <!-- 4. What Pland puts into real life -->
+  <section id="loops">
+    <div class="wrap">
+      <span class="eyebrow">What shows up</span>
+      <h2>What Pland puts into real life</h2>
+      <p class="lead">Each loop fires from sensors, puts something concrete in your week, and is judged by whether a dial moved.</p>
+      <div class="grid two">
+        <div class="card">
+          <h3>Household plans</h3>
+          <p>When you’re free and it’s affordable, Pland fills open slots ahead of the day — whole-family plans, or clear splits where one parent matches the kids’ activity while the other works out or recharges. You shape them earlier if you want; you can still dismiss.</p>
+          <span class="out">→ so a Saturday plan is on the calendar before you wake up</span>
+        </div>
+        <div class="card">
+          <h3>Workouts</h3>
+          <p>When recovery says go, a timed in-app HIIT session lands in open time — voice coach talks you through every interval.</p>
+          <span class="out">→ session in an open slot when recovery says go — judged by body outcomes, not streaks</span>
+        </div>
+        <div class="card">
+          <h3>Meals</h3>
+          <p>A household meal plan for the week you’re living — portions, prep, and swaps — not random recipes.</p>
+          <span class="out">→ week of food aimed at physical goals and the week you actually have</span>
+        </div>
+        <div class="card">
+          <h3>Trips &amp; growth</h3>
+          <p>Coming next: options that fit the calendar and what you can actually afford.</p>
+          <span class="out">→ Next: options that fit time and affordability — you approve before anything is booked</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b. In-app mocks: Workouts / Meals / Friends -->
+  <section id="in-app">
+    <div class="wrap">
+      <span class="eyebrow">Physical + who plans are for</span>
+      <h2>Ready when you are</h2>
+      <p class="lead">Workouts and meals show up sized to the week. Friends are who the plans are for — household and the people you actually want to see.</p>
+
+      <div class="in-app-grid">
+        <!-- Workout phone -->
+        <aside class="mock app-mock wo-mock" aria-label="Illustrative Workouts product mock">
+          <div class="mock-label">Illustrative · Workouts</div>
+          <div class="phone app-screen">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span class="island"></span>
+              <span class="sys"><i></i></span>
+            </div>
+            <div class="phone-body">
+              <div class="app-title">Workouts</div>
+              <div class="wo-rec-pill">Today’s pick · recovery match</div>
+
+              <div class="wo-session">
+                <div class="wo-name">Foundational Intervals</div>
+                <div class="wo-phase">Warm Up</div>
+                <div class="wo-timer">03:00</div>
+              </div>
+
+              <div class="wo-coach">
+                <div class="wo-coach-label">Coach</div>
+                <div class="wo-coach-text">Easy jog — keep breathing steady. Next up: Lacrosse Sprint Combo.</div>
+              </div>
+
+              <div class="wo-intervals">
+                <div class="wo-iv on"><span class="iv-name">Warm Up</span><span class="iv-time">3:00</span></div>
+                <div class="wo-iv"><span class="iv-name">Sprint Combo</span><span class="iv-time">8:00</span></div>
+                <div class="wo-iv"><span class="iv-name">Ski Circuit</span><span class="iv-time">10:00</span></div>
+                <div class="wo-iv"><span class="iv-name">Run</span><span class="iv-time">12:00</span></div>
+                <div class="wo-iv"><span class="iv-name">Core Finisher</span><span class="iv-time">6:00</span></div>
+                <div class="wo-iv"><span class="iv-name">Cool Down</span><span class="iv-time">4:00</span></div>
+              </div>
+
+              <div class="wo-status"><span class="badge">In session</span></div>
+              <p class="wo-caption">Timed HIIT in-app · voice coach talks you through every interval</p>
+
+              <nav class="tabbar" aria-hidden="true">
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
+                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
+              </nav>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Meals phone -->
+        <aside class="mock app-mock meals-mock" aria-label="Illustrative Meals product mock">
+          <div class="mock-label">Illustrative · Meals</div>
+          <div class="phone app-screen">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span class="island"></span>
+              <span class="sys"><i></i></span>
+            </div>
+            <div class="phone-body">
+              <div class="app-title">Meal Planner</div>
+              <div class="app-sub">This week · 21 meals</div>
+              <div class="meal-head-meta">Planning for: <strong>Alex, Jordan</strong> · Prep: <strong>Alex</strong></div>
+
+              <div class="meal-toggles">
+                <span class="meal-tog on">Meals</span>
+                <span class="meal-tog">Grocery</span>
+              </div>
+
+              <div class="meal-scroll">
+                <div class="meal-day"><span class="meal-today">Today</span> · Sat Sep 26</div>
+
+                <div class="mcard compact">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Breakfast</span>
+                    <span class="mcard-mins">~15 min</span>
+                  </div>
+                  <div class="mcard-name">Overnight oats + berries</div>
+                  <div class="mcard-portions">Portions · Alex, Jordan</div>
+                  <div class="mcard-tags"><span>Make-ahead</span><span>Quick</span></div>
+                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
+                </div>
+
+                <div class="mcard compact">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Lunch</span>
+                    <span class="mcard-mins">~20 min</span>
+                  </div>
+                  <div class="mcard-name">Turkey wraps</div>
+                  <div class="mcard-portions">Portions · Alex, Jordan</div>
+                  <div class="mcard-tags"><span>On the go</span></div>
+                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
+                </div>
+
+                <div class="mcard compact">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Dinner</span>
+                    <span class="mcard-mins">~45 min</span>
+                  </div>
+                  <div class="mcard-name">Family dinner out</div>
+                  <div class="mcard-portions">Portions · Alex, Jordan, Maya, Leo</div>
+                  <div class="mcard-tags"><span>Saturday plan</span><span>Affordable</span></div>
+                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
+                </div>
+
+                <div class="meal-day">Sun Sep 27</div>
+
+                <div class="mcard compact">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Brunch</span>
+                    <span class="mcard-mins">~30 min</span>
+                  </div>
+                  <div class="mcard-name">Veggie egg scramble</div>
+                  <div class="mcard-portions">Portions · Alex, Jordan, Maya, Leo</div>
+                  <div class="mcard-tags"><span>Family</span><span>High protein</span></div>
+                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
+                </div>
+
+                <div class="mcard summary">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Dinner</span>
+                    <span class="mcard-mins">~35 min</span>
+                  </div>
+                  <div class="mcard-name">Sheet-pan chicken &amp; veg · Alex prep</div>
+                </div>
+
+                <div class="meal-day">Mon Sep 28</div>
+
+                <div class="mcard compact">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Breakfast</span>
+                    <span class="mcard-mins">~10 min</span>
+                  </div>
+                  <div class="mcard-name">Greek yogurt bowls</div>
+                  <div class="mcard-portions">Portions · Alex, Jordan</div>
+                  <div class="mcard-tags"><span>High protein</span><span>Quick</span></div>
+                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
+                </div>
+
+                <div class="mcard summary">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Dinner</span>
+                    <span class="mcard-mins">~40 min</span>
+                  </div>
+                  <div class="mcard-name">Salmon grain bowls · leftovers lunch Tue</div>
+                </div>
+
+                <div class="meal-regen">Regenerate week</div>
+              </div>
+
+              <nav class="tabbar" aria-hidden="true">
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
+                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
+              </nav>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Friends beat -->
+        <aside class="mock app-mock friends-mock in-app-friends" aria-label="Illustrative Friends product mock">
+          <div class="mock-label">Illustrative · Friends</div>
+          <div class="phone app-screen friends-tall">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span class="island"></span>
+              <span class="sys"><i></i></span>
+            </div>
+            <div class="phone-body">
+              <div class="app-title">Friends</div>
+              <p class="fr-lead">Family nights and friends nights — schedule with people outside the household when you’re free and it’s affordable.</p>
+
+              <div class="fr-list">
+                <div class="fr-row">
+                  <div class="fr-av s">S</div>
+                  <div>
+                    <div class="fr-name">Sam</div>
+                    <div class="fr-traits">Fun · Foodie</div>
+                    <div class="fr-meta">Dinner · when free</div>
+                  </div>
+                </div>
+                <div class="fr-row">
+                  <div class="fr-av p">P</div>
+                  <div>
+                    <div class="fr-name">Priya</div>
+                    <div class="fr-traits">Smart · Creative</div>
+                    <div class="fr-meta">Museum Saturday · due</div>
+                  </div>
+                </div>
+                <div class="fr-row">
+                  <div class="fr-av c">C</div>
+                  <div>
+                    <div class="fr-name">Chris</div>
+                    <div class="fr-traits">Active · Easygoing</div>
+                    <div class="fr-meta">Kids playdate · open slot</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fr-note">Friends for dinners, outings, and playdates — household stays on the family calendar.</div>
+              <p class="fr-household">Who you see · mental &amp; social</p>
+
+              <nav class="tabbar" aria-hidden="true">
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
+                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
+                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
+              </nav>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. We read your week / not another dashboard -->
+  <section id="sensors">
+    <div class="wrap">
+      <span class="eyebrow">Inputs, not the product</span>
+      <h2>We read your week — not another dashboard</h2>
+      <p class="lead">
+        Calendar, body, and money steer whether, when, and what is worth doing.
+        We connect them so the system can act — details under Trust. We don’t sell you charts to babysit.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. What’s live now — and what’s next -->
+  <section id="live">
+    <div class="wrap">
+      <span class="eyebrow">Honest about the beta</span>
+      <h2>What’s live now — and what’s next</h2>
+      <div class="vs">
+        <div class="card live">
+          <div class="tag green">Live in household beta</div>
+          <p>Shared family calendar · loop suggestions you can accept or dismiss · workouts, meals, and mental check-ins · health dials as the scoreboard.</p>
+        </div>
+        <div class="card next">
+          <div class="tag blue">Next</div>
+          <p>Less tapping, more arriving — outside-world options and travel arranged when financial health says it’s sane.</p>
+          <p style="margin-top: 0.75rem; color: var(--text); font-size: 0.95rem;">
+            When booking arrives, nothing leaves a hold or reservation without your OK. The product is the plan that shows up.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Trust / connections -->
+  <section id="trust">
+    <div class="wrap">
+      <span class="eyebrow">Trust</span>
+      <h2>What we connect — and why</h2>
+      <p class="lead">
+        Calendar, Apple Health, and accounts are inputs so Pland can act. They’re not the product.
+        We don’t sell your data. You can dismiss any suggestion.
+      </p>
+      <div class="grid three">
+        <div class="card">
+          <h3>Calendar</h3>
+          <p>So plans land where your household already looks — and open time is real.</p>
+        </div>
+        <div class="card">
+          <h3>Apple Health</h3>
+          <p>So workouts and recovery respect how your body is actually doing.</p>
+        </div>
+        <div class="card">
+          <h3>Accounts</h3>
+          <p>So outings and trips are only proposed when objective finances say they’re affordable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Fit / not yet -->
+  <section id="fit">
+    <div class="wrap">
+      <span class="eyebrow">Fit</span>
+      <h2>Who it’s for.</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Great fit</h3>
+          <ul>
+            <li>Two adults (or one) running a household on iOS who are tired of being the weekend project manager</li>
+            <li>Willing to connect calendar + Health (+ money when ready) and give blunt feedback</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Not yet</h3>
+          <ul>
+            <li>Want shared calendar/lists (use Cozi/TimeTree)</li>
+            <li>Want budgeting method or typed spending caps (use YNAB/Monarch)</li>
+            <li>Need Android/web or silent auto-booking today</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Request access -->
+  <section id="access">
+    <div class="wrap">
+      <span class="eyebrow">Household beta</span>
+      <h2>Join the household waitlist</h2>
+      <p class="lead">Tell us about your household. We’ll reach out with TestFlight details as spots open.</p>
+
+      <div class="form-card">
+        <form id="waitlist-form" action="#" method="get" aria-label="Household waitlist">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+
+          <label for="household">Household size</label>
+          <select id="household" name="household" required>
+            <option value="">Select…</option>
+            <option>1 adult</option>
+            <option>2 adults</option>
+            <option>2 adults + kids</option>
+            <option>Other</option>
+          </select>
+
+          <label for="ios">iOS household?</label>
+          <select id="ios" name="ios" required>
+            <option value="">Select…</option>
+            <option>Yes — we use iPhones</option>
+            <option>Mostly iOS</option>
+            <option>No / mixed</option>
+          </select>
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Request access</button>
+          </div>
+        </form>
+        <p class="form-secondary">Or email <a href="mailto:hello@pland.ai?subject=Pland%20household%20beta">hello@pland.ai</a></p>
+      </div>
+
+      <p class="fine">Free in beta · iOS · Spots limited</p>
+      <p class="honest-line">Built by parents · Household iOS beta · Spots limited — no invented ratings.</p>
+
+      <p class="fine" style="margin-top: 1.25rem; margin-bottom: 0.4rem; font-weight: 650; color: var(--text);">What you connect</p>
+      <div class="sensor-list">
+        <div class="sensor-item"><span>Calendar</span></div>
+        <div class="sensor-item"><span>Apple Health</span></div>
+        <div class="sensor-item"><span>Accounts</span> when ready</div>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <div class="wrap">
-      <div class="logo" style="font-size:1.2rem;color:#fff">Pland</div>
-      <p style="margin-top:0.65rem;max-width:32em">
-        Pland connects your household calendar, health signals, and routines so planning stops being a second job.
-      </p>
-      <div class="links">
-        <a href="#features">Features</a>
-        <a href="#beta">Join beta</a>
-        <a href="mailto:hello@pland.ai?subject=Pland%20beta">Contact</a>
-      </div>
-      <p>© <span id="year"></span> Pland. All rights reserved.</p>
-      <p class="fine">We ask for calendar and optional health data to plan your household — never sold. Privacy policy coming with public launch.</p>
+      Pland automates planning and personal growth so mental, physical, and financial health improve —
+      not so your calendar looks busier.
     </div>
   </footer>
 
   <script>
-    document.getElementById("year").textContent = String(new Date().getFullYear());
-
-    const pills = document.querySelectorAll("#interest-pills .pill");
-    pills.forEach((pill) => {
-      pill.addEventListener("click", () => pill.classList.toggle("active"));
-    });
-
-    const form = document.getElementById("beta-form");
-    const status = document.getElementById("form-status");
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      status.className = "form-status";
-      status.textContent = "";
-
-      const data = new FormData(form);
-      const email = String(data.get("email") || "").trim();
-      const familySize = String(data.get("familySize") || "").trim();
-      const reason = String(data.get("reason") || "").trim();
-      const interests = Array.from(document.querySelectorAll("#interest-pills .pill.active"))
-        .map((el) => el.getAttribute("data-value"))
-        .filter(Boolean);
-
-      if (!email || !familySize || reason.length < 10) {
-        status.className = "form-status err";
-        status.textContent = "Please fill email, household size, and a short reason (10+ characters).";
-        return;
-      }
-
-      const subject = "Pland household beta request";
-      const body = [
-        "New Pland beta request",
-        "",
-        "Email: " + email,
-        "Household size: " + familySize,
-        "Interests: " + (interests.length ? interests.join(", ") : "n/a"),
-        "",
-        "Why Pland:",
-        reason,
-      ].join("\n");
-
-      const mailto = "mailto:hello@pland.ai?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-      window.location.href = mailto;
-      status.className = "form-status ok";
-      status.textContent = "Opening your email app… If nothing opens, write us at hello@pland.ai.";
-    });
+    (function () {
+      var form = document.getElementById('waitlist-form');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (document.getElementById('name').value || '').trim();
+        var household = document.getElementById('household').value || '';
+        var ios = document.getElementById('ios').value || '';
+        var email = (document.getElementById('email').value || '').trim();
+        var subject = encodeURIComponent('Pland household beta — access request');
+        var body = encodeURIComponent(
+          'Name: ' + name + '\n' +
+          'Household: ' + household + '\n' +
+          'iOS: ' + ios + '\n' +
+          'Email: ' + email + '\n'
+        );
+        window.location.href = 'mailto:hello@pland.ai?subject=' + subject + '&body=' + body;
+      });
+    })();
   </script>
 </body>
 </html>
