@@ -1239,6 +1239,26 @@
       font-weight: 650;
       color: var(--blue);
     }
+    .meal-status .meal-approve {
+      margin-top: 0.3rem;
+      text-align: center;
+      font-size: 0.56rem;
+      font-weight: 700;
+      color: #fff;
+      padding: 0.36rem 0.2rem;
+      border-radius: 999px;
+      background: var(--gold);
+    }
+    .meal-targets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.25rem;
+    }
+    .meal-targets .mcard { margin: 0 0 0.2rem; padding: 0.32rem 0.45rem; }
+    .meal-targets .mcard-name { margin: 0.05rem 0 0; font-size: 0.56rem; }
+    .meal-targets .mcard-portions { margin: 0; }
+    .meal-why { padding: 0.05rem 0.2rem 0.4rem; }
+    .meal-next { border-color: rgba(201,137,58,0.45); }
     .meal-regen {
       text-align: center;
       font-size: 0.48rem;
@@ -1719,7 +1739,7 @@
         </div>
         <div class="card">
           <h3>Physical</h3>
-          <p>Body outcomes — weight, fitness, composition from Health. Not “workouts logged.”</p>
+          <p>Body outcomes — fitness (VO2 max) and shape (waist and body fat) from Apple Health, a smart scale, and a quick morning body scan. Nothing typed in. Not “workouts logged.”</p>
         </div>
         <div class="card">
           <h3>Financial</h3>
@@ -1748,8 +1768,8 @@
         </div>
         <div class="card">
           <h3>Meals</h3>
-          <p>A household meal plan for the week you’re living — portions, prep, and swaps — not random recipes.</p>
-          <span class="out">→ week of food aimed at physical goals and the week you actually have</span>
+          <p>This week’s and next week’s menu for the adults, with a plate sized for each person. Swap or skip anything, then approve once to lock the menu and the shopping list.</p>
+          <span class="out">→ portions follow the Physical dial: maintain inside the healthy range, trim gently above it — never a crash diet</span>
         </div>
         <div class="card">
           <h3>Trips &amp; growth</h3>
@@ -1765,7 +1785,7 @@
     <div class="wrap">
       <span class="eyebrow">Physical + who plans are for</span>
       <h2>Ready when you are</h2>
-      <p class="lead">Workouts and meals show up sized to the week. Friends are who the plans are for — household and the people you actually want to see.</p>
+      <p class="lead">Workouts show up sized to today’s recovery; meals show up sized to each adult. Friends are who the plans are for — household and the people you actually want to see.</p>
 
       <div class="in-app-grid">
         <!-- Workout phone -->
@@ -1818,7 +1838,7 @@
         </aside>
 
         <!-- Meals phone -->
-        <aside class="mock app-mock meals-mock" aria-label="Illustrative Meals product mock">
+        <aside id="meals-mock" class="mock app-mock meals-mock" aria-label="Illustrative Meals product mock">
           <div class="mock-label">Illustrative · Meals</div>
           <div class="phone app-screen">
             <div class="phone-status">
@@ -1827,94 +1847,46 @@
               <span class="sys"><i></i></span>
             </div>
             <div class="phone-body">
-              <div class="app-title">Meal Planner</div>
-              <div class="app-sub">This week · 21 meals</div>
-              <div class="meal-head-meta">Planning for: <strong>Alex, Jordan</strong> · Prep: <strong>Alex</strong></div>
+              <div class="app-title">Meals</div>
+              <div class="app-sub">Sat Sep 26 – Sun Sep 27 · for Alex &amp; Jordan · Alex cooks</div>
 
               <div class="meal-toggles">
-                <span class="meal-tog on">Meals</span>
-                <span class="meal-tog">Grocery</span>
+                <span class="meal-tog on">This week</span>
+                <span class="meal-tog">Next week</span>
               </div>
 
               <div class="meal-scroll">
-                <div class="meal-day"><span class="meal-today">Today</span> · Sat Sep 26</div>
+                <div class="mcard meal-status">
+                  <div class="mcard-name">Draft — not approved yet</div>
+                  <div class="mcard-portions">Swap or skip anything first. Approving locks the menu and the shopping list.</div>
+                  <div class="meal-approve">Approve this week</div>
+                </div>
 
+                <div class="meal-targets">
+                  <div class="mcard"><div class="mcard-portions">Alex · per day</div><div class="mcard-name">2,250 kcal · 140 g</div></div>
+                  <div class="mcard"><div class="mcard-portions">Jordan · per day</div><div class="mcard-name">1,700 kcal · 105 g</div></div>
+                </div>
+                <div class="mcard-links meal-why">Why these portions</div>
+
+                <div class="mcard compact meal-next">
+                  <div class="mcard-top">
+                    <span class="mcard-slot">Up next · Dinner tonight</span>
+                  </div>
+                  <div class="mcard-name">Sheet-pan chicken &amp; veg</div>
+                  <div class="mcard-portions">Alex 1½ servings · Jordan 1 serving · 35 min</div>
+                  <div class="mcard-links"><span>Skip — eating out</span><span>Swap</span></div>
+                </div>
+
+                <div class="meal-day">Sunday, Sep 27</div>
                 <div class="mcard compact">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Breakfast</span>
-                    <span class="mcard-mins">~15 min</span>
-                  </div>
-                  <div class="mcard-name">Overnight oats + berries</div>
-                  <div class="mcard-portions">Portions · Alex, Jordan</div>
-                  <div class="mcard-tags"><span>Make-ahead</span><span>Quick</span></div>
-                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
+                  <div class="mcard-portions">Planned: Alex 2,210 of 2,250 kcal · Jordan 1,680 of 1,700 kcal</div>
+                  <div class="mcard-name">Breakfast · Veggie egg scramble</div>
+                  <div class="mcard-portions">Alex 1¼ servings · Jordan 1 serving</div>
+                  <div class="mcard-name">Lunch · Turkey hummus wraps</div>
+                  <div class="mcard-portions">Alex 1½ servings · Jordan 1 serving</div>
+                  <div class="mcard-name">Dinner · Salmon grain bowls</div>
+                  <div class="mcard-portions">Alex 1½ servings · Jordan 1 serving</div>
                 </div>
-
-                <div class="mcard compact">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Lunch</span>
-                    <span class="mcard-mins">~20 min</span>
-                  </div>
-                  <div class="mcard-name">Turkey wraps</div>
-                  <div class="mcard-portions">Portions · Alex, Jordan</div>
-                  <div class="mcard-tags"><span>On the go</span></div>
-                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
-                </div>
-
-                <div class="mcard compact">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Dinner</span>
-                    <span class="mcard-mins">~45 min</span>
-                  </div>
-                  <div class="mcard-name">Family dinner out</div>
-                  <div class="mcard-portions">Portions · Alex, Jordan, Maya, Leo</div>
-                  <div class="mcard-tags"><span>Saturday plan</span><span>Affordable</span></div>
-                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
-                </div>
-
-                <div class="meal-day">Sun Sep 27</div>
-
-                <div class="mcard compact">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Brunch</span>
-                    <span class="mcard-mins">~30 min</span>
-                  </div>
-                  <div class="mcard-name">Veggie egg scramble</div>
-                  <div class="mcard-portions">Portions · Alex, Jordan, Maya, Leo</div>
-                  <div class="mcard-tags"><span>Family</span><span>High protein</span></div>
-                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
-                </div>
-
-                <div class="mcard summary">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Dinner</span>
-                    <span class="mcard-mins">~35 min</span>
-                  </div>
-                  <div class="mcard-name">Sheet-pan chicken &amp; veg · Alex prep</div>
-                </div>
-
-                <div class="meal-day">Mon Sep 28</div>
-
-                <div class="mcard compact">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Breakfast</span>
-                    <span class="mcard-mins">~10 min</span>
-                  </div>
-                  <div class="mcard-name">Greek yogurt bowls</div>
-                  <div class="mcard-portions">Portions · Alex, Jordan</div>
-                  <div class="mcard-tags"><span>High protein</span><span>Quick</span></div>
-                  <div class="mcard-links"><span>Skip</span><span>Swap</span></div>
-                </div>
-
-                <div class="mcard summary">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Dinner</span>
-                    <span class="mcard-mins">~40 min</span>
-                  </div>
-                  <div class="mcard-name">Salmon grain bowls · leftovers lunch Tue</div>
-                </div>
-
-                <div class="meal-regen">Regenerate week</div>
               </div>
 
               <nav class="tabbar" aria-hidden="true">
@@ -2009,7 +1981,7 @@
       <div class="vs">
         <div class="card live">
           <div class="tag green">Live in household beta</div>
-          <p>Shared family calendar · loop suggestions you can accept or dismiss · workouts, meals, and mental check-ins · health dials as the scoreboard.</p>
+          <p>Shared family calendar · plans you can accept or dismiss · workouts sized to recovery with a voice coach · weekly meals with per-person portions · morning body scan · mental check-ins · health dials as the scoreboard · sign in with Google or email.</p>
         </div>
         <div class="card next">
           <div class="tag blue">Next</div>
@@ -2028,7 +2000,7 @@
       <span class="eyebrow">Trust</span>
       <h2>What we connect — and why</h2>
       <p class="lead">
-        Calendar, Apple Health, and accounts are inputs so Pland can act. They’re not the product.
+        Calendar, Apple Health, and a money snapshot are inputs so Pland can act. They’re not the product.
         We don’t sell your data. You can dismiss any suggestion.
       </p>
       <div class="grid three">
@@ -2038,11 +2010,11 @@
         </div>
         <div class="card">
           <h3>Apple Health</h3>
-          <p>So workouts and recovery respect how your body is actually doing.</p>
+          <p>So workouts, portions, and the Physical dial follow how your body is actually doing. Body-scan photos never leave your phone — only the measurements are saved.</p>
         </div>
         <div class="card">
-          <h3>Accounts</h3>
-          <p>So outings and trips are only proposed when objective finances say they’re affordable.</p>
+          <h3>Money snapshot</h3>
+          <p>A snapshot you fill in once — savings, spending, income — so outings and trips are only proposed when they’re affordable. Bank linking comes later.</p>
         </div>
       </div>
     </div>
@@ -2119,7 +2091,7 @@
       <div class="sensor-list">
         <div class="sensor-item"><span>Calendar</span></div>
         <div class="sensor-item"><span>Apple Health</span></div>
-        <div class="sensor-item"><span>Accounts</span> when ready</div>
+        <div class="sensor-item"><span>Money snapshot</span> when ready</div>
       </div>
     </div>
   </section>
