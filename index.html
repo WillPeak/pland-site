@@ -13,18 +13,26 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Pland — Healthier, wealthier, happier." />
   <meta name="twitter:description" content="Pland automatically plans your family’s week so you sleep better, spend smarter, and spend more time together. Household iOS beta." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #000000;
-      --bg-elevated: #121212;
-      --bg-card: #1c1c1e;
-      --border: #2c2c2c;
+      /* Matched to the app's PlandTheme.swift (dark), 2026-10-01. */
+      --bg: #0f1214;
+      --bg-elevated: #161a1f;
+      --bg-card: #292e36;
+      --border: #383d47;
       --text: #ffffff;
       --muted: #a1a1a6;
-      --accent: #c9893a;
-      --accent-hover: #d49a4e;
-      --gold: #c9893a;
-      --gold-bright: #D48C2C;
+      --accent: #f26e1f;          /* PlandTheme.accentPrimary */
+      --accent-hover: #faa84d;    /* PlandTheme.accentSecondary */
+      --accent-rgb: 242, 110, 31;
+      --gold: var(--accent);
+      --gold-bright: var(--accent);
+      --mental: #3873d6;          /* PlandTheme dial colours */
+      --physical: #33b36b;
+      --financial: #f5c729;
       --date-red: #E5485D;
       --dial-green: #34c759;
       --dial-red: #ff453a;
@@ -32,15 +40,17 @@
       --green: #34c759;
       --orange: #ff9f0a;
       --purple: #bf5af2;
-      --radius: 14px;
+      --radius: 20px;             /* PlandTheme corner radius, cards */
       --max: 880px;
-      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      /* The app sets type in Avenir Next. Apple devices have it; elsewhere Nunito Sans is the closest free match. */
+      --font: "Avenir Next", Avenir, "Nunito Sans", -apple-system, system-ui, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
-      background: var(--bg);
+      /* The app's dark background: blue-grey at the top, near-black below. */
+      background: linear-gradient(180deg, #262b33 0, var(--bg) 900px) no-repeat, var(--bg);
       color: var(--text);
       line-height: 1.55;
       font-size: 17px;
@@ -54,7 +64,7 @@
       padding: 0.85rem 0;
       position: sticky;
       top: 0;
-      background: rgba(0, 0, 0, 0.88);
+      background: rgba(15, 18, 20, 0.88);
       backdrop-filter: blur(10px);
       z-index: 20;
     }
@@ -138,17 +148,17 @@
     h1 {
       font-size: clamp(2rem, 5.5vw, 3.05rem);
       line-height: 1.08;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.01em;
       margin-bottom: 1.1rem;
-      font-weight: 780;
+      font-weight: 700;
     }
     h2 {
       font-size: clamp(1.45rem, 3.5vw, 2rem);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.005em;
       margin-bottom: 0.85rem;
-      font-weight: 740;
+      font-weight: 600;
     }
-    h3 { font-size: 1.08rem; margin-bottom: 0.4rem; font-weight: 680; }
+    h3 { font-size: 1.08rem; margin-bottom: 0.4rem; font-weight: 600; }
     .lead {
       font-size: 1.12rem;
       color: var(--muted);
@@ -921,7 +931,7 @@
     .form-card input:focus,
     .form-card select:focus {
       outline: none;
-      border-color: rgba(201,137,58,0.55);
+      border-color: rgba(var(--accent-rgb), 0.55);
     }
     .form-card input::placeholder { color: #636366; }
     .form-actions { margin-top: 1.15rem; }
@@ -1393,7 +1403,7 @@
     .feature-visual {
       position: relative; overflow: hidden; height: 470px; border-radius: 28px;
       border: 1px solid var(--border);
-      background: radial-gradient(120% 80% at 50% 0%, rgba(201,137,58,.16), transparent 60%), linear-gradient(170deg, #19191b, #0e0e10);
+      background: radial-gradient(120% 80% at 50% 0%, rgba(var(--accent-rgb), .14), transparent 60%), linear-gradient(170deg, #262b33, #0f1214);
       display: flex; justify-content: center;
     }
     .feature-visual .phone-shot {
@@ -1423,7 +1433,7 @@
     .fan {
       position: relative; height: 520px; margin-top: 2rem; overflow: hidden; border-radius: 28px;
       border: 1px solid var(--border);
-      background: radial-gradient(90% 70% at 50% 100%, rgba(201,137,58,.18), transparent 65%), linear-gradient(170deg, #19191b, #0e0e10);
+      background: radial-gradient(90% 70% at 50% 100%, rgba(var(--accent-rgb), .16), transparent 65%), linear-gradient(170deg, #262b33, #0f1214);
     }
     .fan img { position: absolute; left: 50%; height: auto; border-radius: 30px; box-shadow: 0 0 0 6px #050505, 0 0 0 7px #2c2c2e, 0 30px 70px rgba(0,0,0,.6); }
     .fan-c { width: 250px; top: 50px; transform: translateX(-50%); z-index: 2; }
@@ -1443,6 +1453,9 @@
       .fan-l { transform: translateX(-50%) translateX(-118px) rotate(-7deg); }
       .fan-r { transform: translateX(-50%) translateX(118px) rotate(7deg); }
     }
+    /* The three outcomes carry the app's dial colours: Physical, Financial, Mental. */
+    .dial-edge { border-top: 3px solid var(--edge); }
+    .dial-edge h3 { color: var(--edge); }
   </style>
 </head>
 <body>
@@ -1539,15 +1552,15 @@
       <h2>Healthier. Wealthier. Happier.</h2>
       <p class="lead">Pland notices, plans, and puts it on the calendar before you ask. The dials are the scoreboard.</p>
       <div class="grid three">
-        <div class="card">
+        <div class="card dial-edge" style="--edge: var(--physical)">
           <h3>Healthier</h3>
           <p>Sleep, movement, food. Pland puts a workout on the calendar when your body’s ready and plans meals around your goals. Pland handles it.</p>
         </div>
-        <div class="card">
+        <div class="card dial-edge" style="--edge: var(--financial)">
           <h3>Wealthier</h3>
           <p>Spend smarter, stay on track. Pland plans dinner out only when it’s affordable this week. No budget to set.</p>
         </div>
-        <div class="card">
+        <div class="card dial-edge" style="--edge: var(--mental)">
           <h3>Happier</h3>
           <p>Time together, friends, family, rest. Saturday is already on the calendar before you wake up — a museum, the park, stories, a night in.</p>
         </div>
