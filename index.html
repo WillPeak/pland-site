@@ -296,8 +296,8 @@
     }
     @media (min-width: 780px) {
       .hero-layout {
-        grid-template-columns: 1fr minmax(260px, 300px);
-        gap: 2rem;
+        grid-template-columns: 1fr minmax(340px, 400px);
+        gap: 2.5rem;
       }
     }
     .saturday-layout {
@@ -1387,33 +1387,61 @@
       text-align: center;
     }
 
-    /* Real app screenshots (2026-10-01): replace the illustrative HTML mocks. */
-    .shot { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .6rem; }
-    .shot img {
-      display: block; width: 100%; max-width: 300px; height: auto;
-      border-radius: 40px; border: 1px solid var(--border);
-      box-shadow: 0 0 0 7px #0d0d0d, 0 0 0 8px var(--border), 0 30px 70px rgba(0,0,0,.55);
-      background: var(--bg-card);
+    /* Real app screenshots, 2026-10-01: one outcome per row, a phone that bleeds off its
+       panel, and the one relevant piece of the screen lifted out (as Rocket Money, Oura and
+       Sunsama do). */
+    .feature-visual {
+      position: relative; overflow: hidden; height: 470px; border-radius: 28px;
+      border: 1px solid var(--border);
+      background: radial-gradient(120% 80% at 50% 0%, rgba(201,137,58,.16), transparent 60%), linear-gradient(170deg, #19191b, #0e0e10);
+      display: flex; justify-content: center;
     }
-    .shot-hero img { max-width: 330px; }
-    .shot figcaption { font-size: .82rem; color: var(--muted); text-align: center; max-width: 300px; line-height: 1.45; }
-    .shot-strip {
-      display: flex; gap: 1.75rem; overflow-x: auto; scroll-snap-type: x mandatory;
-      padding: 1.25rem 12px 1.5rem; margin: 0 -12px; -webkit-overflow-scrolling: touch;
+    .feature-visual .phone-shot {
+      width: 62%; max-width: 300px; height: auto; margin-top: 48px; align-self: flex-start;
+      border-radius: 34px; box-shadow: 0 0 0 6px #050505, 0 0 0 7px #2c2c2e, 0 30px 80px rgba(0,0,0,.6);
     }
-    .shot-strip .shot { flex: 0 0 230px; scroll-snap-align: center; }
-    .shot-strip .shot img { border-radius: 32px; }
-    .shot-strip-light .shot { flex-basis: 190px; }
-    .shot-note { color: var(--muted); font-size: .9rem; margin: 1.5rem 0 0; }
-    .shot-pair { display: grid; gap: 2rem; margin-top: 2rem; }
-    .split { display: grid; gap: 2rem; margin-top: 2.5rem; align-items: center; }
-    .split-title { font-size: 1.25rem; margin: 0 0 .5rem; }
+    .float-card {
+      position: absolute; width: 60%; max-width: 330px; height: auto; border-radius: 18px;
+      border: 1px solid #3a3a3c; box-shadow: 0 24px 60px rgba(0,0,0,.65);
+    }
+    .fc-hero { left: 3%; bottom: 7%; width: 62%; max-width: 330px; }
+    .fc-bottom-left { left: 4%; bottom: 10%; }
+    .fc-bottom-right { right: 4%; bottom: 8%; }
+    .fc-top-left { left: 4%; top: 26%; }
+    .fc-top-right { right: 4%; top: 22%; }
+    .fc-plan { right: 4%; top: 20%; width: 64%; max-width: 360px; }
+    .hero-visual { height: 620px; }
+    .hero-visual .phone-shot { width: 74%; max-width: 330px; margin-top: 44px; margin-left: 18%; }
+    .cards-only { display: flex; flex-direction: column; gap: 1.25rem; justify-content: center; width: 86%; }
+    .cards-only .float-card { position: static; width: 100%; max-width: none; }
+    .feature-row { display: grid; gap: 1.75rem; align-items: center; margin-top: 3.5rem; }
+    .feature-copy h3 { font-size: 1.6rem; line-height: 1.2; margin: .35rem 0 .6rem; letter-spacing: -.01em; }
+    .feature-copy p { color: var(--muted); font-size: 1.05rem; line-height: 1.6; margin: 0; }
+    .fan-copy { margin-top: 4.5rem; max-width: 620px; }
+    .fan-copy h3 { font-size: 1.6rem; margin: 0 0 .6rem; }
+    .fan-copy p { color: var(--muted); font-size: 1.05rem; line-height: 1.6; margin: 0; }
+    .fan {
+      position: relative; height: 520px; margin-top: 2rem; overflow: hidden; border-radius: 28px;
+      border: 1px solid var(--border);
+      background: radial-gradient(90% 70% at 50% 100%, rgba(201,137,58,.18), transparent 65%), linear-gradient(170deg, #19191b, #0e0e10);
+    }
+    .fan img { position: absolute; left: 50%; height: auto; border-radius: 30px; box-shadow: 0 0 0 6px #050505, 0 0 0 7px #2c2c2e, 0 30px 70px rgba(0,0,0,.6); }
+    .fan-c { width: 250px; top: 50px; transform: translateX(-50%); z-index: 2; }
+    .fan-l { width: 215px; top: 95px; transform: translateX(-50%) translateX(-200px) rotate(-7deg); opacity: .9; }
+    .fan-r { width: 215px; top: 95px; transform: translateX(-50%) translateX(200px) rotate(7deg); opacity: .9; }
+    .shot-note { color: var(--muted); font-size: .85rem; margin: 1rem 0 0; }
     @media (min-width: 780px) {
-      .shot-pair, .split { grid-template-columns: 1fr 1fr; }
-      /* Desktop: the row fits the page; phones keep the swipe. */
-      .shot-strip { overflow: visible; justify-content: center; margin: 0; padding: 1.25rem 0 1.5rem; gap: 1.5rem; }
-      .shot-strip .shot { flex: 1 1 0; min-width: 0; }
-      .shot-strip-light .shot { flex: 0 1 200px; }
+      .feature-row { grid-template-columns: 1fr 1.1fr; gap: 3rem; }
+      .feature-row.flip .feature-visual { order: -1; }
+    }
+    @media (max-width: 600px) {
+      .feature-visual { height: 400px; }
+      .hero-visual { height: 470px; }
+      .fan { height: 420px; }
+      .fan-c { width: 190px; top: 40px; }
+      .fan-l, .fan-r { width: 160px; top: 80px; }
+      .fan-l { transform: translateX(-50%) translateX(-118px) rotate(-7deg); }
+      .fan-r { transform: translateX(-50%) translateX(118px) rotate(7deg); }
     }
   </style>
 </head>
@@ -1460,11 +1488,10 @@
           <p class="honest-line">Built by parents · Household iOS beta · Spots limited</p>
         </div>
 
-        <figure class="shot shot-hero">
-          <div class="mock-label">The real app · sample household</div>
-          <img src="images/app/home-okafor-dark.webp" width="720" height="1566" alt="Pland Home screen: Good morning, Ada. Mental, physical and financial dials at 80, 85 and 95, and a Saturday already planned: swim lesson, brunch at The Linden Table, the park, family dinner at Ember & Oak." decoding="async">
-          <figcaption>The Okafors’ Saturday, planned before anyone woke up. A sample household, not a real family.</figcaption>
-        </figure>
+        <div class="feature-visual hero-visual">
+          <img class="phone-shot" src="images/app/home-okafor.webp" alt="Pland Home: Good morning, Ada. Saturday is already planned: a swim lesson, brunch at The Linden Table, the park, and family dinner at Ember & Oak." decoding="async">
+          <img class="float-card fc-hero" src="images/app/crop-plan.webp" alt="A plan: Bike ride at Brookdale Park loop, Saturday 2:15 to 4:15 PM, with Dismiss and Accept." decoding="async">
+        </div>
       </div>
     </div>
   </section>
@@ -1497,11 +1524,10 @@
           </p>
         </div>
 
-        <figure class="shot">
-          <div class="mock-label">The real app · Calendar, four people side by side</div>
-          <img src="images/app/calendar-okafor-dark.webp" width="600" height="1305" alt="Pland Calendar day view for Saturday, Oct 3: four family members side by side, with swim lessons, brunch, a family hike, the park and bike rides placed around what was already on the calendar." loading="lazy" decoding="async">
-          <figcaption>Same plan across columns means together. Gaps between blocks are travel time Pland leaves free.</figcaption>
-        </figure>
+        <div class="feature-visual">
+          <img class="phone-shot" src="images/app/calendar-okafor.webp" alt="Pland Calendar: four people side by side on Saturday, with the plans fitted around what was already there." loading="lazy" decoding="async">
+          <img class="float-card fc-bottom-left" src="images/app/crop-dinner.webp" alt="Family dinner at Ember & Oak, Montclair, 5:45 PM, for everyone." loading="lazy" decoding="async">
+        </div>
       </div>
     </div>
   </section>
@@ -1526,16 +1552,17 @@
           <p>Time together, friends, family, rest. Saturday is already on the calendar before you wake up — a museum, the park, stories, a night in.</p>
         </div>
       </div>
-      <div class="split">
-        <div>
-          <h3 class="split-title">The dial is the scoreboard</h3>
-          <p class="lead">A short check-in from validated questionnaires (GAD-7 for anxiety, PHQ-9 for mood) sets the Mental dial, and its history shows whether the plans helped. Physical comes from body outcomes in Apple Health; Financial from what the household can really afford.</p>
+          <div class="feature-row">
+        <div class="feature-copy">
+          <span class="eyebrow">Mental</span>
+          <h3>Know where you stand</h3>
+          <p>A two-minute check-in built on the GAD-7 and PHQ-9 sets the Mental dial, and shows what has the most room to improve. Physical comes from Apple Health; Financial from what you can really afford.</p>
         </div>
-        <figure class="shot">
-          <div class="mock-label">The real app · Mental dial</div>
-          <img src="images/app/mental-lindqvist-rao-dark.webp" width="600" height="1305" alt="Pland Mental Health detail: 71, in the healthy range, with anxiety and mood each scored from the last 30 days of check-ins, and a history chart." loading="lazy" decoding="async">
-          <figcaption>Priya’s Mental dial: 71, and why.</figcaption>
-        </figure>
+        <div class="feature-visual">
+          <img class="phone-shot" src="images/app/home-lindqvist-rao.webp" alt="Pland Home for Priya, with her three dials at 71, 82 and 60." loading="lazy" decoding="async">
+          <img class="float-card fc-top-left" src="images/app/crop-mental.webp" alt="Mental Health 71, up. Everything counted is in the healthy range; anxiety has the most room to improve." loading="lazy" decoding="async">
+          <img class="float-card fc-bottom-right" src="images/app/crop-anxiety.webp" alt="Anxiety: mild, 6 of 21 on the GAD-7." loading="lazy" decoding="async">
+        </div>
       </div>
     </div>
   </section>
@@ -1571,41 +1598,40 @@
     </div>
   </section>
 
-  <!-- Plans, with the why -->
+  <!-- Plans: one outcome per row -->
   <section id="plans">
     <div class="wrap">
-      <span class="eyebrow">Every plan says why</span>
-      <h2>Accept it, or don’t.</h2>
-      <p class="lead">Each plan arrives with the place, a time that’s actually free for everyone in it, and the dial it’s for. Accept puts it on the calendar for the whole household. Dismiss and it’s gone.</p>
-      <div class="shot-pair">
-        <figure class="shot">
-          <div class="mock-label">Suggestions</div>
-          <img src="images/app/suggestions-okafor-dark.webp" width="600" height="1305" alt="Pland Suggestions: a bike ride at Brookdale Park loop, a yoga class at Lotus Room Yoga, and a museum morning at the Montclair Art Museum, each with its time and place." loading="lazy" decoding="async">
-          <figcaption>A few plans waiting, each with a place.</figcaption>
-        </figure>
-        <figure class="shot">
-          <div class="mock-label">A plan</div>
-          <img src="images/app/plan-okafor-dark.webp" width="600" height="1305" alt="Pland plan detail: Bike ride at Brookdale Park loop, Saturday 2:15 to 4:15 PM, keeps Physical where it is, with Accept and Dismiss." loading="lazy" decoding="async">
-          <figcaption>Where, when, and which dial it moves.</figcaption>
-        </figure>
+      <div class="feature-row">
+        <div class="feature-copy">
+          <span class="eyebrow">Every plan says why</span>
+          <h3>Accept it, or don’t</h3>
+          <p>Each plan comes with the place, a time that’s actually free for everyone in it, and the dial it’s for. Accept puts it on the household calendar. Dismiss and it’s gone.</p>
+        </div>
+        <div class="feature-visual">
+          <img class="phone-shot" src="images/app/suggestions-okafor.webp" alt="Pland Suggestions: three plans waiting, each with a time and place." loading="lazy" decoding="async">
+        </div>
       </div>
-      <p class="shot-note">Three households, three different Saturdays.</p>
-      <div class="shot-strip" role="list">
-        <figure class="shot" role="listitem">
-          <div class="mock-label">The Okafors</div>
-          <img src="images/app/home-okafor-dark.webp" width="600" height="1305" alt="Pland Home for Ada Okafor: swim lesson, brunch, the park and family dinner." loading="lazy" decoding="async">
-          <figcaption>Two parents, two kids.</figcaption>
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">The Lindqvist-Raos</div>
-          <img src="images/app/home-lindqvist-rao-dark.webp" width="600" height="1305" alt="Pland Home for Priya Lindqvist-Rao: tennis together, a Music Together class, brunch and a family hike." loading="lazy" decoding="async">
-          <figcaption>Two moms and a toddler.</figcaption>
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">The Bells</div>
-          <img src="images/app/home-bell-dark.webp" width="600" height="1305" alt="Pland Home for Marcus Bell: a soccer game, the park and a family hike." loading="lazy" decoding="async">
-          <figcaption>A dad and his teenage daughter.</figcaption>
-        </figure>
+      <div class="feature-row flip">
+        <div class="feature-copy">
+          <span class="eyebrow">Meals</span>
+          <h3>A plate sized to each person</h3>
+          <p>One menu for the week, with portions set for each person by where their body is heading. Approve it once and the shopping list is done.</p>
+        </div>
+        <div class="feature-visual">
+          <div class="cards-only">
+          <img class="float-card fc-top-right" src="images/app/crop-meal-person.webp" alt="Ada, per day: 1,662 kcal and 58 g protein, trimming toward target." loading="lazy" decoding="async">
+          <img class="float-card fc-bottom-left" src="images/app/crop-meal-next.webp" alt="Up next, lunch today: lemon herb chicken grain bowl, with servings for Ada, Tunde, Chidi and Nneka." loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      <div class="fan-copy">
+        <h3>Three families. Three different Saturdays.</h3>
+        <p>Two parents and two kids, two moms and a toddler, a dad and his teenager. Pland plans around who you are and the time you actually have.</p>
+      </div>
+      <div class="fan" role="img" aria-label="Three sample households' Saturdays in Pland: the Okafors, the Lindqvist-Raos and the Bells.">
+        <img class="fan-l" src="images/app/home-lindqvist-rao.webp" alt="" loading="lazy" decoding="async">
+        <img class="fan-r" src="images/app/home-bell.webp" alt="" loading="lazy" decoding="async">
+        <img class="fan-c" src="images/app/home-okafor.webp" alt="" loading="lazy" decoding="async">
       </div>
       <p class="shot-note">Sample households, invented for this page. Every screen is the real app.</p>
     </div>
@@ -1618,42 +1644,25 @@
       <h2>Ready when you are</h2>
       <p class="lead">Workouts show up sized to today’s recovery; meals show up sized to each adult. Friends are who the plans are for — household and the people you actually want to see.</p>
 
-      <div class="shot-strip" role="list">
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Meals</div>
-          <img src="images/app/meals-okafor-dark.webp" width="600" height="1305" alt="Pland Meals: this week's draft menu for Ada, Tunde, Chidi and Nneka, with each person's daily calories and protein and a lemon herb chicken grain bowl up next." loading="lazy" decoding="async">
-          <figcaption>A week of meals with a portion sized to each person. Approve once and the shopping list is set.</figcaption>
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Workouts</div>
-          <img src="images/app/workouts-bell-dark.webp" width="600" height="1305" alt="Pland Workouts: tonight's recommended 37-minute strength session, sized to how recovered Marcus is." loading="lazy" decoding="async">
-          <figcaption>A session sized to today’s recovery, in time you actually have.</figcaption>
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Friends</div>
-          <img src="images/app/friends-okafor-dark.webp" width="600" height="1305" alt="Pland Friends: Sofia & Mateo, The Harts and Kwame, plus linking another family so plans fit both." loading="lazy" decoding="async">
-          <figcaption>The people you want to see. Pland finds time when everyone’s free.</figcaption>
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Family</div>
-          <img src="images/app/family-okafor-dark.webp" width="600" height="1305" alt="Pland Profile, Family: Ada, Tunde, Chidi and Nneka." loading="lazy" decoding="async">
-          <figcaption>Everyone in the household, planned for together.</figcaption>
-        </figure>
+      <div class="feature-row">
+        <div class="feature-copy">
+          <span class="eyebrow">Workouts</span>
+          <h3>A workout when your body is ready</h3>
+          <p>Pland puts a timed session in open time, sized to how recovered you are, with a voice coach for every interval.</p>
+        </div>
+        <div class="feature-visual">
+          <img class="phone-shot" src="images/app/workouts-bell.webp" alt="Pland Workouts: tonight's recommended 37-minute strength session, sized to recovery." loading="lazy" decoding="async">
+        </div>
       </div>
-      <p class="shot-note">Light or dark, it follows your phone.</p>
-      <div class="shot-strip shot-strip-light" role="list">
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Home · light</div>
-          <img src="images/app/home-okafor-light.webp" width="600" height="1305" alt="Pland Home in light mode." loading="lazy" decoding="async">
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Calendar · light</div>
-          <img src="images/app/calendar-okafor-light.webp" width="600" height="1305" alt="Pland Calendar in light mode." loading="lazy" decoding="async">
-        </figure>
-        <figure class="shot" role="listitem">
-          <div class="mock-label">Meals · light</div>
-          <img src="images/app/meals-okafor-light.webp" width="600" height="1305" alt="Pland Meals in light mode." loading="lazy" decoding="async">
-        </figure>
+      <div class="feature-row flip">
+        <div class="feature-copy">
+          <span class="eyebrow">Friends</span>
+          <h3>Time with the people you love</h3>
+          <p>Add the friends and families you want to see more. Pland finds time when everyone’s free and it’s affordable.</p>
+        </div>
+        <div class="feature-visual">
+          <img class="phone-shot" src="images/app/friends-okafor.webp" alt="Pland Friends: Sofia & Mateo, The Harts and Kwame, and linking another family." loading="lazy" decoding="async">
+        </div>
       </div>
     </div>
   </section>
