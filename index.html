@@ -1386,6 +1386,35 @@
       line-height: 1.35;
       text-align: center;
     }
+
+    /* Real app screenshots (2026-10-01): replace the illustrative HTML mocks. */
+    .shot { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .6rem; }
+    .shot img {
+      display: block; width: 100%; max-width: 300px; height: auto;
+      border-radius: 40px; border: 1px solid var(--border);
+      box-shadow: 0 0 0 7px #0d0d0d, 0 0 0 8px var(--border), 0 30px 70px rgba(0,0,0,.55);
+      background: var(--bg-card);
+    }
+    .shot-hero img { max-width: 330px; }
+    .shot figcaption { font-size: .82rem; color: var(--muted); text-align: center; max-width: 300px; line-height: 1.45; }
+    .shot-strip {
+      display: flex; gap: 1.75rem; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 1.25rem 12px 1.5rem; margin: 0 -12px; -webkit-overflow-scrolling: touch;
+    }
+    .shot-strip .shot { flex: 0 0 230px; scroll-snap-align: center; }
+    .shot-strip .shot img { border-radius: 32px; }
+    .shot-strip-light .shot { flex-basis: 190px; }
+    .shot-note { color: var(--muted); font-size: .9rem; margin: 1.5rem 0 0; }
+    .shot-pair { display: grid; gap: 2rem; margin-top: 2rem; }
+    .split { display: grid; gap: 2rem; margin-top: 2.5rem; align-items: center; }
+    .split-title { font-size: 1.25rem; margin: 0 0 .5rem; }
+    @media (min-width: 780px) {
+      .shot-pair, .split { grid-template-columns: 1fr 1fr; }
+      /* Desktop: the row fits the page; phones keep the swipe. */
+      .shot-strip { overflow: visible; justify-content: center; margin: 0; padding: 1.25rem 0 1.5rem; gap: 1.5rem; }
+      .shot-strip .shot { flex: 1 1 0; min-width: 0; }
+      .shot-strip-light .shot { flex: 0 1 200px; }
+    }
   </style>
 </head>
 <body>
@@ -1396,6 +1425,7 @@
         <a href="#saturday">Saturday</a>
         <a href="#health">Health</a>
         <a href="#loops">In real life</a>
+        <a href="#plans">Plans</a>
         <a href="#in-app">In-app</a>
         <a href="#live">What’s live</a>
         <a href="#trust">Trust</a>
@@ -1430,151 +1460,11 @@
           <p class="honest-line">Built by parents · Household iOS beta · Spots limited</p>
         </div>
 
-        <aside class="mock" aria-label="Illustrative Home product mock">
-          <div class="mock-label">Illustrative · Home</div>
-          <div class="phone" aria-hidden="true">
-            <div class="phone-status">
-              <span>9:41</span>
-              <span class="island"></span>
-              <span class="sys"><i></i></span>
-            </div>
-            <div class="phone-body">
-              <div class="home-top">
-                <div>
-                  <div class="home-brand">Pland</div>
-                  <div class="home-greet">Good morning,<br>Alex</div>
-                  <div class="home-date">Saturday, Sep 26, 2026</div>
-                </div>
-                <div class="dials" title="Healthier · Wealthier · Happier">
-                  <div class="dial-wrap">
-                    <div class="dial physical">
-                      <div class="dial-ring"><span class="dial-num">58</span></div>
-                      <span class="dial-trend down" aria-hidden="true">▼</span>
-                    </div>
-                    <div class="dial-label">Healthier</div>
-                  </div>
-                  <div class="dial-wrap">
-                    <div class="dial financial">
-                      <div class="dial-ring"><span class="dial-num">91</span></div>
-                      <span class="dial-trend side" aria-hidden="true">▸</span>
-                    </div>
-                    <div class="dial-label">Wealthier</div>
-                  </div>
-                  <div class="dial-wrap">
-                    <div class="dial mental">
-                      <div class="dial-ring"><span class="dial-num">72</span></div>
-                      <span class="dial-trend down" aria-hidden="true">▼</span>
-                    </div>
-                    <div class="dial-label">Happier</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="meal-row">
-                <div>
-                  <div class="meal-title">Household Meal Plan</div>
-                  <div class="meal-stats">3 dinners · prep ready</div>
-                </div>
-                <div class="meal-open">Open</div>
-              </div>
-
-              <p class="sched-hint">Day arranged · matches calendar</p>
-
-              <div class="sched">
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Soccer</div>
-                      <div class="sched-loc">Riverside Field · Alex + kids</div>
-                    </div>
-                    <div class="sched-time">10:00 AM<br>10:50 AM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Museum outing</div>
-                      <div class="sched-loc">City Science Museum</div>
-                    </div>
-                    <div class="sched-time">11:20 AM<br>12:50 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Park</div>
-                      <div class="sched-loc">Riverside Park · Alex at Neighborhood Gym</div>
-                    </div>
-                    <div class="sched-time">1:30 PM<br>3:00 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Board games · home</div>
-                      <div class="sched-loc">Home</div>
-                    </div>
-                    <div class="sched-time">3:30 PM<br>4:45 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Dinner out · family</div>
-                      <div class="sched-loc">Harbor Kitchen</div>
-                    </div>
-                    <div class="sched-time">5:30 PM<br>7:00 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Stories</div>
-                      <div class="sched-loc">Home · Jordan relaxing bath</div>
-                    </div>
-                    <div class="sched-time">7:20 PM<br>7:50 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Sleeping</div>
-                      <div class="sched-loc">Home · Maya + Leo</div>
-                    </div>
-                    <div class="sched-time">8:00 PM<br>9:00 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-green" title="Maya"></span><span class="a-amber" title="Leo"></span></div>
-                </div>
-                <div class="sched-card">
-                  <div class="sched-top">
-                    <div>
-                      <div class="sched-title">Movie night</div>
-                      <div class="sched-loc">Home · Alex + Jordan</div>
-                    </div>
-                    <div class="sched-time">8:00 PM<br>9:00 PM</div>
-                  </div>
-                  <div class="attendees"><span class="a-blue" title="Alex"></span><span class="a-purple" title="Jordan"></span></div>
-                </div>
-              </div>
-<nav class="tabbar" aria-hidden="true">
-                <div class="tab active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
-              </nav>
-            </div>
-          </div>
-          <p class="mock-note">Dials are the scoreboard — illustrative scores, not a live screenshot.</p>
-        </aside>
+        <figure class="shot shot-hero">
+          <div class="mock-label">The real app · sample household</div>
+          <img src="images/app/home-okafor-dark.webp" width="720" height="1566" alt="Pland Home screen: Good morning, Ada. Mental, physical and financial dials at 80, 85 and 95, and a Saturday already planned: swim lesson, brunch at The Linden Table, the park, family dinner at Ember & Oak." decoding="async">
+          <figcaption>The Okafors’ Saturday, planned before anyone woke up. A sample household, not a real family.</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -1607,129 +1497,11 @@
           </p>
         </div>
 
-        <aside class="mock cal-mock" aria-label="Illustrative Calendar product mock">
-          <div class="mock-label">Illustrative · Calendar — 4 people, side-by-side</div>
-          <div class="phone cal" aria-hidden="true">
-            <div class="phone-status">
-              <span>9:41</span>
-              <span class="island"></span>
-              <span class="sys"><i></i></span>
-            </div>
-            <div class="phone-body">
-              <div class="cal-head">
-                <div class="cal-brand">Pland</div>
-                <div class="cal-actions">
-                  <div class="cal-btn spark" title="Suggestions">✨</div>
-                  <div class="cal-icon" title="Search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
-                  </div>
-                  <div class="cal-icon" title="Camera">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8.5h3l1.2-2h7.6l1.2 2H20a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18v-8A1.5 1.5 0 0 1 4 8.5z"/><circle cx="12" cy="13.5" r="3"/></svg>
-                  </div>
-                  <div class="cal-btn" title="Add">+</div>
-                </div>
-              </div>
-              <div class="cal-month">
-                <span>Sep 2026</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
-              </div>
-              <div class="date-strip">
-                <div class="date-cell"><div class="dow">FRI</div><div class="dom">25</div></div>
-                <div class="date-cell sel"><div class="dow">SAT</div><div class="dom">26</div></div>
-                <div class="date-cell"><div class="dow">SUN</div><div class="dom">27</div></div>
-                <div class="date-cell"><div class="dow">MON</div><div class="dom">28</div></div>
-                <div class="date-cell"><div class="dow">TUE</div><div class="dom">29</div></div>
-                <div class="date-cell"><div class="dow">WED</div><div class="dom">30</div></div>
-                <div class="date-cell"><div class="dow">THU</div><div class="dom">1</div></div>
-              </div>
-              <div class="cal-meta">
-                <span>H: 72° L: 58°</span>
-                <span class="mid">Saturday, Sep 26</span>
-                <span class="link">Calendars</span>
-              </div>
-
-
-              <div class="cal-people" title="Alex · Jordan · Maya · Leo">
-                <div class="gutter"></div>
-                <div class="cal-person alex">Alex</div>
-                <div class="cal-person jordan">Jordan</div>
-                <div class="cal-person maya">Maya</div>
-                <div class="cal-person leo">Leo</div>
-              </div>
-
-              <div class="hour-grid">
-                <div class="hour-row"><div class="label">10am</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">11am</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">12pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">1pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">2pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">3pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">4pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">5pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">6pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">7pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">8pm</div><div class="line"></div></div>
-                <div class="hour-row"><div class="label">9pm</div><div class="line"></div></div>
-
-                                                <div class="evt-layer">
-                  <!-- Hour rows = 22px/hour from 10am. Gaps = travel. Title + location like the real app. -->
-
-                  <!-- 10:00–10:50 Soccer -->
-                  <div class="cal-evt blue c1 multi" style="top:0px;height:20px;"><span class="t">Soccer</span><span class="loc">Riverside Field</span></div>
-                  <div class="cal-evt green c3 multi" style="top:0px;height:20px;"><span class="t">Soccer</span><span class="loc">Riverside Field</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:0px;height:20px;"><span class="t">Soccer</span><span class="loc">Riverside Field</span></div>
-
-                  <!-- 11:20–12:50 Museum -->
-                  <div class="cal-evt blue c1 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
-                  <div class="cal-evt purple c2 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
-                  <div class="cal-evt green c3 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:29px;height:33px;"><span class="t">Museum</span><span class="loc">City Science Museum</span></div>
-
-                  <!-- 1:30–3:00 Workout | Park -->
-                  <div class="cal-evt blue c1 multi" style="top:77px;height:33px;"><span class="t">Workout</span><span class="loc">Neighborhood Gym</span></div>
-                  <div class="cal-evt purple c2 multi" style="top:77px;height:33px;"><span class="t">Park</span><span class="loc">Riverside Park</span></div>
-                  <div class="cal-evt green c3 multi" style="top:77px;height:33px;"><span class="t">Park</span><span class="loc">Riverside Park</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:77px;height:33px;"><span class="t">Park</span><span class="loc">Riverside Park</span></div>
-
-                  <!-- 3:30–4:45 Games -->
-                  <div class="cal-evt blue c1 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
-                  <div class="cal-evt purple c2 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
-                  <div class="cal-evt green c3 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:121px;height:28px;"><span class="t">Games</span><span class="loc">Home</span></div>
-
-                  <!-- 5:30–7:00 Dinner -->
-                  <div class="cal-evt blue c1 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
-                  <div class="cal-evt purple c2 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
-                  <div class="cal-evt green c3 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:165px;height:33px;"><span class="t">Dinner</span><span class="loc">Harbor Kitchen</span></div>
-
-                  <!-- 7:20–7:50 Stories (Alex+kids) | Bath (Jordan) · ends before bedtime -->
-                  <div class="cal-evt blue c1 multi" style="top:205px;height:14px;"><span class="t">Stories</span><span class="loc">Home</span></div>
-                  <div class="cal-evt purple c2 multi" style="top:205px;height:14px;"><span class="t">Bath</span><span class="loc">Home</span></div>
-                  <div class="cal-evt green c3 multi" style="top:205px;height:14px;"><span class="t">Stories</span><span class="loc">Home</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:205px;height:14px;"><span class="t">Stories</span><span class="loc">Home</span></div>
-
-                  <!-- 8:00–9:00 Kids sleeping | Parents together at home -->
-                  <div class="cal-evt blue c1 multi" style="top:220px;height:22px;"><span class="t">Movie night</span><span class="loc">Home</span></div>
-                  <div class="cal-evt purple c2 multi" style="top:220px;height:22px;"><span class="t">Movie night</span><span class="loc">Home</span></div>
-                  <div class="cal-evt green c3 multi" style="top:220px;height:22px;"><span class="t">Sleeping</span><span class="loc">Home</span></div>
-                  <div class="cal-evt amber c4 multi" style="top:220px;height:22px;"><span class="t">Sleeping</span><span class="loc">Home</span></div>
-                </div>
-              </div>
-
-              <nav class="tabbar" aria-hidden="true">
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
-                <div class="tab active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 4h10v2H7V7zm0 4h4v2H7v-2zm6 0h4v2h-4v-2zm-6 4h4v2H7v-2zm6 0h4v2h-4v-2z"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
-              </nav>
-            </div>
-          </div>
-          <p class="mock-note">Same label across columns = together. Gaps between blocks are travel time Pland bakes in — no teleporting. This Saturday is already set.</p>
-        </aside>
+        <figure class="shot">
+          <div class="mock-label">The real app · Calendar, four people side by side</div>
+          <img src="images/app/calendar-okafor-dark.webp" width="600" height="1305" alt="Pland Calendar day view for Saturday, Oct 3: four family members side by side, with swim lessons, brunch, a family hike, the park and bike rides placed around what was already on the calendar." loading="lazy" decoding="async">
+          <figcaption>Same plan across columns means together. Gaps between blocks are travel time Pland leaves free.</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -1753,6 +1525,17 @@
           <h3>Happier</h3>
           <p>Time together, friends, family, rest. Saturday is already on the calendar before you wake up — a museum, the park, stories, a night in.</p>
         </div>
+      </div>
+      <div class="split">
+        <div>
+          <h3 class="split-title">The dial is the scoreboard</h3>
+          <p class="lead">A short check-in from validated questionnaires (GAD-7 for anxiety, PHQ-9 for mood) sets the Mental dial, and its history shows whether the plans helped. Physical comes from body outcomes in Apple Health; Financial from what the household can really afford.</p>
+        </div>
+        <figure class="shot">
+          <div class="mock-label">The real app · Mental dial</div>
+          <img src="images/app/mental-lindqvist-rao-dark.webp" width="600" height="1305" alt="Pland Mental Health detail: 71, in the healthy range, with anxiety and mood each scored from the last 30 days of check-ins, and a history chart." loading="lazy" decoding="async">
+          <figcaption>Priya’s Mental dial: 71, and why.</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -1788,6 +1571,46 @@
     </div>
   </section>
 
+  <!-- Plans, with the why -->
+  <section id="plans">
+    <div class="wrap">
+      <span class="eyebrow">Every plan says why</span>
+      <h2>Accept it, or don’t.</h2>
+      <p class="lead">Each plan arrives with the place, a time that’s actually free for everyone in it, and the dial it’s for. Accept puts it on the calendar for the whole household. Dismiss and it’s gone.</p>
+      <div class="shot-pair">
+        <figure class="shot">
+          <div class="mock-label">Suggestions</div>
+          <img src="images/app/suggestions-okafor-dark.webp" width="600" height="1305" alt="Pland Suggestions: a bike ride at Brookdale Park loop, a yoga class at Lotus Room Yoga, and a museum morning at the Montclair Art Museum, each with its time and place." loading="lazy" decoding="async">
+          <figcaption>A few plans waiting, each with a place.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="mock-label">A plan</div>
+          <img src="images/app/plan-okafor-dark.webp" width="600" height="1305" alt="Pland plan detail: Bike ride at Brookdale Park loop, Saturday 2:15 to 4:15 PM, keeps Physical where it is, with Accept and Dismiss." loading="lazy" decoding="async">
+          <figcaption>Where, when, and which dial it moves.</figcaption>
+        </figure>
+      </div>
+      <p class="shot-note">Three households, three different Saturdays.</p>
+      <div class="shot-strip" role="list">
+        <figure class="shot" role="listitem">
+          <div class="mock-label">The Okafors</div>
+          <img src="images/app/home-okafor-dark.webp" width="600" height="1305" alt="Pland Home for Ada Okafor: swim lesson, brunch, the park and family dinner." loading="lazy" decoding="async">
+          <figcaption>Two parents, two kids.</figcaption>
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">The Lindqvist-Raos</div>
+          <img src="images/app/home-lindqvist-rao-dark.webp" width="600" height="1305" alt="Pland Home for Priya Lindqvist-Rao: tennis together, a Music Together class, brunch and a family hike." loading="lazy" decoding="async">
+          <figcaption>Two moms and a toddler.</figcaption>
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">The Bells</div>
+          <img src="images/app/home-bell-dark.webp" width="600" height="1305" alt="Pland Home for Marcus Bell: a soccer game, the park and a family hike." loading="lazy" decoding="async">
+          <figcaption>A dad and his teenage daughter.</figcaption>
+        </figure>
+      </div>
+      <p class="shot-note">Sample households, invented for this page. Every screen is the real app.</p>
+    </div>
+  </section>
+
   <!-- 4b. In-app mocks: Workouts / Meals / Friends -->
   <section id="in-app">
     <div class="wrap">
@@ -1795,176 +1618,42 @@
       <h2>Ready when you are</h2>
       <p class="lead">Workouts show up sized to today’s recovery; meals show up sized to each adult. Friends are who the plans are for — household and the people you actually want to see.</p>
 
-      <div class="in-app-grid">
-        <!-- Workout phone -->
-        <aside class="mock app-mock wo-mock" aria-label="Illustrative Workouts product mock">
-          <div class="mock-label">Illustrative · Workouts</div>
-          <div class="phone app-screen">
-            <div class="phone-status">
-              <span>9:41</span>
-              <span class="island"></span>
-              <span class="sys"><i></i></span>
-            </div>
-            <div class="phone-body">
-              <div class="app-title">Workouts</div>
-              <div class="wo-rec-pill">Today’s pick · recovery match</div>
-
-              <div class="wo-session">
-                <div class="wo-name">Foundational Intervals</div>
-                <div class="wo-phase">Warm Up</div>
-                <div class="wo-timer">03:00</div>
-              </div>
-
-              <div class="wo-coach">
-                <div class="wo-coach-label">Coach</div>
-                <div class="wo-coach-text">Easy jog — keep breathing steady. Next up: Lacrosse Sprint Combo.</div>
-              </div>
-
-              <div class="wo-intervals">
-                <div class="wo-iv on"><span class="iv-name">Warm Up</span><span class="iv-time">3:00</span></div>
-                <div class="wo-iv"><span class="iv-name">Sprint Combo</span><span class="iv-time">8:00</span></div>
-                <div class="wo-iv"><span class="iv-name">Ski Circuit</span><span class="iv-time">10:00</span></div>
-                <div class="wo-iv"><span class="iv-name">Run</span><span class="iv-time">12:00</span></div>
-                <div class="wo-iv"><span class="iv-name">Core Finisher</span><span class="iv-time">6:00</span></div>
-                <div class="wo-iv"><span class="iv-name">Cool Down</span><span class="iv-time">4:00</span></div>
-              </div>
-
-              <div class="wo-status"><span class="badge">In session</span></div>
-              <p class="wo-caption">Timed HIIT in-app · voice coach talks you through every interval</p>
-
-              <nav class="tabbar" aria-hidden="true">
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
-                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
-              </nav>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Meals phone -->
-        <aside id="meals-mock" class="mock app-mock meals-mock" aria-label="Illustrative Meals product mock">
-          <div class="mock-label">Illustrative · Meals</div>
-          <div class="phone app-screen">
-            <div class="phone-status">
-              <span>9:41</span>
-              <span class="island"></span>
-              <span class="sys"><i></i></span>
-            </div>
-            <div class="phone-body">
-              <div class="app-title">Meals</div>
-              <div class="app-sub">Sat Sep 26 – Sun Sep 27 · for Alex &amp; Jordan · Alex cooks</div>
-
-              <div class="meal-toggles">
-                <span class="meal-tog on">This week</span>
-                <span class="meal-tog">Next week</span>
-              </div>
-
-              <div class="meal-scroll">
-                <div class="mcard meal-status">
-                  <div class="mcard-name">Draft — not approved yet</div>
-                  <div class="mcard-portions">Swap or skip anything first. Approving locks the menu and the shopping list.</div>
-                  <div class="meal-approve">Approve this week</div>
-                </div>
-
-                <div class="meal-targets">
-                  <div class="mcard"><div class="mcard-portions">Alex · per day</div><div class="mcard-name">2,250 kcal · 140 g</div></div>
-                  <div class="mcard"><div class="mcard-portions">Jordan · per day</div><div class="mcard-name">1,700 kcal · 105 g</div></div>
-                </div>
-                <div class="mcard-links meal-why">Why these portions</div>
-
-                <div class="mcard compact meal-next">
-                  <div class="mcard-top">
-                    <span class="mcard-slot">Up next · Dinner tonight</span>
-                  </div>
-                  <div class="mcard-name">Sheet-pan chicken &amp; veg</div>
-                  <div class="mcard-portions">Alex 1½ servings · Jordan 1 serving · 35 min</div>
-                  <div class="mcard-links"><span>Skip — eating out</span><span>Swap</span></div>
-                </div>
-
-                <div class="meal-day">Sunday, Sep 27</div>
-                <div class="mcard compact">
-                  <div class="mcard-portions">Planned: Alex 2,210 of 2,250 kcal · Jordan 1,680 of 1,700 kcal</div>
-                  <div class="mcard-name">Breakfast · Veggie egg scramble</div>
-                  <div class="mcard-portions">Alex 1¼ servings · Jordan 1 serving</div>
-                  <div class="mcard-name">Lunch · Turkey hummus wraps</div>
-                  <div class="mcard-portions">Alex 1½ servings · Jordan 1 serving</div>
-                  <div class="mcard-name">Dinner · Salmon grain bowls</div>
-                  <div class="mcard-portions">Alex 1½ servings · Jordan 1 serving</div>
-                </div>
-              </div>
-
-              <nav class="tabbar" aria-hidden="true">
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
-                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
-              </nav>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Friends beat -->
-        <aside class="mock app-mock friends-mock in-app-friends" aria-label="Illustrative Friends product mock">
-          <div class="mock-label">Illustrative · Friends</div>
-          <div class="phone app-screen friends-tall">
-            <div class="phone-status">
-              <span>9:41</span>
-              <span class="island"></span>
-              <span class="sys"><i></i></span>
-            </div>
-            <div class="phone-body">
-              <div class="app-title">Friends</div>
-              <p class="fr-lead">Family nights and friends nights — schedule with people outside the household when you’re free and it’s affordable.</p>
-
-              <div class="fr-list">
-                <div class="fr-row">
-                  <div class="fr-av s">S</div>
-                  <div>
-                    <div class="fr-name">Sam</div>
-                    <div class="fr-traits">Fun · Foodie</div>
-                    <div class="fr-meta">Dinner · when free</div>
-                  </div>
-                </div>
-                <div class="fr-row">
-                  <div class="fr-av p">P</div>
-                  <div>
-                    <div class="fr-name">Priya</div>
-                    <div class="fr-traits">Smart · Creative</div>
-                    <div class="fr-meta">Museum Saturday · due</div>
-                  </div>
-                </div>
-                <div class="fr-row">
-                  <div class="fr-av c">C</div>
-                  <div>
-                    <div class="fr-name">Chris</div>
-                    <div class="fr-traits">Active · Easygoing</div>
-                    <div class="fr-meta">Kids playdate · open slot</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="fr-note">Friends for dinners, outings, and playdates — household stays on the family calendar.</div>
-              <p class="fr-household">Who you see · friends and family</p>
-
-              <nav class="tabbar" aria-hidden="true">
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2 3.5 10.2V21h5.5v-6.2h6V21h5.5V10.2L12 3.2z"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
-              </nav>
-            </div>
-          </div>
-        </aside>
+      <div class="shot-strip" role="list">
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Meals</div>
+          <img src="images/app/meals-okafor-dark.webp" width="600" height="1305" alt="Pland Meals: this week's draft menu for Ada, Tunde, Chidi and Nneka, with each person's daily calories and protein and a lemon herb chicken grain bowl up next." loading="lazy" decoding="async">
+          <figcaption>A week of meals with a portion sized to each person. Approve once and the shopping list is set.</figcaption>
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Workouts</div>
+          <img src="images/app/workouts-bell-dark.webp" width="600" height="1305" alt="Pland Workouts: tonight's recommended 37-minute strength session, sized to how recovered Marcus is." loading="lazy" decoding="async">
+          <figcaption>A session sized to today’s recovery, in time you actually have.</figcaption>
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Friends</div>
+          <img src="images/app/friends-okafor-dark.webp" width="600" height="1305" alt="Pland Friends: Sofia & Mateo, The Harts and Kwame, plus linking another family so plans fit both." loading="lazy" decoding="async">
+          <figcaption>The people you want to see. Pland finds time when everyone’s free.</figcaption>
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Family</div>
+          <img src="images/app/family-okafor-dark.webp" width="600" height="1305" alt="Pland Profile, Family: Ada, Tunde, Chidi and Nneka." loading="lazy" decoding="async">
+          <figcaption>Everyone in the household, planned for together.</figcaption>
+        </figure>
+      </div>
+      <p class="shot-note">Light or dark, it follows your phone.</p>
+      <div class="shot-strip shot-strip-light" role="list">
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Home · light</div>
+          <img src="images/app/home-okafor-light.webp" width="600" height="1305" alt="Pland Home in light mode." loading="lazy" decoding="async">
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Calendar · light</div>
+          <img src="images/app/calendar-okafor-light.webp" width="600" height="1305" alt="Pland Calendar in light mode." loading="lazy" decoding="async">
+        </figure>
+        <figure class="shot" role="listitem">
+          <div class="mock-label">Meals · light</div>
+          <img src="images/app/meals-okafor-light.webp" width="600" height="1305" alt="Pland Meals in light mode." loading="lazy" decoding="async">
+        </figure>
       </div>
     </div>
   </section>
