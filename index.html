@@ -7,7 +7,6 @@
   <meta name="description" content="Pland automatically plans your family’s week so you sleep better, spend smarter, and spend more time together. Household iOS beta." />
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#F3EEE6" media="(prefers-color-scheme: light)" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta property="og:title" content="Pland — Healthier, wealthier, happier." />
@@ -94,11 +93,13 @@
     }
     .logo:hover { text-decoration: none; }
     .logo-mark {
-      width: 1.55rem;
-      height: 1.55rem;
+      width: 1.7rem;
+      height: 1.7rem;
       display: block;
       flex-shrink: 0;
-      color: var(--accent);
+      border-radius: 0.38rem;
+      background: #fff;
+      object-fit: cover;
     }
     .nav-links { display: none; gap: 1.25rem; align-items: center; }
     @media (min-width: 720px) { .nav-links { display: flex; } }
@@ -1436,7 +1437,7 @@
         box-shadow: 0 16px 48px rgba(28, 24, 20, 0.16);
       }
       .logo-mark {
-        color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(28, 24, 20, 0.12);
       }
     }
   </style>
@@ -1445,10 +1446,7 @@
 <header>
     <div class="nav">
       <a class="logo" href="#" aria-label="Pland home">
-        <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
-          <rect width="32" height="32" rx="8" fill="currentColor"/>
-          <path fill="#1A0A00" d="M9.2 6.4h8.05c3.55 0 6.05 2.28 6.05 5.72 0 3.44-2.5 5.72-6.05 5.72h-3.7V25.6H9.2V6.4zm4.35 8.05h3.5c1.58 0 2.62-1.02 2.62-2.33 0-1.31-1.04-2.33-2.62-2.33h-3.5v4.66z"/>
-        </svg>
+        <img class="logo-mark" src="/assets/app-icon-128.png" width="27" height="27" alt="" />
         <span>Pland</span>
       </a>
       <div class="nav-links">
