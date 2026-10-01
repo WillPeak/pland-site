@@ -5,14 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pland — Healthier, wealthier, happier.</title>
   <meta name="description" content="Pland automatically plans your family’s week so you sleep better, spend smarter, and spend more time together. Household iOS beta." />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#F3EEE6" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta property="og:title" content="Pland — Healthier, wealthier, happier." />
   <meta property="og:description" content="Pland automatically plans your family’s week so you sleep better, spend smarter, and spend more time together. Household iOS beta." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pland.ai/" />
   <meta property="og:site_name" content="Pland" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://pland.ai/assets/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Pland — Healthier, wealthier, happier." />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Pland — Healthier, wealthier, happier." />
   <meta name="twitter:description" content="Pland automatically plans your family’s week so you sleep better, spend smarter, and spend more time together. Household iOS beta." />
+  <meta name="twitter:image" content="https://pland.ai/assets/og-card.png" />
   <style>
     :root {
       --bg: #000000;
@@ -21,10 +31,13 @@
       --border: #2c2c2c;
       --text: #ffffff;
       --muted: #a1a1a6;
-      --accent: #c9893a;
-      --accent-hover: #d49a4e;
-      --gold: #c9893a;
-      --gold-bright: #D48C2C;
+      --brand: #F26E1F;
+      --brand-hover: #FF8133;
+      --on-brand: #1A0A00;
+      --accent: #F26E1F;
+      --accent-hover: #FF8133;
+      --gold: #F26E1F;
+      --gold-bright: #F26E1F;
       --date-red: #E5485D;
       --dial-green: #34c759;
       --dial-red: #ff453a;
@@ -35,6 +48,8 @@
       --radius: 14px;
       --max: 880px;
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      --header-bg: rgba(0, 0, 0, 0.88);
+      color-scheme: dark;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -54,7 +69,7 @@
       padding: 0.85rem 0;
       position: sticky;
       top: 0;
-      background: rgba(0, 0, 0, 0.88);
+      background: var(--header-bg);
       backdrop-filter: blur(10px);
       z-index: 20;
     }
@@ -68,11 +83,22 @@
       padding: 0 1.25rem;
     }
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       font-weight: 750;
       font-size: 1.35rem;
       letter-spacing: -0.03em;
-      color: var(--gold);
+      color: var(--accent);
       text-decoration: none;
+    }
+    .logo:hover { text-decoration: none; }
+    .logo-mark {
+      width: 1.55rem;
+      height: 1.55rem;
+      display: block;
+      flex-shrink: 0;
+      color: var(--accent);
     }
     .nav-links { display: none; gap: 1.25rem; align-items: center; }
     @media (min-width: 720px) { .nav-links { display: flex; } }
@@ -85,8 +111,8 @@
     .nav-links a:hover { color: var(--text); }
     .nav-cta, .btn-primary {
       display: inline-block;
-      background: var(--accent);
-      color: #fff;
+      background: var(--brand);
+      color: var(--on-brand);
       font-weight: 700;
       font-size: 0.9rem;
       padding: 0.65rem 1.1rem;
@@ -96,7 +122,7 @@
       cursor: pointer;
     }
     .nav-cta:hover, .btn-primary:hover {
-      background: var(--accent-hover);
+      background: var(--brand-hover);
       text-decoration: none;
     }
     .btn-secondary {
@@ -436,7 +462,7 @@
     .home-date {
       font-size: 0.58rem;
       font-weight: 600;
-      color: var(--date-red);
+      color: #8e8e93;
       margin-top: 0.2rem;
     }
 
@@ -609,7 +635,7 @@
       padding: 0.7rem 1.15rem;
     }
 
-    /* Floating tab bar */
+    /* Floating tab bar — dark slate pill, matching the app */
     .tabbar {
       position: absolute;
       left: 50%;
@@ -618,7 +644,7 @@
       width: calc(100% - 1.1rem);
       max-width: 250px;
       height: 36px;
-      background: #f2f2f7;
+      background: #1c1c1e;
       border-radius: 999px;
       display: flex;
       align-items: center;
@@ -633,13 +659,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #636366;
-      border-radius: 50%;
+      color: #8e8e93;
+      border-radius: 8px;
     }
     .tab.active {
       background: #fff;
       color: #000;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      box-shadow: none;
     }
     .tab svg { width: 14px; height: 14px; display: block; }
 
@@ -661,7 +687,7 @@
     .cal-brand {
       font-size: 1rem;
       font-weight: 780;
-      color: var(--gold);
+      color: var(--brand);
     }
     .cal-actions {
       display: flex;
@@ -681,8 +707,8 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: var(--gold);
-      color: #fff;
+      background: var(--brand);
+      color: var(--on-brand);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -883,11 +909,6 @@
     .cal-evt.c13 { left: 0%; width: 24%; } /* unused helpers kept minimal */
 
     .phone.cal .tabbar { background: #1c1c1e; }
-    .phone.cal .tab.active {
-      background: #fff;
-      color: #000;
-      border-radius: 8px;
-    }
 
     /* Waitlist form (mailto on submit — no backend) */
     .form-card {
@@ -921,7 +942,7 @@
     .form-card input:focus,
     .form-card select:focus {
       outline: none;
-      border-color: rgba(201,137,58,0.55);
+      border-color: rgba(242, 110, 31, 0.55);
     }
     .form-card input::placeholder { color: #636366; }
     .form-actions { margin-top: 1.15rem; }
@@ -1146,8 +1167,8 @@
       color: #8e8e93;
     }
     .meal-tog.on {
-      background: var(--gold);
-      color: #fff;
+      background: var(--brand);
+      color: var(--on-brand);
     }
     .meal-scroll {
       flex: 1;
@@ -1252,10 +1273,10 @@
       text-align: center;
       font-size: 0.56rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--on-brand);
       padding: 0.36rem 0.2rem;
       border-radius: 999px;
-      background: var(--gold);
+      background: var(--brand);
     }
     .meal-targets {
       display: grid;
@@ -1266,7 +1287,7 @@
     .meal-targets .mcard-name { margin: 0.05rem 0 0; font-size: 0.56rem; }
     .meal-targets .mcard-portions { margin: 0; }
     .meal-why { padding: 0.05rem 0.2rem 0.4rem; }
-    .meal-next { border-color: rgba(201,137,58,0.45); }
+    .meal-next { border-color: rgba(242, 110, 31, 0.45); }
     .meal-regen {
       text-align: center;
       font-size: 0.48rem;
@@ -1353,7 +1374,7 @@
     }
     .fr-row .fr-meta {
       font-size: 0.42rem;
-      color: #c9893a;
+      color: var(--brand);
       margin-top: 0.1rem;
       font-weight: 600;
     }
@@ -1371,11 +1392,11 @@
     .fr-note {
       margin: 0.3rem 0.1rem 0.1rem;
       padding: 0.32rem 0.45rem;
-      background: rgba(201,137,58,0.12);
-      border: 1px solid rgba(201,137,58,0.28);
+      background: rgba(242, 110, 31, 0.12);
+      border: 1px solid rgba(242, 110, 31, 0.28);
       border-radius: 12px;
       font-size: 0.45rem;
-      color: #e8c48a;
+      color: #FFC49A;
       line-height: 1.3;
       font-weight: 550;
     }
@@ -1386,12 +1407,50 @@
       line-height: 1.35;
       text-align: center;
     }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #F3EEE6;
+        --bg-elevated: #E8E0D4;
+        --bg-card: #FFFBF6;
+        --border: #D9CFC0;
+        --text: #1C1814;
+        --muted: #5E574E;
+        --accent: #B4450A;
+        --accent-hover: #8F3708;
+        --header-bg: rgba(243, 238, 230, 0.92);
+        color-scheme: light;
+      }
+      .btn-secondary {
+        border-color: rgba(28, 24, 20, 0.28);
+        color: var(--text);
+      }
+      .btn-secondary:hover { background: rgba(28, 24, 20, 0.06); }
+      .proof-chip {
+        border-color: rgba(28, 24, 20, 0.16);
+        background: rgba(255, 251, 246, 0.75);
+        color: var(--text);
+      }
+      .form-card input::placeholder { color: #8A8278; }
+      .mock {
+        box-shadow: 0 16px 48px rgba(28, 24, 20, 0.16);
+      }
+      .logo-mark {
+        color: var(--accent);
+      }
+    }
   </style>
 </head>
 <body>
 <header>
     <div class="nav">
-      <a class="logo" href="#">Pland</a>
+      <a class="logo" href="#" aria-label="Pland home">
+        <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="currentColor"/>
+          <path fill="#1A0A00" d="M9.2 6.4h8.05c3.55 0 6.05 2.28 6.05 5.72 0 3.44-2.5 5.72-6.05 5.72h-3.7V25.6H9.2V6.4zm4.35 8.05h3.5c1.58 0 2.62-1.02 2.62-2.33 0-1.31-1.04-2.33-2.62-2.33h-3.5v4.66z"/>
+        </svg>
+        <span>Pland</span>
+      </a>
       <div class="nav-links">
         <a href="#saturday">Saturday</a>
         <a href="#health">Health</a>
@@ -1445,37 +1504,29 @@
                   <div class="home-greet">Good morning,<br>Alex</div>
                   <div class="home-date">Saturday, Sep 26, 2026</div>
                 </div>
-                <div class="dials" title="Healthier · Wealthier · Happier">
+                <div class="dials" title="Physical · Mental · Financial">
+                  <div class="dial-wrap">
+                    <div class="dial mental">
+                      <div class="dial-ring"><span class="dial-num">72</span></div>
+                      <span class="dial-trend down" aria-hidden="true">▼</span>
+                    </div>
+                    <div class="dial-label">Mental</div>
+                  </div>
                   <div class="dial-wrap">
                     <div class="dial physical">
                       <div class="dial-ring"><span class="dial-num">58</span></div>
                       <span class="dial-trend down" aria-hidden="true">▼</span>
                     </div>
-                    <div class="dial-label">Healthier</div>
+                    <div class="dial-label">Physical</div>
                   </div>
                   <div class="dial-wrap">
                     <div class="dial financial">
                       <div class="dial-ring"><span class="dial-num">91</span></div>
                       <span class="dial-trend side" aria-hidden="true">▸</span>
                     </div>
-                    <div class="dial-label">Wealthier</div>
-                  </div>
-                  <div class="dial-wrap">
-                    <div class="dial mental">
-                      <div class="dial-ring"><span class="dial-num">72</span></div>
-                      <span class="dial-trend down" aria-hidden="true">▼</span>
-                    </div>
-                    <div class="dial-label">Happier</div>
+                    <div class="dial-label">Financial</div>
                   </div>
                 </div>
-              </div>
-
-              <div class="meal-row">
-                <div>
-                  <div class="meal-title">Household Meal Plan</div>
-                  <div class="meal-stats">3 dinners · prep ready</div>
-                </div>
-                <div class="meal-open">Open</div>
               </div>
 
               <p class="sched-hint">Day arranged · matches calendar</p>
@@ -1568,7 +1619,6 @@
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
               </nav>
             </div>
@@ -1723,7 +1773,6 @@
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
               </nav>
             </div>
@@ -1838,7 +1887,6 @@
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
                 <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
               </nav>
             </div>
@@ -1903,7 +1951,6 @@
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
                 <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
               </nav>
             </div>
@@ -1959,7 +2006,6 @@
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.2 2.3 2.3 4.7-5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="6.5" r="2"/><path d="M8.5 21v-5.5l-2-3.5 3.2-1.8 2.3 3.2 2.3-3.2 3.2 1.8-2 3.5V21"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V4M11 11v5a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3v-1"/><path d="M17 4v7"/></svg></div>
-                <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 15.5 4 18V8.5A2.5 2.5 0 0 1 6.5 6h6A2.5 2.5 0 0 1 15 8.5v4A2.5 2.5 0 0 1 12.5 15H8l-1.5.5z"/><path d="M15 10h2.5A2.5 2.5 0 0 1 20 12.5V18l-2-2h-2.5"/></svg></div>
                 <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
               </nav>
             </div>
