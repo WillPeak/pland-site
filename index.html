@@ -1276,7 +1276,7 @@
     .meal-targets .mcard-name { margin: 0.05rem 0 0; font-size: 0.56rem; }
     .meal-targets .mcard-portions { margin: 0; }
     .meal-why { padding: 0.05rem 0.2rem 0.4rem; }
-    .meal-next { border-color: rgba(201,137,58,0.45); }
+    .meal-next { border-color: rgba(var(--accent-rgb),0.45); }
     .meal-regen {
       text-align: center;
       font-size: 0.48rem;
@@ -1363,7 +1363,7 @@
     }
     .fr-row .fr-meta {
       font-size: 0.42rem;
-      color: #c9893a;
+      color: var(--accent);
       margin-top: 0.1rem;
       font-weight: 600;
     }
@@ -1381,8 +1381,8 @@
     .fr-note {
       margin: 0.3rem 0.1rem 0.1rem;
       padding: 0.32rem 0.45rem;
-      background: rgba(201,137,58,0.12);
-      border: 1px solid rgba(201,137,58,0.28);
+      background: rgba(var(--accent-rgb),0.12);
+      border: 1px solid rgba(var(--accent-rgb),0.28);
       border-radius: 12px;
       font-size: 0.45rem;
       color: #e8c48a;
@@ -1456,7 +1456,29 @@
     /* The three outcomes carry the app's dial colours: Physical, Financial, Mental. */
     .dial-edge { border-top: 3px solid var(--edge); }
     .dial-edge h3 { color: var(--edge); }
-  </style>
+  
+    /* Just text Pland */
+    .chat {
+      max-width: 23rem;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 1.1rem 0.9rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+    .chat-head { text-align: center; color: var(--muted); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .bubble { max-width: 82%; padding: 0.55rem 0.8rem; border-radius: 18px; }
+    .bubble.me { align-self: flex-end; background: #0a84ff; color: #fff; border-bottom-right-radius: 6px; }
+    .bubble.pland { align-self: flex-start; background: var(--bg-card); color: var(--text); border-bottom-left-radius: 6px; }
+    .chat-note { text-align: center; color: var(--muted); font-size: 0.72rem; margin-top: 0.4rem; }
+    /* The conversation sets its own height: the screenshot panel's fixed height clipped it. */
+    .feature-visual.chat-visual { height: auto; padding: 1.5rem 1rem; align-items: center; }
+</style>
 </head>
 <body>
 <header>
@@ -1680,6 +1702,39 @@
     </div>
   </section>
 
+  <!-- 4b. Just text Pland -->
+  <section id="text">
+    <div class="wrap">
+      <span class="eyebrow">Just text it</span>
+      <h2>Text Pland like you’d text a person</h2>
+      <p class="lead">
+        Add something, change it, or ask what’s on — in your own words, from the car or the
+        school run. Pland does it and texts back exactly what’s now on the calendar.
+        “Hey Siri, text Pland…” works hands-free.
+      </p>
+      <div class="feature-row">
+        <div class="feature-copy">
+          <span class="eyebrow">Add, change, ask</span>
+          <h3>One text, done</h3>
+          <p>Pland knows who “the kids” are and the nicknames each of you uses. If something’s unclear, it asks one short question rather than guessing. Say “undo” and the last change is taken back.</p>
+          <p>That email confirmation already in your calendar? Tell Pland it’s the family dinner — it adds everyone, and moves the dinner if the booking moves.</p>
+        </div>
+        <div class="feature-visual chat-visual">
+          <div class="chat" role="img" aria-label="A sample text conversation with Pland">
+            <div class="chat-head">Pland</div>
+            <div class="bubble me">Swim for Ivy Tuesday at 4:30, I’ll take her</div>
+            <div class="bubble pland">Added: Swim, Tue Oct 6, 4:30 PM–5:30 PM (1 hour — tell me if it’s different) for Maya, Ivy. Say “undo” to take it back.</div>
+            <div class="bubble me">What’s on tomorrow for the kids?</div>
+            <div class="bubble pland">Tomorrow (Sat Oct 3): 9–10 AM Soccer for Leo, at Riverside Park; 2–4 PM Party at the Okafors’ for Leo and Ivy.</div>
+            <div class="bubble me">The OpenTable booking is our dinner tonight</div>
+            <div class="bubble pland">Linked: Dinner at Nopa now follows “Reservation at Nopa” from your calendar, Fri Oct 2, 7 PM–9 PM for Maya, Sam, Leo and Ivy. Say “undo” to take it back.</div>
+            <div class="chat-note">Sample household. Pland’s replies are worded exactly as it sends them.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 5. We read your week / not another dashboard -->
   <section id="sensors">
     <div class="wrap">
@@ -1700,7 +1755,7 @@
       <div class="vs">
         <div class="card live">
           <div class="tag green">Live in household beta</div>
-          <p>Shared family calendar · plans you can accept or dismiss · workouts sized to recovery with a voice coach · weekly meals with per-person portions · morning body scan · mental check-ins · health dials as the scoreboard · sign in with Google or email.</p>
+          <p>Shared family calendar · text Pland to add, change or ask about anything on it · plans you can accept or dismiss · workouts sized to recovery with a voice coach · weekly meals with per-person portions · morning body scan · mental check-ins · health dials as the scoreboard · sign in with Google or email.</p>
         </div>
         <div class="card next">
           <div class="tag blue">Next</div>
