@@ -1276,7 +1276,7 @@
     .meal-targets .mcard-name { margin: 0.05rem 0 0; font-size: 0.56rem; }
     .meal-targets .mcard-portions { margin: 0; }
     .meal-why { padding: 0.05rem 0.2rem 0.4rem; }
-    .meal-next { border-color: rgba(201,137,58,0.45); }
+    .meal-next { border-color: rgba(var(--accent-rgb),0.45); }
     .meal-regen {
       text-align: center;
       font-size: 0.48rem;
@@ -1381,8 +1381,8 @@
     .fr-note {
       margin: 0.3rem 0.1rem 0.1rem;
       padding: 0.32rem 0.45rem;
-      background: rgba(201,137,58,0.12);
-      border: 1px solid rgba(201,137,58,0.28);
+      background: rgba(var(--accent-rgb),0.12);
+      border: 1px solid rgba(var(--accent-rgb),0.28);
       border-radius: 12px;
       font-size: 0.45rem;
       color: #e8c48a;
@@ -1476,6 +1476,8 @@
     .bubble.me { align-self: flex-end; background: #0a84ff; color: #fff; border-bottom-right-radius: 6px; }
     .bubble.pland { align-self: flex-start; background: var(--bg-card); color: var(--text); border-bottom-left-radius: 6px; }
     .chat-note { text-align: center; color: var(--muted); font-size: 0.72rem; margin-top: 0.4rem; }
+    /* The conversation sets its own height: the screenshot panel's fixed height clipped it. */
+    .feature-visual.chat-visual { height: auto; padding: 1.5rem 1rem; align-items: center; }
 </style>
 </head>
 <body>
@@ -1717,7 +1719,7 @@
           <p>Pland knows who “the kids” are and the nicknames each of you uses. If something’s unclear, it asks one short question rather than guessing. Say “undo” and the last change is taken back.</p>
           <p>That email confirmation already in your calendar? Tell Pland it’s the family dinner — it adds everyone, and moves the dinner if the booking moves.</p>
         </div>
-        <div class="feature-visual">
+        <div class="feature-visual chat-visual">
           <div class="chat" role="img" aria-label="A sample text conversation with Pland">
             <div class="chat-head">Pland</div>
             <div class="bubble me">Swim for Ivy Tuesday at 4:30, I’ll take her</div>
