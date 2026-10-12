@@ -20,10 +20,10 @@
   <meta name="twitter:image" content="https://pland.ai/og.png" />
   <meta name="twitter:image:alt" content="Pland. Healthier, wealthier, happier." />
   <meta name="theme-color" content="#0f1214" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <!-- frame-ancestors is ignored in a meta tag, so this does not stop framing. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.pland.ai; form-action 'self' mailto: https://api.pland.ai; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
   <link rel="canonical" href="https://pland.ai/" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/site.css" />
 </head>
 <body>
@@ -93,15 +93,15 @@
         <p>It isn't only Saturday. School runs, gaps between things, the odd free hour. The week is already full. Pland's job is to use the gaps, not to fill every one of them, and to hold the result up against three dials.</p>
 
         <div class="dial-grid">
-          <article style="--edge: var(--physical)">
+          <article class="dial-physical">
             <h3>Physical</h3>
             <p>Movement and food. A streak is not the point. Workouts follow sleep and recovery from a connected wearable.</p>
           </article>
-          <article style="--edge: var(--mental)">
+          <article class="dial-mental">
             <h3>Mental</h3>
             <p>One of the three dials, not a sticker added later. How you're actually doing sits on the same scoreboard.</p>
           </article>
-          <article style="--edge: var(--financial)">
+          <article class="dial-financial">
             <h3>Financial</h3>
             <p>No budget to type in and then abandon. Retirement odds are your chance of keeping today's way of life, once you enter your money yourself.</p>
           </article>
@@ -140,37 +140,6 @@
     </div>
   </footer>
 
-  <script>
-    (function () {
-      var form = document.getElementById("waitlist-form");
-      var status = document.getElementById("waitlist-status");
-      if (!form || !status) return;
-
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var name = form.name.value.trim();
-        var email = form.email.value.trim();
-        var household = form.household.value;
-        var ios = form.ios.value;
-        if (!name || !email || !household || !ios) {
-          status.className = "form-status err";
-          status.textContent = "Add your name, email, household, and whether you use iPhones.";
-          return;
-        }
-        var subject = encodeURIComponent("Pland household beta — access request");
-        var body = encodeURIComponent(
-          "Name: " + name + "\n" +
-          "Household: " + household + "\n" +
-          "iOS: " + ios + "\n" +
-          "Email: " + email + "\n"
-        );
-        status.className = "form-status ok";
-        status.textContent = "Opening an email to hello@pland.ai.";
-        var href = "mailto:hello@pland.ai?subject=" + subject + "&body=" + body;
-        if (window.plOpenMail) window.plOpenMail(href);
-        else window.location.href = href;
-      });
-    })();
-  </script>
+  <script src="/waitlist.js"></script>
 </body>
 </html>

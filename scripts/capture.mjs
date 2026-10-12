@@ -25,6 +25,48 @@ if (!html.includes('action="mailto:hello@pland.ai"')) {
   process.exit(1);
 }
 
+const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.pland.ai; form-action 'self' mailto: https://api.pland.ai; base-uri 'self'; object-src 'none'; frame-ancestors 'none'";
+const pageFiles = ["index.html", "privacy/index.html", "plaid/redirect/index.html"];
+const pageText = pageFiles.map((rel) => fs.readFileSync(path.join(root, rel), "utf8")).join("\n");
+for (const rel of pageFiles) {
+  const text = fs.readFileSync(path.join(root, rel), "utf8");
+  if (!text.includes(csp)) {
+    console.error("csp missing " + rel);
+    process.exit(1);
+  }
+  if (!text.includes('name="referrer" content="strict-origin-when-cross-origin"')) {
+    console.error("referrer missing " + rel);
+    process.exit(1);
+  }
+  if (/<style[\s>]|style=|fonts\.google|fonts\.gstatic|<iframe|googletagmanager|gtag\(|plausible/i.test(text)) {
+    console.error("third party or inline style " + rel);
+    process.exit(1);
+  }
+  if (/<script(?![^>]*\ssrc=)/i.test(text)) {
+    console.error("inline script " + rel);
+    process.exit(1);
+  }
+}
+if (/\bMini\b/.test(pageText)) {
+  console.error("page mentions Mini");
+  process.exit(1);
+}
+for (const raw of pageText.match(/https?:\/\/[^"'()\s]+/g) || []) {
+  const url = raw.replace(/[;,]+$/g, "");
+  const host = new URL(url).host;
+  if (host !== "pland.ai" && host !== "api.pland.ai") {
+    console.error("unexpected host " + url);
+    process.exit(1);
+  }
+}
+for (const rel of ["waitlist.js", "plaid/redirect.js", "site.css"]) {
+  const text = fs.readFileSync(path.join(root, rel), "utf8");
+  if (/https?:\/\/|fetch\(|XMLHttpRequest|gtag\(/i.test(text)) {
+    console.error("external call in " + rel);
+    process.exit(1);
+  }
+}
+
 const child = spawn("python3", ["-m", "http.server", String(port), "--bind", "127.0.0.1"], {
   cwd: root,
   env: { ...process.env, PYTHONUNBUFFERED: "1" },
@@ -60,7 +102,16 @@ const browser = await chromium.launch();
 const page = await browser.newPage();
 await page.emulateMedia({ reducedMotion: "reduce" });
 const requests = [];
+const cspViolations = [];
 page.on("request", (req) => requests.push(req.method() + " " + req.url()));
+page.on("console", (msg) => {
+  const text = msg.text();
+  if (/frame-ancestors/i.test(text)) {
+    console.log("csp note", text);
+    return;
+  }
+  if (/Content Security Policy|Refused to/i.test(text)) cspViolations.push(text);
+});
 
 async function settle() {
   await page.evaluate(() => document.fonts.ready);
@@ -88,6 +139,8 @@ async function assertFold(width, height) {
   const hero = await page.locator(".hero-copy").innerText();
   if (!hero.includes("You approve; over time, it runs itself.")) fail("hero line missing at " + width);
   if (/Hands-free is how it grows|available today|live now/i.test(hero)) fail("old hero line at " + width);
+  const fonts = await page.evaluate(() => [...document.fonts].map((face) => face.family + " " + face.status));
+  if (!fonts.some((face) => face.startsWith("Nunito Sans") && face.endsWith("loaded"))) fail("Nunito Sans did not load at " + width + " " + fonts.join(","));
 }
 
 await assertFold(390, 844);
@@ -198,6 +251,17 @@ await page.goto(base + "/", { waitUntil: "networkidle" });
 const darkBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
 console.log("color-scheme light-emulated", lightBg, "dark-emulated", darkBg);
 if (lightBg !== darkBg) fail("site changed with prefers-color-scheme");
+
+await page.setViewportSize({ width: 390, height: 844 });
+await page.goto(base + "/plaid/redirect?oauth_state_id=sample", { waitUntil: "networkidle" });
+await settle();
+const openHref = await page.locator("#open-pland").getAttribute("href");
+if (openHref !== "pland://plaid/redirect?oauth_state_id=sample") fail("return link " + openHref);
+if (page.url().startsWith("pland:")) fail("auto redirected to the app");
+
+const offsite = requests.filter((line) => !line.includes("127.0.0.1"));
+if (offsite.length) fail("offsite request " + offsite.join(", "));
+if (cspViolations.length) fail("csp violation " + cspViolations.join(" | "));
 
 await browser.close();
 child.kill();
