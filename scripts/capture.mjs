@@ -101,10 +101,24 @@ async function expanded(width, name) {
   if (wide) fail("horizontal overflow expanded " + width);
   const text = await page.locator("#how").innerText();
   const visible = text.toLowerCase();
-  for (const needle of ["live", "partial", "next", "connected wearable", "birthdays and holidays", "today you approve or swap"]) {
+  for (const needle of [
+    "books through a partner",
+    "secret gift on a single-use card",
+    "talk",
+    "imessage",
+    "flyer",
+    "wallet",
+    "retirement odds",
+    "under-13",
+    "connected wearable",
+    "rolling out to waitlist households first",
+    "one bad call sends it back to drafting",
+  ]) {
     if (!visible.includes(needle)) fail("missing expanded copy: " + needle);
   }
-  if (/Instinct|Apple Health|silent auto-booking|\/api\/waitlist/i.test(text)) fail("forbidden expanded copy");
+  if (/Instinct|Apple Health|silent auto-booking|\/api\/waitlist|class="next"|The rest of the week doesn't/i.test(text + await page.content())) {
+    fail("forbidden expanded copy");
+  }
   await page.screenshot({ path: path.join(outDir, name), fullPage: true });
 }
 await expanded(390, "homepage-expanded-390.png");
