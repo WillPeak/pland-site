@@ -4,23 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pland — returning to app</title>
-  <style>
-    body { font-family: -apple-system, system-ui, sans-serif; margin: 2rem; color: #111; }
-    a { color: #0a66c2; }
-  </style>
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <!-- frame-ancestors is ignored in a meta tag, so this does not stop framing. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.pland.ai; form-action 'self' mailto: https://api.pland.ai; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
+  <link rel="stylesheet" href="/plaid/redirect.css" />
 </head>
 <body>
   <h1>Returning to Pland…</h1>
   <p>If you’re not taken back into the app automatically, tap below.</p>
   <p><a id="open-pland" href="pland://plaid/redirect">Open Pland</a></p>
-  <script>
-    (function () {
-      var q = window.location.search || "";
-      var a = document.getElementById("open-pland");
-      if (a) a.href = "pland://plaid/redirect" + q;
-      // Do NOT auto-redirect to pland:// — LinkKit 6+ expects the https
-      // Universal Link (pland.ai/plaid/redirect) and handles OAuth itself.
-    })();
-  </script>
+  <script src="/plaid/redirect.js"></script>
 </body>
 </html>
