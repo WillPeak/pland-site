@@ -85,6 +85,9 @@ async function assertFold(width, height) {
   if (wide) fail("horizontal overflow at " + width);
   const h1 = await page.locator("h1").innerText();
   if (h1 !== "Healthier, wealthier, happier.") fail("unexpected h1");
+  const hero = await page.locator(".hero-copy").innerText();
+  if (!hero.includes("You approve; over time, it runs itself.")) fail("hero line missing at " + width);
+  if (/Hands-free is how it grows|available today|live now/i.test(hero)) fail("old hero line at " + width);
 }
 
 await assertFold(390, 844);
@@ -111,12 +114,14 @@ async function expanded(width, name) {
     "retirement odds",
     "under-13",
     "connected wearable",
-    "rolling out to waitlist households first",
-    "one bad call sends it back to drafting",
+    "in beta, rolling out to waitlist households first",
+    "you start by approving or swapping",
+    "hands-free is where it's heading",
   ]) {
     if (!visible.includes(needle)) fail("missing expanded copy: " + needle);
   }
-  if (/Instinct|Apple Health|silent auto-booking|\/api\/waitlist|class="next"|The rest of the week doesn't/i.test(text + await page.content())) {
+  const pageText = text + await page.content();
+  if (/Instinct|Apple Health|silent auto-booking|\/api\/waitlist|class="next"|The rest of the week doesn't|one bad call|sends it back to drafting|available today|live now/i.test(pageText)) {
     fail("forbidden expanded copy");
   }
   await page.screenshot({ path: path.join(outDir, name), fullPage: true });
