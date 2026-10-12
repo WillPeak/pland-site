@@ -38,7 +38,7 @@
       <div class="hero-copy">
         <h1>Healthier, wealthier, happier.</h1>
         <p class="dek">Pland optimises the whole household's week against three dials: physical, mental and financial health.</p>
-        <p class="dek">The week is planned for the whole household. Approval is the on-ramp to zero-touch.</p>
+        <p class="dek">The week is planned for the whole household. Today you approve or swap.</p>
       </div>
       <img class="hero-shot" src="/images/app/home-okafor.webp" width="600" height="1304" alt="Pland home for a sample household: Saturday already has a plan, with the physical, mental and financial dials." />
       <div class="hero-cta">
@@ -52,11 +52,7 @@
       <h2>Join the waitlist</h2>
       <p class="lead">Tell us about the household. We'll write with TestFlight details.</p>
       <div class="form-card">
-        <form id="waitlist-form" action="/api/waitlist" method="post" novalidate>
-          <div class="hp" aria-hidden="true">
-            <label for="pl_hp">Leave this blank</label>
-            <input id="pl_hp" name="pl_hp" type="text" tabindex="-1" autocomplete="off" />
-          </div>
+        <form id="waitlist-form" action="mailto:hello@pland.ai" method="post" enctype="text/plain">
           <label for="name">Name</label>
           <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" />
           <label for="email">Email</label>
@@ -99,7 +95,7 @@
         <div class="dial-grid">
           <article style="--edge: var(--physical)">
             <h3>Physical</h3>
-            <p>Sleep, movement, and food. Plans are meant to follow recovery, not a streak.</p>
+            <p>Movement and food. A streak is not the point. Workouts are the part that follows a connected wearable, and that limit is spelled out below.</p>
           </article>
           <article style="--edge: var(--mental)">
             <h3>Mental</h3>
@@ -107,29 +103,35 @@
           </article>
           <article style="--edge: var(--financial)">
             <h3>Financial</h3>
-            <p>Affordability comes from how money actually goes. No budget to type in and then abandon. Retirement odds are the longer view on this dial, and they're still where it's heading.</p>
+            <p>No budget to type in and then abandon. Retirement odds are your chance of keeping today's way of life, once you enter your money yourself.</p>
           </article>
         </div>
 
         <h2>The sort of week</h2>
-        <p>A session when recovery has room. Time with people, not only tasks. Dinner out only when the week can carry it. The dials are the scoreboard, not a second job.</p>
+        <p>Time with people, not only tasks. The dials are the scoreboard, not a second job.</p>
 
-        <h2>Approval first</h2>
-        <p>At first you approve. A plan worth keeping has a place, a time that's actually free, and a dial it's for. You keep it, or you throw it out. The direction after that: each kind of task goes hands-free once your history shows you'd keep it, and one bad call sends it back to drafting.</p>
-
-        <h2>Where it's heading</h2>
-        <p>The direction, not a list of what's already switched on.</p>
+        <h2 class="live">Live</h2>
         <ul>
-          <li>Bookings through a partner</li>
-          <li>Occasions, with a secret gift on a single-use card</li>
-          <li>Talk</li>
-          <li>Texting Pland from iMessage</li>
-          <li>Capturing a flyer or a photo</li>
-          <li>Maths for the kids, and a wallet</li>
-          <li>A plan for the whole household that doesn't leave under-13s on their own</li>
-          <li>Plans that follow sleep and recovery</li>
-          <li>Retirement odds on the financial dial</li>
+          <li>Snap a flyer or a schedule. Pland lists what it found, and you pick what goes on the calendar.</li>
+          <li>Kids' maths comes with a wallet. Right answers add up, and a parent pays out on Sunday or lets it save.</li>
+          <li>Retirement odds sit on the financial dial. They're your chance of keeping today's way of life, once you enter your money yourself.</li>
+          <li>The week is planned for the whole household, and it never leaves an under-13 to handle their bit alone.</li>
         </ul>
+
+        <h2 class="partial">Partial</h2>
+        <ul>
+          <li>Workouts follow a connected wearable's sleep and recovery. The rest of the week doesn't.</li>
+          <li>Occasions cover birthdays and holidays.</li>
+        </ul>
+
+        <h2 class="next">Next</h2>
+        <ul>
+          <li>Booking through a partner.</li>
+          <li>Talk.</li>
+          <li>Texting Pland from iMessage.</li>
+          <li>A secret gift on a single-use card.</li>
+        </ul>
+        <p>Today you approve or swap. The aim: each kind of task goes hands-free once your history shows you'd keep it.</p>
 
         <h2>Enough to plan</h2>
         <p>The calendar, how bodies are doing, and how money goes. Enough to shape a week. Not a dashboard you're supposed to babysit.</p>
@@ -152,55 +154,29 @@
       var status = document.getElementById("waitlist-status");
       if (!form || !status) return;
 
-      function say(kind, text) {
-        status.className = "form-status " + kind;
-        status.textContent = text;
-      }
-
       form.addEventListener("submit", function (event) {
         event.preventDefault();
-        var data = {
-          name: form.name.value.trim(),
-          email: form.email.value.trim(),
-          household: form.household.value,
-          ios: form.ios.value,
-          pl_hp: form.pl_hp.value
-        };
-        if (!data.name || !data.email || !data.household || !data.ios) {
-          say("err", "Add your name, email, household, and whether you use iPhones.");
+        var name = form.name.value.trim();
+        var email = form.email.value.trim();
+        var household = form.household.value;
+        var ios = form.ios.value;
+        if (!name || !email || !household || !ios) {
+          status.className = "form-status err";
+          status.textContent = "Add your name, email, household, and whether you use iPhones.";
           return;
         }
-        if (data.pl_hp) {
-          form.hidden = true;
-          say("ok", "You're on the list. We'll write with TestFlight details.");
-          return;
-        }
-        var button = form.querySelector("button");
-        button.disabled = true;
-        say("", "");
-        var controller = new AbortController();
-        var timer = setTimeout(function () { controller.abort(); }, 12000);
-        fetch("/api/waitlist", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(data),
-          signal: controller.signal
-        }).then(function (res) {
-          return res.json().then(function (body) {
-            return { ok: res.ok && body && body.ok === true };
-          }).catch(function () {
-            return { ok: false };
-          });
-        }).then(function (result) {
-          if (!result.ok) throw new Error("save");
-          form.hidden = true;
-          say("ok", "You're on the list. We'll write with TestFlight details.");
-        }).catch(function () {
-          button.disabled = false;
-          say("err", "That didn't save. Try again in a moment, or email hello@pland.ai.");
-        }).finally(function () {
-          clearTimeout(timer);
-        });
+        var subject = encodeURIComponent("Pland household beta — access request");
+        var body = encodeURIComponent(
+          "Name: " + name + "\n" +
+          "Household: " + household + "\n" +
+          "iOS: " + ios + "\n" +
+          "Email: " + email + "\n"
+        );
+        status.className = "form-status ok";
+        status.textContent = "Opening an email to hello@pland.ai.";
+        var href = "mailto:hello@pland.ai?subject=" + subject + "&body=" + body;
+        if (window.plOpenMail) window.plOpenMail(href);
+        else window.location.href = href;
       });
     })();
   </script>

@@ -12,15 +12,7 @@ Pages publishes `main` only, so a pull request has no host preview URL.
 
 ## Waitlist
 
-The form `POST`s JSON to `/api/waitlist`. GitHub Pages cannot run that route. [`server/waitlist.mjs`](server/waitlist.mjs) is the storage process: one JSON line per signup, a honeypot, and logs that are only a status word. It allows CORS from `https://pland.ai` and `https://www.pland.ai`.
-
-```bash
-PORT=4173 node server/waitlist.mjs
-```
-
-The store file defaults to the system temp directory (`WAITLIST_STORE` overrides it). Do not commit it. `GET /api/waitlist` does not read it back.
-
-PlandAutomation’s `POST /waitlist` Lambda was not reachable from this site: `api.pland.ai` has no DNS record, and certificate logs for `*.pland.ai` only show `pland.ai` and `www.pland.ai`. When that Lambda is deployed and its CORS allows `https://pland.ai`, point the form at it and this process can go.
+The form opens a `mailto:hello@pland.ai` message. It does not post to a backend. The same address is linked under the form.
 
 ## Privacy
 
