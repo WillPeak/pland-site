@@ -1,22 +1,27 @@
-# Pland public marketing site
+# Pland public site
 
-Static landing page for Pland, hosted on GitHub Pages.
+Static site for [pland.ai](https://pland.ai).
 
-## Live site
+## How production deploys
 
-After enabling Pages: `https://willpeak.github.io/pland-public/`
+GitHub Pages, legacy build, from `main` at `/`. The `CNAME` file sets the custom domain `pland.ai`. DNS A records point at GitHub Pages (`185.199.108–111.153`); `www.pland.ai` CNAMEs to `willpeak.github.io` and redirects to the apex. Pages enforces HTTPS. The response `server` header is `GitHub.com` (Fastly is GitHub’s CDN). There is no Vercel, Netlify, or Cloudflare project in front of the site.
 
-## Enable GitHub Pages
+Pages publishes `main` only, so a pull request has no host preview URL.
 
-1. Repo **Settings → Pages**
-2. Source: **Deploy from a branch**
-3. Branch: `main` / `/ (root)`
-4. Save
+`/plaid/redirect` and the Apple App Site Association files are the iOS app’s return path. Leave them in place.
 
-## Edit
+## Waitlist
 
-Single file: `index.html`. Beta form currently opens a pre-filled email to `hello@pland.ai` — change that address in the script if needed.
+The form `POST`s JSON to `/api/waitlist`. GitHub Pages cannot run that route. [`server/waitlist.mjs`](server/waitlist.mjs) is the storage process: one JSON line per signup, a honeypot, and logs that are only a status word. It allows CORS from `https://pland.ai` and `https://www.pland.ai`.
 
-## Positioning
+```bash
+PORT=4173 node server/waitlist.mjs
+```
 
-Family calendar wedge (not “automate everything”). Honest about what ships in household beta vs later.
+The store file defaults to the system temp directory (`WAITLIST_STORE` overrides it). Do not commit it. `GET /api/waitlist` does not read it back.
+
+PlandAutomation’s `POST /waitlist` Lambda was not reachable from this site: `api.pland.ai` has no DNS record, and certificate logs for `*.pland.ai` only show `pland.ai` and `www.pland.ai`. When that Lambda is deployed and its CORS allows `https://pland.ai`, point the form at it and this process can go.
+
+## Privacy
+
+[`/privacy/`](privacy/index.html). `{{LEGAL_ENTITY}}` and `{{GOVERNING_LAW}}` are unfilled on purpose.
