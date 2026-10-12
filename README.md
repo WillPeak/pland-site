@@ -1,22 +1,19 @@
-# Pland public marketing site
+# Pland public site
 
-Static landing page for Pland, hosted on GitHub Pages.
+Static site for [pland.ai](https://pland.ai).
 
-## Live site
+## How production deploys
 
-After enabling Pages: `https://willpeak.github.io/pland-public/`
+GitHub Pages, legacy build, from `main` at `/`. The `CNAME` file sets the custom domain `pland.ai`. DNS A records point at GitHub Pages (`185.199.108–111.153`); `www.pland.ai` CNAMEs to `willpeak.github.io` and redirects to the apex. Pages enforces HTTPS. The response `server` header is `GitHub.com` (Fastly is GitHub’s CDN). There is no Vercel, Netlify, or Cloudflare project in front of the site.
 
-## Enable GitHub Pages
+Pages publishes `main` only, so a pull request has no host preview URL.
 
-1. Repo **Settings → Pages**
-2. Source: **Deploy from a branch**
-3. Branch: `main` / `/ (root)`
-4. Save
+`/plaid/redirect` and the Apple App Site Association files are the iOS app’s return path. Leave them in place.
 
-## Edit
+## Waitlist
 
-Single file: `index.html`. Beta form currently opens a pre-filled email to `hello@pland.ai` — change that address in the script if needed.
+The form opens a `mailto:hello@pland.ai` message. It does not post to a backend. The same address is linked under the form.
 
-## Positioning
+## Privacy
 
-Family calendar wedge (not “automate everything”). Honest about what ships in household beta vs later.
+[`/privacy/`](privacy/index.html). The publisher is Pland. Contact hello@pland.ai.
