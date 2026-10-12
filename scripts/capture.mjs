@@ -136,7 +136,10 @@ async function privacy(width, name) {
   if (!response || response.status() >= 400) fail("privacy status");
   await settle();
   const text = await page.locator("main").innerText();
-  if (!text.includes("{{LEGAL_ENTITY}}") || !text.includes("{{GOVERNING_LAW}}")) fail("placeholders missing");
+  if (!text.includes("This site is published by Pland.")) fail("publisher missing");
+  if (!text.includes("hello@pland.ai")) fail("privacy contact missing");
+  const braces = String.fromCharCode(123, 123);
+  if (text.includes(braces) || /LEGAL_ENTITY|GOVERNING_LAW|Unfilled, on purpose|Governing law/i.test(text)) fail("privacy placeholder still present");
   if (/waitlist service|private file/i.test(text)) fail("privacy still describes the unhosted store");
   await page.screenshot({ path: path.join(outDir, name), fullPage: true });
 }

@@ -16,4 +16,4 @@ The form opens a `mailto:hello@pland.ai` message. It does not post to a backend.
 
 ## Privacy
 
-[`/privacy/`](privacy/index.html). `{{LEGAL_ENTITY}}` and `{{GOVERNING_LAW}}` are unfilled on purpose.
+[`/privacy/`](privacy/index.html). The publisher is Pland. Contact hello@pland.ai.
