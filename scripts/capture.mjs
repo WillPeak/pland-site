@@ -11,17 +11,18 @@ const port = 4173;
 const base = `http://127.0.0.1:${port}`;
 
 fs.mkdirSync(outDir, { recursive: true });
-for (const stale of ["waitlist-success-390.png", "waitlist-success-1440.png"]) {
-  fs.rmSync(path.join(outDir, stale), { force: true });
-}
 
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-if (html.includes("/api/waitlist") || html.includes("fetch(")) {
-  console.error("homepage still posts");
+if (!html.includes('action="https://api.pland.ai/waitlist"')) {
+  console.error("form does not post to the waitlist API");
   process.exit(1);
 }
-if (!html.includes('action="mailto:hello@pland.ai"')) {
-  console.error("form is not a mailto");
+if (html.includes('action="mailto:')) {
+  console.error("form action is still mailto");
+  process.exit(1);
+}
+if (html.includes("fetch(")) {
+  console.error("inline fetch on the homepage");
   process.exit(1);
 }
 
@@ -59,12 +60,26 @@ for (const raw of pageText.match(/https?:\/\/[^"'()\s]+/g) || []) {
     process.exit(1);
   }
 }
-for (const rel of ["waitlist.js", "plaid/redirect.js", "site.css"]) {
+for (const rel of ["plaid/redirect.js", "site.css"]) {
   const text = fs.readFileSync(path.join(root, rel), "utf8");
   if (/https?:\/\/|fetch\(|XMLHttpRequest|gtag\(/i.test(text)) {
     console.error("external call in " + rel);
     process.exit(1);
   }
+}
+const waitlistJs = fs.readFileSync(path.join(root, "waitlist.js"), "utf8");
+const waitlistUrls = waitlistJs.match(/https?:\/\/[^"'\\\s)]+/g) || [];
+if (waitlistUrls.length !== 1 || waitlistUrls[0] !== "https://api.pland.ai/waitlist") {
+  console.error("waitlist urls " + waitlistUrls.join(","));
+  process.exit(1);
+}
+if (!waitlistJs.includes("fetch(")) {
+  console.error("waitlist does not fetch");
+  process.exit(1);
+}
+if (/XMLHttpRequest|gtag\(|mailto:/i.test(waitlistJs)) {
+  console.error("unexpected call in waitlist.js");
+  process.exit(1);
 }
 
 const child = spawn("python3", ["-m", "http.server", String(port), "--bind", "127.0.0.1"], {
@@ -98,7 +113,13 @@ await new Promise((resolve, reject) => {
   probe();
 });
 
-const browser = await chromium.launch();
+const launchOptions = {};
+if (process.env.CHROME_PATH) {
+  launchOptions.executablePath = process.env.CHROME_PATH;
+  launchOptions.args = ["--no-sandbox", "--disable-dev-shm-usage"];
+}
+if (process.env.HEADED) launchOptions.headless = false;
+const browser = await chromium.launch(launchOptions);
 const page = await browser.newPage();
 await page.emulateMedia({ reducedMotion: "reduce" });
 const requests = [];
@@ -199,28 +220,195 @@ async function privacy(width, name) {
 await privacy(390, "privacy-390.png");
 await privacy(1440, "privacy-1440.png");
 
+const waitlistCalls = [];
+let waitlistMode = "ok";
+await page.route("https://api.pland.ai/waitlist", async (route) => {
+  const request = route.request();
+  const origin = request.headers().origin || `http://127.0.0.1:${port}`;
+  const headers = {
+    "access-control-allow-origin": origin,
+    "access-control-allow-methods": "POST, OPTIONS",
+    "access-control-allow-headers": "Content-Type",
+    "content-type": "application/json",
+  };
+  if (request.method() === "OPTIONS") {
+    await route.fulfill({ status: 204, headers, body: "" });
+    return;
+  }
+  waitlistCalls.push({ method: request.method(), body: request.postData() || "", headers: request.headers() });
+  const mode = waitlistMode;
+  if (mode === "slow") await new Promise((resolve) => setTimeout(resolve, 800));
+  if (mode === "rate") {
+    await route.fulfill({ status: 429, headers, body: '{"ok":false,"error":"rate_limited"}' });
+    return;
+  }
+  if (mode === "invalid-email") {
+    await route.fulfill({ status: 400, headers, body: '{"ok":false,"error":"invalid_email"}' });
+    return;
+  }
+  if (mode === "invalid-name") {
+    await route.fulfill({ status: 400, headers, body: '{"ok":false,"error":"invalid_name"}' });
+    return;
+  }
+  if (mode === "down") {
+    await route.abort("failed");
+    return;
+  }
+  if (mode === "ok" || mode === "slow") {
+    await route.fulfill({ status: 200, headers, body: '{"ok":true}' });
+    return;
+  }
+  await route.fulfill({ status: 500, headers, body: '{"ok":false,"error":"internal"}' });
+});
+
+function rawCode(text) {
+  return /invalid_|rate_limited|origin_not_allowed|payload_too_large|\b429\b|\b400\b|\b403\b|\b500\b|\{"ok"/.test(text);
+}
+
+async function fillWaitlist() {
+  await page.fill("#name", "Sample Household");
+  await page.fill("#email", "sample.household@example.com");
+  await page.selectOption("#household", "2 adults");
+  await page.selectOption("#ios", "Mostly iOS");
+}
+
+async function formShot(name) {
+  await page.locator("#waitlist").scrollIntoViewIfNeeded();
+  await page.locator("#waitlist").screenshot({ path: path.join(outDir, name) });
+}
+
 await page.setViewportSize({ width: 1440, height: 900 });
 await page.goto(base + "/", { waitUntil: "networkidle" });
 await settle();
 const action = await page.locator("#waitlist-form").getAttribute("action");
-if (!action || !action.startsWith("mailto:hello@pland.ai")) fail("form action " + action);
-await page.fill("#name", "Sample");
-await page.fill("#email", "sample.household@example.com");
+if (action !== "https://api.pland.ai/waitlist") fail("form action " + action);
+const fine = await page.locator("#waitlist .fine").innerText();
+if (!fine.includes("hello@pland.ai")) fail("fallback address missing");
+
+const beforeEmpty = waitlistCalls.length;
+await page.click("#waitlist-submit");
+await page.waitForSelector("#waitlist-status.err");
+const emptyText = await page.locator("#waitlist-status").innerText();
+if (emptyText !== "Add your name, email, household, and whether you use iPhones.") fail("empty copy " + emptyText);
+if (waitlistCalls.length !== beforeEmpty) fail("empty submit posted");
+if (await page.locator("#waitlist-submit").isDisabled()) fail("button stayed disabled after validation");
+
+await page.fill("#name", "Sample Household");
+await page.fill("#email", "not-an-email");
 await page.selectOption("#household", "2 adults");
-await page.selectOption("#ios", "Mostly iOS");
-const before = requests.length;
-await page.evaluate(() => {
-  window.__mail = null;
-  window.plOpenMail = (href) => { window.__mail = href; };
+await page.selectOption("#ios", "Yes — we use iPhones");
+const beforeBad = waitlistCalls.length;
+await page.click("#waitlist-submit");
+await page.waitForSelector("#waitlist-status.err");
+const badEmail = await page.locator("#waitlist-status").innerText();
+if (badEmail !== "That email doesn't look right. Check it and try again.") fail("email copy " + badEmail);
+if (waitlistCalls.length !== beforeBad) fail("invalid email posted");
+if (rawCode(badEmail)) fail("raw code in email copy");
+const invalidFlag = await page.locator("#email").getAttribute("aria-invalid");
+if (invalidFlag !== "true") fail("email aria-invalid");
+const errColor = await page.evaluate(() => getComputedStyle(document.querySelector("#waitlist-status")).color);
+if (errColor !== "rgb(255, 180, 171)") fail("error color " + errColor);
+await page.emulateMedia({ colorScheme: "light" });
+const lightErr = await page.evaluate(() => getComputedStyle(document.querySelector("#waitlist-status")).color);
+await page.emulateMedia({ colorScheme: "dark" });
+const darkErr = await page.evaluate(() => getComputedStyle(document.querySelector("#waitlist-status")).color);
+if (lightErr !== darkErr || lightErr !== errColor) fail("error color changed with color scheme " + lightErr + " " + darkErr);
+await formShot("waitlist-error-1440.png");
+
+waitlistMode = "slow";
+await fillWaitlist();
+const sendPromise = page.click("#waitlist-submit");
+await page.waitForFunction(() => {
+  const button = document.querySelector("#waitlist-submit");
+  return button && button.disabled && button.textContent === "Joining…";
 });
-await page.click("#waitlist-form button");
-await page.waitForFunction(() => window.__mail);
-const mail = await page.evaluate(() => window.__mail);
-if (!mail.startsWith("mailto:hello@pland.ai?")) fail("mailto missing " + mail);
-if (mail.includes("/api/waitlist")) fail("mailto points at the backend");
-const posted = requests.slice(before).filter((line) => line.includes("/api/waitlist") || line.startsWith("POST "));
-if (posted.length) fail("posted: " + posted.join(", "));
-console.log("mailto ok");
+await sendPromise;
+await page.waitForSelector("#waitlist-status.ok");
+const successText = await page.locator("#waitlist-status").innerText();
+if (successText !== "You're on the list. We'll write with TestFlight details.") fail("success copy " + successText);
+if (await page.locator("#waitlist-form").isVisible()) fail("form still visible after success");
+if (!waitlistCalls.length) fail("success did not post");
+const posted = waitlistCalls[waitlistCalls.length - 1];
+if (posted.method !== "POST") fail("method " + posted.method);
+const payload = JSON.parse(posted.body);
+const keys = Object.keys(payload).sort().join(",");
+if (keys !== "email,household,ios,name") fail("payload keys " + keys);
+if (payload.name !== "Sample Household") fail("payload name");
+if (payload.email !== "sample.household@example.com") fail("payload email");
+if (payload.household !== "2 adults") fail("payload household");
+if (payload.ios !== "Mostly iOS") fail("payload ios");
+const contentType = posted.headers["content-type"] || "";
+if (!contentType.includes("application/json")) fail("content-type " + contentType);
+await formShot("waitlist-success-1440.png");
+
+async function failedMode(mode, expected) {
+  waitlistCalls.length = 0;
+  waitlistMode = mode;
+  await page.goto(base + "/", { waitUntil: "networkidle" });
+  await settle();
+  await fillWaitlist();
+  await page.click("#waitlist-submit");
+  await page.waitForSelector("#waitlist-status.err");
+  const text = await page.locator("#waitlist-status").innerText();
+  if (text !== expected) fail(mode + " copy " + text);
+  if (rawCode(text)) fail(mode + " showed a raw code");
+  if (!text.includes("hello@pland.ai")) fail(mode + " missing fallback");
+  if (await page.locator("#waitlist-submit").isDisabled()) fail(mode + " left the button disabled");
+  if ((await page.locator("#waitlist-submit").innerText()) !== "Join the waitlist") fail(mode + " button label");
+  return text;
+}
+await failedMode("rate", "That's a few too many tries. Wait a little, or email hello@pland.ai.");
+await formShot("waitlist-rate-limit-1440.png");
+await failedMode("invalid-email", "That email doesn't look right. Check it and try again, or email hello@pland.ai.");
+await failedMode("invalid-name", "Check your name, household, and whether you use iPhones, or email hello@pland.ai.");
+await failedMode("down", "That didn't save. Try again in a moment, or email hello@pland.ai.");
+await failedMode("other", "That didn't save. Try again in a moment, or email hello@pland.ai.");
+console.log("waitlist states ok");
+
+await page.setViewportSize({ width: 390, height: 844 });
+waitlistMode = "ok";
+await page.goto(base + "/", { waitUntil: "networkidle" });
+await settle();
+await page.fill("#name", "Sample Household");
+await page.fill("#email", "not-an-email");
+await page.selectOption("#household", "2 adults + kids");
+await page.selectOption("#ios", "No / mixed");
+await page.click("#waitlist-submit");
+await page.waitForSelector("#waitlist-status.err");
+await formShot("waitlist-error-390.png");
+await page.fill("#name", "Sample Household");
+await page.fill("#email", "sample.household@example.com");
+await page.selectOption("#household", "2 adults + kids");
+await page.selectOption("#ios", "Yes — we use iPhones");
+await page.click("#waitlist-submit");
+await page.waitForSelector("#waitlist-status.ok");
+const mobilePayload = JSON.parse(waitlistCalls[waitlistCalls.length - 1].body);
+if (mobilePayload.household !== "2 adults + kids") fail("mobile household");
+if (mobilePayload.ios !== "Yes — we use iPhones") fail("mobile ios " + mobilePayload.ios);
+await formShot("waitlist-success-390.png");
+
+await page.emulateMedia({ colorScheme: "light" });
+const lightStatus = await page.evaluate(() => {
+  const node = document.querySelector("#waitlist-status");
+  return {
+    bg: getComputedStyle(document.body).backgroundColor,
+    card: getComputedStyle(document.querySelector(".form-card")).backgroundColor,
+    status: node ? getComputedStyle(node).color : "",
+  };
+});
+await page.emulateMedia({ colorScheme: "dark" });
+const darkStatus = await page.evaluate(() => {
+  const node = document.querySelector("#waitlist-status");
+  return {
+    bg: getComputedStyle(document.body).backgroundColor,
+    card: getComputedStyle(document.querySelector(".form-card")).backgroundColor,
+    status: node ? getComputedStyle(node).color : "",
+  };
+});
+console.log("form colors", JSON.stringify({ lightStatus, darkStatus }));
+if (lightStatus.bg !== darkStatus.bg || lightStatus.card !== darkStatus.card || lightStatus.status !== darkStatus.status) {
+  fail("form status changed with prefers-color-scheme");
+}
 
 const metas = await page.evaluate(() => {
   const pick = (sel) => document.querySelector(sel)?.getAttribute("content") || "";
@@ -259,7 +447,7 @@ const openHref = await page.locator("#open-pland").getAttribute("href");
 if (openHref !== "pland://plaid/redirect?oauth_state_id=sample") fail("return link " + openHref);
 if (page.url().startsWith("pland:")) fail("auto redirected to the app");
 
-const offsite = requests.filter((line) => !line.includes("127.0.0.1"));
+const offsite = requests.filter((line) => !line.includes("127.0.0.1") && line !== "POST https://api.pland.ai/waitlist" && line !== "OPTIONS https://api.pland.ai/waitlist");
 if (offsite.length) fail("offsite request " + offsite.join(", "));
 if (cspViolations.length) fail("csp violation " + cspViolations.join(" | "));
 

@@ -52,7 +52,7 @@
       <h2>Join the waitlist</h2>
       <p class="lead">Tell us about the household. We'll write with TestFlight details.</p>
       <div class="form-card">
-        <form id="waitlist-form" action="mailto:hello@pland.ai" method="post" enctype="text/plain">
+        <form id="waitlist-form" action="https://api.pland.ai/waitlist" method="post" novalidate>
           <label for="name">Name</label>
           <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" />
           <label for="email">Email</label>
@@ -73,7 +73,7 @@
             <option>No / mixed</option>
           </select>
           <div class="form-actions">
-            <button class="btn" type="submit">Join the waitlist</button>
+            <button class="btn" id="waitlist-submit" type="submit">Join the waitlist</button>
           </div>
         </form>
         <p id="waitlist-status" class="form-status" role="status" aria-live="polite"></p>
