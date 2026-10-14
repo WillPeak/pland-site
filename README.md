@@ -12,7 +12,7 @@ Pages publishes `main` only, so a pull request has no host preview URL.
 
 ## Waitlist
 
-The form opens a `mailto:hello@pland.ai` message. It does not post to a backend. The same address is linked under the form.
+The form posts JSON to `https://api.pland.ai/waitlist` with `name`, `email`, `household`, and `ios`. A saved signup returns `{"ok":true}`. The button stays disabled while that request is in flight. Empty fields and a badly shaped email are checked in the page before anything is sent. Success and failure stay under the form, in the same dark palette the rest of the site uses (`prefers-color-scheme` does not switch it). Failure copy is a sentence, including a pointer to hello@pland.ai. The address is also linked under the form. Raw error codes from the API are not shown.
 
 ## Privacy
 
@@ -26,7 +26,7 @@ GitHub Pages has Enforce HTTPS on (`https_enforced: true` from `gh api repos/Wil
 
 Nunito Sans is self-hosted from `/fonts/` (SIL Open Font License, see `fonts/OFL.txt`). Styles and scripts are same-origin files. There is no analytics, no iframe, and no third-party script, font, or stylesheet.
 
-The only live external target is `mailto:hello@pland.ai`. The content security policy also allows `https://api.pland.ai` on `connect-src` and `form-action` for later. The pages do not call it. There is no app API host and no Mini. `/plaid/redirect` is the iOS return path: a same-origin page with a `pland://` link, not a network API.
+The waitlist posts to `https://api.pland.ai/waitlist`. `mailto:hello@pland.ai` stays as the contact address and as the fallback when a signup does not go through. There is no analytics, no iframe, and no third-party script, font, or stylesheet. There is no Mini. `/plaid/redirect` is the iOS return path: a same-origin page with a `pland://` link, not a network API.
 
 ## Content security policy
 
