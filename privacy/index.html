@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy — Pland</title>
-  <meta name="description" content="Privacy notice for the pland.ai website and the household waitlist." />
+  <meta name="description" content="How the Pland app and pland.ai handle your information, including bank data connected through Plaid." />
   <meta name="theme-color" content="#0f1214" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <!-- frame-ancestors is ignored in a meta tag, so this does not stop framing. -->
@@ -21,38 +21,65 @@
 
   <main class="wrap prose">
     <h1>Privacy</h1>
-    <p>Last updated 14 October 2026.</p>
+    <p>Last updated 16 October 2026.</p>
 
-    <h2>Who publishes this site</h2>
-    <p>This site is published by Pland. Write to <a href="mailto:hello@pland.ai">hello@pland.ai</a>.</p>
+    <h2>Who we are</h2>
+    <p>Pland is a family planner app, published by Pland. This notice covers the Pland app and the pland.ai website. Write to <a href="mailto:hello@pland.ai">hello@pland.ai</a> with any question.</p>
 
-    <h2>What this notice covers</h2>
-    <p>This notice is for the pland.ai website and the household waitlist on it. It is not an in-app privacy notice. The app's own notice is not copied here.</p>
-
-    <h2>What the waitlist collects</h2>
-    <p>If you join the waitlist, we ask for:</p>
+    <h2>The short version</h2>
     <ul>
-      <li>your name</li>
-      <li>your email address</li>
-      <li>household size, in broad terms</li>
-      <li>whether the household uses iPhones</li>
+      <li>We use your information only to run Pland for your household.</li>
+      <li>We don't sell it, we don't show ads, and we don't use your health or bank data for advertising.</li>
+      <li>You can ask us for a copy, a correction or deletion at any time.</li>
     </ul>
-    <p>The pages themselves are static. We don't add our own analytics. The host (GitHub Pages) keeps its usual request logs, which can include an IP address. Those logs are not a copy of the waitlist. Joining sends the fields above to the waitlist at api.pland.ai.</p>
 
-    <h2>Why we have it</h2>
-    <p>So we can write to you about the household beta, and so we know roughly who the note is for. We don't sell the list, and we don't use it to advertise anything else.</p>
+    <h2>What the app collects</h2>
+    <p>Only what you or your household give it, or connect to it:</p>
+    <ul>
+      <li><strong>Your account:</strong> name, email, phone number if you add one, birthday or whether a member is a child, sex, height, and your home address (used for travel times and the weather).</li>
+      <li><strong>Your household:</strong> the members a parent adds, including children, and the friends and occasions you add.</li>
+      <li><strong>Your calendar:</strong> events you add in Pland, and events from your iPhone calendars if you allow it.</li>
+      <li><strong>Health:</strong> readings you allow from Apple Health (such as weight, height, body fat, VO2 max and workouts), WHOOP data if you connect WHOOP, body scans you take (only the body-pose points and measurements; the camera image and your silhouette stay on your phone and are never uploaded), workouts and sets you log, and your answers to check-ins and journal entries.</li>
+      <li><strong>Money:</strong> the figures you enter, and, if you connect a bank, your accounts, balances and transactions (see Bank connections below).</li>
+      <li><strong>Messages to Pland:</strong> texts you send to Pland's number, and Pland's replies.</li>
+    </ul>
 
-    <h2>Where it is stored</h2>
-    <p>The form sends your name, email, household, and whether you use iPhones to the waitlist at api.pland.ai. They are not published on pland.ai. If the form can't send them, email <a href="mailto:hello@pland.ai">hello@pland.ai</a> and that message stays in the inbox.</p>
+    <h2>How we use it</h2>
+    <p>To run Pland's features for your household: planning your week, suggesting plans, meals and workouts, and showing your health and money measures. We don't use it for advertising, and we don't build profiles to sell.</p>
 
-    <h2>How long</h2>
-    <p>We keep a waitlist entry until we've written to you about the beta, you ask us to delete it, or we no longer need it for the beta — whichever comes first. Email the address above and we'll delete what we have.</p>
+    <h2>Bank connections (Plaid)</h2>
+    <p>Pland uses <a href="https://plaid.com">Plaid</a> to connect to your bank. You sign in to your bank inside Plaid; Pland never sees or stores your bank username or password. Plaid gives Pland access to your accounts, balances and transactions, which Pland uses to show your spending and your household's financial picture. By connecting an account you agree to <a href="https://plaid.com/legal/#end-user-privacy-policy">Plaid's End User Privacy Policy</a>.</p>
+    <p>Before a bank is connected or bank data is shown, the app asks for Face ID or your phone's passcode. The access Plaid gives us is stored encrypted with its own key. You can disconnect a bank at any time in the app (Profile › Connections); that ends Pland's access at Plaid.</p>
+
+    <h2>Who else handles it</h2>
+    <p>We never sell or rent your information. These service providers handle it only to run Pland:</p>
+    <ul>
+      <li><strong>Amazon Web Services:</strong> stores and processes Pland's data.</li>
+      <li><strong>Plaid:</strong> bank connections, as above.</li>
+      <li><strong>Apple and Google:</strong> Sign in with Apple or Google, if you use them, and the App Store.</li>
+      <li><strong>WHOOP:</strong> only if you connect it.</li>
+      <li><strong>OpenAI and Anthropic:</strong> AI models that read the text of requests and messages to help plan and reply.</li>
+      <li><strong>Instinct:</strong> an assistant service Pland texts to find and book things you ask for. It receives only what that request needs (for example a date, a time, the number of people and your preferences), never your health or bank data. Anything that costs money waits for your approval in the app.</li>
+      <li><strong>Privacy.com:</strong> a card Pland controls, used only for a purchase you approve.</li>
+      <li><strong>Open-Meteo and the US National Weather Service:</strong> your home's location, for the forecast.</li>
+      <li><strong>Telegram and WhatsApp:</strong> alerts to the founder when something in Pland fails, which can include parts of the data involved.</li>
+    </ul>
+    <p>We may disclose information if the law requires it.</p>
+
+    <h2>Security</h2>
+    <p>Everything travels over encrypted connections (TLS 1.2 or better) and is encrypted where it is stored. Access to production systems is limited to the founder, protected by multi-factor authentication, and logged.</p>
+
+    <h2>How long we keep it</h2>
+    <p>For as long as your account is active, so Pland can keep working from your history. When you disconnect a bank, Pland's access ends and the stored access to it is deleted. When you ask us to delete your data, we do so within 30 days and confirm in writing.</p>
 
     <h2>Children</h2>
-    <p>The waitlist is for an adult in the household. Don't put a child's name or email in the form. This notice does not describe how any app handles children's information.</p>
+    <p>Pland is used by families, so a parent can add children to the household and their activities to the calendar. A child's information is used only to plan for the household, never for advertising, and a parent can ask for a copy or deletion at any time. Pland does not show children any health or money scores.</p>
 
-    <h2>Asking for a copy, a correction, or deletion</h2>
-    <p>Email <a href="mailto:hello@pland.ai">hello@pland.ai</a> from the address you used. We'll send a copy, fix a mistake, or delete the entry.</p>
+    <h2>Your choices and requests</h2>
+    <p>You choose what to connect: Apple Health, your calendars, WHOOP and banks can each be left off or disconnected. To get a copy of your information, correct it or delete it, email <a href="mailto:hello@pland.ai">hello@pland.ai</a> from the address on your account. We'll reply within 30 days.</p>
+
+    <h2>The pland.ai website and waitlist</h2>
+    <p>The website's pages are static, and we don't add our own analytics. The host (GitHub Pages) keeps its usual request logs, which can include an IP address. If you join the waitlist we ask for your name, email address, household size and whether the household uses iPhones, and keep them until we've written to you about the beta, you ask us to delete them, or we no longer need them, whichever comes first. The waitlist is for an adult; please don't enter a child's details.</p>
 
     <h2>Changes</h2>
     <p>If this notice changes, the date at the top changes with it.</p>
