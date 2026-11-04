@@ -12,7 +12,7 @@ Pages publishes `main` only, so a pull request has no host preview URL.
 
 ## Waitlist
 
-The form posts JSON to `https://api.pland.ai/waitlist` with `name`, `email`, `household`, and `ios`. A saved signup returns `{"ok":true}`. The button stays disabled while that request is in flight. Empty fields and a badly shaped email are checked in the page before anything is sent. Success and failure stay under the form, in the same dark palette the rest of the site uses (`prefers-color-scheme` does not switch it). Failure copy is a sentence, including a pointer to hello@pland.ai. The address is also linked under the form. Raw error codes from the API are not shown.
+The form posts JSON to `https://api.pland.ai/waitlist` with `name`, `email`, `household`, and `ios`. A saved signup returns `{"ok":true}`. The button stays disabled while that request is in flight. Empty fields and a badly shaped email are checked in the page before anything is sent. Success and failure stay under the form. The homepage follows `prefers-color-scheme`: dark by default, with a light scheme when the device asks for one. Failure copy is a sentence, including a pointer to hello@pland.ai. The address is also linked under the form. Raw error codes from the API are not shown.
 
 ## Privacy
 

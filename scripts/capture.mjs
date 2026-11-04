@@ -55,7 +55,7 @@ if (/\bMini\b/.test(pageText)) {
 for (const raw of pageText.match(/https?:\/\/[^"'()\s]+/g) || []) {
   const url = raw.replace(/[;,]+$/g, "");
   const host = new URL(url).host;
-  if (host !== "pland.ai" && host !== "api.pland.ai") {
+  if (host !== "pland.ai" && host !== "api.pland.ai" && host !== "plaid.com") {
     console.error("unexpected host " + url);
     process.exit(1);
   }
@@ -146,19 +146,17 @@ async function assertFold(width, height) {
   const cta = await page.locator("#hero-cta").boundingBox();
   const shot = await page.locator(".hero-shot").boundingBox();
   const waitlist = await page.locator("#waitlist").boundingBox();
-  const summary = await page.locator("#how summary").boundingBox();
-  console.log("fold", JSON.stringify({ width, height, cta, shot, waitlist, summary }));
-  if (!cta || !shot || !waitlist || !summary) fail("missing hero box " + width);
+  console.log("fold", JSON.stringify({ width, height, cta, shot, waitlist }));
+  if (!cta || !shot || !waitlist) fail("missing hero box " + width);
   if (cta.y + cta.height > height + 1) fail("CTA below the fold at " + width);
   if (shot.y + shot.height > height + 1) fail("visual below the fold at " + width);
   if (waitlist.y < height - 2) fail("waitlist peeks into the first screen at " + width);
-  if (summary.y < height - 2) fail("See how it works peeks into the first screen at " + width);
   const wide = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   if (wide) fail("horizontal overflow at " + width);
   const h1 = await page.locator("h1").innerText();
   if (h1 !== "Healthier, wealthier, happier.") fail("unexpected h1");
   const hero = await page.locator(".hero-copy").innerText();
-  if (!hero.includes("You approve; over time, it runs itself.")) fail("hero line missing at " + width);
+  if (!hero.includes("You approve every plan with a tap.") || /runs itself/i.test(hero)) fail("hero line missing at " + width);
   if (/Hands-free is how it grows|available today|live now/i.test(hero)) fail("old hero line at " + width);
   const fonts = await page.evaluate(() => [...document.fonts].map((face) => face.family + " " + face.status));
   if (!fonts.some((face) => face.startsWith("Nunito Sans") && face.endsWith("loaded"))) fail("Nunito Sans did not load at " + width + " " + fonts.join(","));
@@ -173,29 +171,34 @@ async function expanded(width, name) {
   await page.setViewportSize({ width, height: width < 800 ? 844 : 900 });
   await page.goto(base + "/", { waitUntil: "networkidle" });
   await settle();
-  await page.locator("#how").evaluate((el) => { el.open = true; });
   const wide = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   if (wide) fail("horizontal overflow expanded " + width);
-  const text = await page.locator("#how").innerText();
+  const text = await page.locator("main").innerText();
   const visible = text.toLowerCase();
   for (const needle of [
-    "books through a partner",
-    "secret gift on a single-use card",
-    "talk",
-    "imessage",
+    "booking through a partner",
+    "secret gift paid by single-use card",
+    "rolling out",
+    "meals you can talk to",
+    "imessage digest",
     "flyer",
-    "wallet",
+    "pland bank",
     "retirement odds",
     "under-13",
-    "connected wearable",
-    "in beta, rolling out to waitlist households first",
-    "you start by approving or swapping",
-    "hands-free is where it's heading",
+    "whoop recovery",
+    "gad-7",
+    "body scan",
+    "vacation proposals",
+    "the planned year",
+    "how it decides",
+    "over time, more runs itself as it earns your trust.",
   ]) {
     if (!visible.includes(needle)) fail("missing expanded copy: " + needle);
   }
+  if (/[\u2013\u2014]/.test(text)) fail("dash in page copy");
+  if (/optimis|maths|on sunday|apple cash|how you're actually doing/i.test(text)) fail("stale copy");
   const pageText = text + await page.content();
-  if (/Instinct|Apple Health|silent auto-booking|\/api\/waitlist|class="next"|The rest of the week doesn't|one bad call|sends it back to drafting|available today|live now/i.test(pageText)) {
+  if (/Instinct|silent auto-booking|\/api\/waitlist|class="next"|The rest of the week doesn't|one bad call|sends it back to drafting|available today|live now/i.test(pageText)) {
     fail("forbidden expanded copy");
   }
   await page.screenshot({ path: path.join(outDir, name), fullPage: true });
@@ -210,7 +213,7 @@ async function privacy(width, name) {
   if (!response || response.status() >= 400) fail("privacy status");
   await settle();
   const text = await page.locator("main").innerText();
-  if (!text.includes("This site is published by Pland.")) fail("publisher missing");
+  if (!/published by Pland\./.test(text)) fail("publisher missing");
   if (!text.includes("hello@pland.ai")) fail("privacy contact missing");
   const braces = String.fromCharCode(123, 123);
   if (text.includes(braces) || /LEGAL_ENTITY|GOVERNING_LAW|Unfilled, on purpose|Governing law/i.test(text)) fail("privacy placeholder still present");
@@ -307,12 +310,7 @@ if (rawCode(badEmail)) fail("raw code in email copy");
 const invalidFlag = await page.locator("#email").getAttribute("aria-invalid");
 if (invalidFlag !== "true") fail("email aria-invalid");
 const errColor = await page.evaluate(() => getComputedStyle(document.querySelector("#waitlist-status")).color);
-if (errColor !== "rgb(255, 180, 171)") fail("error color " + errColor);
-await page.emulateMedia({ colorScheme: "light" });
-const lightErr = await page.evaluate(() => getComputedStyle(document.querySelector("#waitlist-status")).color);
-await page.emulateMedia({ colorScheme: "dark" });
-const darkErr = await page.evaluate(() => getComputedStyle(document.querySelector("#waitlist-status")).color);
-if (lightErr !== darkErr || lightErr !== errColor) fail("error color changed with color scheme " + lightErr + " " + darkErr);
+if (!["rgb(255, 180, 171)", "rgb(179, 38, 30)"].includes(errColor)) fail("error color " + errColor);
 await formShot("waitlist-error-1440.png");
 
 waitlistMode = "slow";
@@ -387,29 +385,6 @@ if (mobilePayload.household !== "2 adults + kids") fail("mobile household");
 if (mobilePayload.ios !== "Yes — we use iPhones") fail("mobile ios " + mobilePayload.ios);
 await formShot("waitlist-success-390.png");
 
-await page.emulateMedia({ colorScheme: "light" });
-const lightStatus = await page.evaluate(() => {
-  const node = document.querySelector("#waitlist-status");
-  return {
-    bg: getComputedStyle(document.body).backgroundColor,
-    card: getComputedStyle(document.querySelector(".form-card")).backgroundColor,
-    status: node ? getComputedStyle(node).color : "",
-  };
-});
-await page.emulateMedia({ colorScheme: "dark" });
-const darkStatus = await page.evaluate(() => {
-  const node = document.querySelector("#waitlist-status");
-  return {
-    bg: getComputedStyle(document.body).backgroundColor,
-    card: getComputedStyle(document.querySelector(".form-card")).backgroundColor,
-    status: node ? getComputedStyle(node).color : "",
-  };
-});
-console.log("form colors", JSON.stringify({ lightStatus, darkStatus }));
-if (lightStatus.bg !== darkStatus.bg || lightStatus.card !== darkStatus.card || lightStatus.status !== darkStatus.status) {
-  fail("form status changed with prefers-color-scheme");
-}
-
 const metas = await page.evaluate(() => {
   const pick = (sel) => document.querySelector(sel)?.getAttribute("content") || "";
   return {
@@ -434,11 +409,12 @@ for (const value of [metas.description, metas.ogDescription, metas.twitterDescri
 await page.emulateMedia({ colorScheme: "light" });
 await page.goto(base + "/", { waitUntil: "networkidle" });
 const lightBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+const lightErr = await page.evaluate(() => getComputedStyle(document.querySelector(".form-status.err") || document.body).color);
 await page.emulateMedia({ colorScheme: "dark" });
 await page.goto(base + "/", { waitUntil: "networkidle" });
 const darkBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-console.log("color-scheme light-emulated", lightBg, "dark-emulated", darkBg);
-if (lightBg !== darkBg) fail("site changed with prefers-color-scheme");
+console.log("color-scheme light-emulated", lightBg, "dark-emulated", darkBg, lightErr);
+if (lightBg === darkBg) fail("light scheme not applied");
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(base + "/plaid/redirect?oauth_state_id=sample", { waitUntil: "networkidle" });
