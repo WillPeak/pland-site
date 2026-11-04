@@ -40,13 +40,64 @@
       <div class="hero-copy">
         <p class="eyebrow">One plan for the whole household</p>
         <h1>Healthier, wealthier, happier.</h1>
-        <p class="dek">Pland plans your household's week against three dials: physical, mental and financial health. Your calendar, your health data and your money steer the plan, together instead of in separate apps.</p>
+        <p class="dek">Pland plans your household's week against three dials: financial, physical and mental health. Your money, your health data and your calendar steer the plan, together instead of in separate apps.</p>
         <p class="dek">It asks before it acts. You approve every plan with a tap.</p>
       </div>
       <img class="hero-shot" src="images/app/home-okafor.webp" width="600" height="1304" alt="Pland home for a sample household: Saturday already has a plan, with the physical, mental and financial dials." />
       <div class="hero-cta">
         <a class="btn" id="hero-cta" href="#waitlist">Join the waitlist</a>
-        <a class="link-more" href="#dials">See how it works</a>
+        <a class="link-more" href="#money">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band money" id="money" aria-labelledby="money-title">
+    <div class="wrap">
+      <p class="kicker kicker-money">Start with the money</p>
+      <h2 id="money-title">No budget to keep. One number that decides what you can afford.</h2>
+      <p class="lead">The financial dial is your chance of keeping today's way of life through retirement. Pland simulates 20,000 possible markets and counts how often your money lasts to age 95. Everything Pland suggests that costs money is checked against that number, not against a budget you have to maintain.</p>
+
+      <div class="money-grid">
+        <figure class="money-card" aria-labelledby="sample-cap">
+          <p class="sample-tag">Illustrative sample, not a real household</p>
+          <div class="chance">
+            <span class="chance-n">92%</span>
+            <span class="chance-l">chance of keeping today's way of life</span>
+          </div>
+          <div class="meter" aria-hidden="true"><span class="meter-fill"></span><span class="meter-mark"></span></div>
+          <p class="meter-note">On track this month</p>
+          <dl class="levers">
+            <div><dt>Retire at</dt><dd>62</dd></div>
+            <div><dt>Spend a month</dt><dd>$7,400</dd></div>
+            <div><dt>Save a month</dt><dd>$2,100</dd></div>
+          </dl>
+          <div class="year">
+            <p class="year-h">This year's amount, by kind</p>
+            <ul class="year-rows">
+              <li><span>Trips</span><span>$9,000</span></li>
+              <li><span>Eating out</span><span>$6,600</span></li>
+              <li><span>Outings</span><span>$2,400</span></li>
+            </ul>
+          </div>
+          <figcaption id="sample-cap">Sample figures for illustration only.</figcaption>
+        </figure>
+
+        <div class="money-copy">
+          <ul class="ticks">
+            <li><strong>See what the chance rests on.</strong> Social Security, spending through the years and one-off costs are estimated, shown and changeable. Move retirement age, spending or saving and the chance and the chart update as you drag.</li>
+            <li><strong>Spending and saving trade off.</strong> Raise one and the other falls by the same amount, so the levers show a real choice.</li>
+            <li><strong>The planned year.</strong> Last year measured by kind, matched to the year before. Then this year's amount: the most the household can spend on what it chooses and keep the chance at 90% or better.</li>
+            <li><strong>The household ledger.</strong> Every number traces back to the payment it came from.</li>
+            <li><strong>Steady totals.</strong> Card charges that are still pending are kept out of classification, so a month's spending does not jump and drag the chance with it.</li>
+            <li><strong>Pland Bank for kids.</strong> A child asks to spend, a parent approves by text, and Pland pays.</li>
+          </ul>
+          <p class="fine-print">Retirement odds use the money you enter yourself.</p>
+        </div>
+      </div>
+
+      <div class="tradeoff">
+        <h3>How money meets the other two dials</h3>
+        <p>A dinner out or an outing is suggested only when this month's share of the year's eating out and outings amount still has room. A trip is proposed only within what is left of the year's trips amount, after what is already booked. If the room is unknown, nothing is suggested. The mental and physical dials pick what is worth doing; the financial dial decides whether it fits.</p>
       </div>
     </div>
   </section>
@@ -57,20 +108,19 @@
       <h2 id="dials-title">One scoreboard, not three apps</h2>
       <p class="lead">Fitness apps, budget apps and calendars each optimize their own number. A household has to live with all three at once. Pland weighs each plan against all three and shows what a choice does to each dial.</p>
       <div class="dial-grid">
+        <article class="dial dial-financial">
+          <h3>Financial</h3>
+          <p>The simulated chance of keeping today's way of life. It sets what the household can afford.</p>
+        </article>
         <article class="dial dial-physical">
           <h3>Physical</h3>
-          <p>From Apple Health VO2 max and the body scan. Movement and food are planned to move it.</p>
+          <p>From Apple Health VO2 max and the body scan. Workouts and meals are planned to move it.</p>
         </article>
         <article class="dial dial-mental">
           <h3>Mental</h3>
           <p>From a short check-in built on standard questionnaires: GAD-7, PHQ-9 and WHO-5.</p>
         </article>
-        <article class="dial dial-financial">
-          <h3>Financial</h3>
-          <p>Retirement odds: your chance of keeping today's way of life, once you enter your money. No budget to type in and abandon.</p>
-        </article>
       </div>
-      <p class="note">When the dials pull against each other, the plan says so. A dinner out can be good for the mental dial and cost the financial one, and you see that before you say yes.</p>
     </div>
   </section>
 
@@ -84,8 +134,9 @@
         <div class="feature-copy">
           <h3 class="tag-physical">Move</h3>
           <ul class="ticks">
-            <li><strong>Workout sessions in the app.</strong> Sets, reps and a start button, not a link to another app.</li>
-            <li><strong>Sized by your wearable.</strong> WHOOP recovery sets how hard today's session is. Without a score it uses last night's sleep, then your recent workouts, then a moderate default.</li>
+            <li><strong>Sized by today's recovery.</strong> WHOOP recovery sets how hard today's session is. Without a score Pland uses last night's sleep, then your recent workouts, then a moderate default.</li>
+            <li><strong>Built for the time you have.</strong> Give a start and an end, and Pland builds the session, resting a muscle you trained today or yesterday.</li>
+            <li><strong>Run in the app.</strong> Sets climb to your working weight. Cardio intervals are set by your VO2 max. A timer runs every part, with rest and what is next on screen.</li>
             <li><strong>The body scan.</strong> Measured on the phone, it feeds the physical dial. Only points and measurements are kept; no image leaves the phone.</li>
           </ul>
         </div>
@@ -96,10 +147,10 @@
         <div class="feature-copy">
           <h3 class="tag-food">Eat</h3>
           <ul class="ticks">
-            <li><strong>Meals you can talk to.</strong> Ask for a change in plain words and the week's meals update.</li>
-            <li><strong>Photographed recipes, scaled per ingredient.</strong> Snap a recipe and Pland scales each ingredient for the people eating.</li>
-            <li><strong>Batch cooking, only after you confirm.</strong> Pland proposes it and waits for an explicit yes.</li>
-            <li><strong>One shopping list.</strong> It follows the week you approved.</li>
+            <li><strong>Meals you can talk to.</strong> Say "tacos on Tuesday" or "the kids hate mushrooms" and the week's meals follow.</li>
+            <li><strong>Photographed recipes, scaled per ingredient.</strong> Snap a recipe and each ingredient scales on its own: protein to the people eating, rice and pasta to what is left, the method word for word.</li>
+            <li><strong>Batch cooking, only after you confirm.</strong> Cook enough for another dinner only when you say so. The next dinner then uses that pot.</li>
+            <li><strong>One shopping list that follows the approved week.</strong> Change an approved week and the list is rebuilt from the plan as it stands.</li>
           </ul>
         </div>
         <img class="feature-shot crop" src="images/app/crop-meal-next.webp" width="700" height="418" alt="Pland meal card for a sample household: lunch today, with servings scaled per person and a Cook button." />
@@ -124,8 +175,6 @@
             <li><strong>A morning iMessage digest.</strong> Reply to undo anything in it.</li>
             <li><strong>Text Pland from iMessage, or snap a flyer.</strong> Pland lists what it found, and you pick what goes on the calendar.</li>
             <li><strong>Vacation proposals.</strong> You approve one before anything is booked.</li>
-            <li><strong>The planned year.</strong> The year ahead laid out, not only this week.</li>
-            <li><strong>Kids' wallet in Pland Bank.</strong> A child asks to spend, a parent approves, and Pland pays.</li>
           </ul>
         </div>
         <img class="feature-shot crop" src="images/app/crop-plan.webp" width="700" height="787" alt="Pland suggestion for a sample household: a Saturday bike ride, with the effect on the physical dial and Accept and Dismiss buttons." />
@@ -133,7 +182,7 @@
 
       <div class="rolling">
         <h3>Rolling out</h3>
-        <p>Booking through a partner, and occasions with a secret gift paid by single-use card. Both run for our first household today and are rolling out to waitlist households next.</p>
+        <p>Booking through a partner, and occasions with a secret gift paid by single-use card. Both are rolling out to waitlist households next.</p>
       </div>
     </div>
   </section>
