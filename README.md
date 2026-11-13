@@ -10,6 +10,10 @@ Pages publishes `main` only, so a pull request has no host preview URL.
 
 `/plaid/redirect` and the Apple App Site Association files are the iOS app’s return path. Leave them in place.
 
+## Page links in Pland's texts
+
+A text from Pland about one page ends with that page's link, `https://pland.ai/open/<page>` (PlandAutomation #1221). The Apple App Site Association files list `/open/*`, so on an iPhone with Pland the link opens the app on that page. The pages are `home`, `financial`, `financial/next`, `spending`, `presents`, `bank` and `meals`, the same list as the app's `PlandOpenLink.swift` and the server's `libs/core/family_text.py`. Each `open/<page>/index.html` is a short page for a phone without the app. Its `<title>` is what the link preview shows under the text. Add a page here only together with the app and the server.
+
 ## Waitlist
 
 The form posts JSON to `https://api.pland.ai/waitlist` with `name`, `email`, `household`, and `ios`. A saved signup returns `{"ok":true}`. The button stays disabled while that request is in flight. Empty fields and a badly shaped email are checked in the page before anything is sent. Success and failure stay under the form. The homepage follows `prefers-color-scheme`: dark by default, with a light scheme when the device asks for one. Failure copy is a sentence, including a pointer to hello@pland.ai. The address is also linked under the form. Raw error codes from the API are not shown.
