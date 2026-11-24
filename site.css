@@ -318,6 +318,8 @@ footer {
 .tag-mental { color: var(--mental-text); }
 .tag-food { color: var(--accent); }
 .tag-plan { color: var(--financial-text); }
+.tag-learn { color: var(--physical); }
+.signature { color: var(--text); font-weight: 600; margin: 0.4rem 0 0; }
 .ticks { list-style: none; margin: 0; padding: 0; }
 .ticks li {
   position: relative;

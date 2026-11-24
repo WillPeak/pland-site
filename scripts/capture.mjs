@@ -176,14 +176,16 @@ async function expanded(width, name) {
   const text = await page.locator("main").innerText();
   const visible = text.toLowerCase();
   for (const needle of [
-    "booking through a partner",
-    "secret gift paid by single-use card",
+    "go through a partner, switched on one household at a time",
+    "practice sized to each child",
+    "it started on a saturday morning with no plan",
+    "spending insights that act on something",
     "rolling out",
     "meals you can talk to",
     "imessage digest",
     "flyer",
     "pland bank",
-    "retirement odds",
+    "the chance reads the accounts you link",
     "under-13",
     "whoop recovery",
     "gad-7",
