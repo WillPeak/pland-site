@@ -55,7 +55,7 @@
     <div class="wrap">
       <p class="kicker kicker-money">Start with the money</p>
       <h2 id="money-title">No budget to keep. One number that decides what you can afford.</h2>
-      <p class="lead">The financial dial is your chance of keeping today's way of life through retirement. Pland simulates 20,000 possible markets and counts how often your money lasts to age 95. Everything Pland suggests that costs money is checked against that number, not against a budget you have to maintain.</p>
+      <p class="lead">The financial dial is your chance of keeping today's way of life through retirement. Pland simulates 20,000 possible markets and counts how often your money lasts as long as you do. Everything Pland suggests that costs money is checked against that number, not against a budget you have to maintain.</p>
 
       <div class="money-grid">
         <figure class="money-card" aria-labelledby="sample-cap">
@@ -90,7 +90,7 @@
             <li><strong>The household ledger.</strong> Every number traces back to the payment it came from.</li>
             <li><strong>Steady totals.</strong> Card charges that are still pending are kept out of classification, so a month's spending does not jump and drag the chance with it.</li>
             <li><strong>Pland Bank for kids.</strong> A child asks to spend, a parent approves by text, and Pland pays.</li>
-            <li><strong>Spending insights that act on something.</strong> A payment that went up, a yearly charge about to renew, what the meal plan already saved: each from your own payments, with one thing to do and what it does to the chance.</li>
+            <li><strong>Spending insights that act on something.</strong> A payment that went up, a yearly charge about to renew, what the meal plan already saved: each from your own payments, with what it would do to the chance, and Pland acts where it can.</li>
             <li><strong>Trips from your cards.</strong> Pland finds past trips in your charges; tap any charge for what the bank sent.</li>
           </ul>
           <p class="fine-print">The chance reads the accounts you link, and anything you add yourself.</p>
@@ -130,7 +130,11 @@
     <div class="wrap">
       <p class="kicker">What works today</p>
       <h2 id="today-title">Shipped in the beta</h2>
-      <p class="lead">Everything in this section is in the app now. Pland is in beta with a small number of households.</p>
+      <p class="lead">Everything in this section is in the app now. Pland is in beta with a small number of households, in the US, free while in beta.</p>
+      <div class="rolling">
+        <h3>Set up with you</h3>
+        <p>Booking, buying and asking for prices go through your own errand service, which Pland helps you set up when you join. Purchases are paid with your own card through Stripe Link, and you confirm each amount.</p>
+      </div>
 
       <div class="feature-row">
         <div class="feature-copy">
@@ -187,7 +191,7 @@
           <h3 class="tag-plan">Plan</h3>
           <ul class="ticks">
             <li><strong>A week for the whole household</strong> that never leaves an under-13 alone.</li>
-            <li><strong>A morning iMessage digest.</strong> Reply to undo anything in it.</li>
+            <li><strong>A morning iMessage digest.</strong> Today's plan and tonight's dinner by text each morning, if you opt in. Reply undo to take back a session Pland placed.</li>
             <li><strong>Text Pland from iMessage, or snap a flyer.</strong> Pland lists what it found, and you pick what goes on the calendar.</li>
             <li><strong>Vacation proposals.</strong> You approve one before anything is booked.</li>
           </ul>
@@ -195,27 +199,23 @@
         <img class="feature-shot crop" src="images/app/crop-plan.webp" width="700" height="787" alt="Pland suggestion for a sample household: a Saturday bike ride, with the effect on the physical dial and Accept and Dismiss buttons." />
       </div>
 
-      <div class="rolling">
-        <h3>Rolling out</h3>
-        <p>Booking, buying and asking for prices go through a partner, switched on one household at a time. Until then Pland plans, and you book.</p>
-      </div>
     </div>
   </section>
 
   <section class="band" id="decides" aria-labelledby="decides-title">
     <div class="wrap">
       <p class="kicker">How it decides</p>
-      <h2 id="decides-title">Proposals, gates and evals</h2>
+      <h2 id="decides-title">You approve, it's tested, it says what it used</h2>
       <div class="steps">
         <article>
           <span class="step-n">1</span>
           <h3>It proposes. You approve.</h3>
-          <p>Nothing goes on the calendar, into the cart or onto a card without a tap from you. Proposals show what they do to the dials.</p>
+          <p>Nothing goes on the calendar, into the cart or onto a card without your yes. Proposals show what they do to the dials.</p>
         </article>
         <article>
           <span class="step-n">2</span>
           <h3>Exact confirms</h3>
-          <p>Anything that spends money or commits time asks for an explicit yes on the specific thing: this vacation, this batch cook. A vague "sounds good" does not count.</p>
+          <p>Anything that spends money or commits time waits for your yes to that specific thing, in the app or as a reply to Pland's text about it. A yes never carries over to something else.</p>
         </article>
         <article>
           <span class="step-n">3</span>
@@ -280,6 +280,7 @@
           </select>
           <div class="form-actions">
             <button class="btn" id="waitlist-submit" type="submit">Join the waitlist</button>
+            <p class="fine-print">We keep these to write to you about the beta. <a href="privacy/">Privacy</a></p>
           </div>
         </form>
         <p id="waitlist-status" class="form-status" role="status" aria-live="polite"></p>
