@@ -24,13 +24,13 @@ The form posts JSON to `https://api.pland.ai/waitlist` with `name`, `email`, `ho
 
 ## HTTPS
 
-GitHub Pages has Enforce HTTPS on (`https_enforced: true` from `gh api repos/WillPeak/pland-site/pages`). The certificate is approved for `pland.ai` and `www.pland.ai` (Let's Encrypt, expires 20 November 2026). `http://pland.ai`, `http://www.pland.ai`, and `https://www.pland.ai` all 301 to `https://pland.ai/`.
+GitHub Pages has Enforce HTTPS on (`https_enforced: true` from `gh api repos/WillPeak/pland-site/pages`). The certificate is approved for `pland.ai` and `www.pland.ai` (Let's Encrypt, expires 20 January 2027, renewed by GitHub). `http://pland.ai`, `http://www.pland.ai`, and `https://www.pland.ai` all 301 to `https://pland.ai/`.
 
 ## What the pages load
 
 Nunito Sans is self-hosted from `/fonts/` (SIL Open Font License, see `fonts/OFL.txt`). Styles and scripts are same-origin files. There is no analytics, no iframe, and no third-party script, font, or stylesheet.
 
-The waitlist posts to `https://api.pland.ai/waitlist`. `mailto:hello@pland.ai` stays as the contact address and as the fallback when a signup does not go through. There is no analytics, no iframe, and no third-party script, font, or stylesheet. There is no Mini. `/plaid/redirect` is the iOS return path: a same-origin page with a `pland://` link, not a network API.
+The waitlist posts to `https://api.pland.ai/waitlist`. `mailto:hello@pland.ai` stays as the contact address and as the fallback when a signup does not go through. There is no analytics, no iframe, and no third-party script, font, or stylesheet. The site itself has no server of its own; the app's planning runs on Pland's Mac (see the privacy page). `/plaid/redirect` is the iOS return path: a same-origin page with a `pland://` link, not a network API.
 
 ## Content security policy
 

@@ -27,7 +27,7 @@ if (html.includes("fetch(")) {
 }
 
 const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.pland.ai; form-action 'self' mailto: https://api.pland.ai; base-uri 'self'; object-src 'none'; frame-ancestors 'none'";
-const pageFiles = ["index.html", "privacy/index.html", "plaid/redirect/index.html"];
+const pageFiles = ["index.html", "privacy/index.html", "plaid/redirect/index.html", "open/bank/index.html", "open/financial/index.html", "open/home/index.html", "open/meals/index.html", "open/presents/index.html", "open/spending/index.html"];
 const pageText = pageFiles.map((rel) => fs.readFileSync(path.join(root, rel), "utf8")).join("\n");
 for (const rel of pageFiles) {
   const text = fs.readFileSync(path.join(root, rel), "utf8");
@@ -176,11 +176,11 @@ async function expanded(width, name) {
   const text = await page.locator("main").innerText();
   const visible = text.toLowerCase();
   for (const needle of [
-    "go through a partner, switched on one household at a time",
+    "through your own errand service, which pland helps you set up when you join",
     "practice sized to each child",
     "it started on a saturday morning with no plan",
     "spending insights that act on something",
-    "rolling out",
+    "set up with you",
     "meals you can talk to",
     "imessage digest",
     "flyer",

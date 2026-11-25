@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Privacy — Pland</title>
+  <title>Pland privacy</title>
   <meta name="description" content="How the Pland app and pland.ai handle your information, including bank data connected through Plaid." />
-  <meta name="theme-color" content="#0f1214" />
+  <meta name="theme-color" content="#f7f5f2" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1214" media="(prefers-color-scheme: dark)" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <!-- frame-ancestors is ignored in a meta tag, so this does not stop framing. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.pland.ai; form-action 'self' mailto: https://api.pland.ai; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
@@ -21,7 +22,7 @@
 
   <main class="wrap prose">
     <h1>Privacy</h1>
-    <p>Last updated 24 November 2026.</p>
+    <p>Last updated 25 November 2026.</p>
 
     <h2>Who we are</h2>
     <p>Pland is a family planner app, published by Pland. This notice covers the Pland app and the pland.ai website. Write to <a href="mailto:hello@pland.ai">hello@pland.ai</a> with any question.</p>
@@ -36,10 +37,10 @@
     <h2 id="who">Who can see your data</h2>
     <ul>
       <li><strong>Your household:</strong> the adults in your household see your family's calendar and plans. Money is shared within the household.</li>
-      <li><strong>Other families on Pland:</strong> never see any of it. A friend you link with sees only the plans you make together.</li>
-      <li><strong>Pland's team:</strong> Pland's tools refuse to show one family's data to anyone outside it. If something breaks, error reports carry an ID number, not your details. The rare look needed to fix a problem must be approved, for that one reason, and it is logged.</li>
-      <li><strong>Your money:</strong> your bank connects through Plaid, and Pland never sees your bank login. Pland works out your Financial dial each hour and deletes its working copy when it finishes.</li>
-      <li><strong>Errands done for you:</strong> when Pland books or finds something, it shares only what that errand needs, like a time and a party size. Card numbers never pass through Pland.</li>
+      <li><strong>Other families on Pland:</strong> never see any of it. A family you link with sees your first names, who is a child and their ages, your home town, and the plans proposed for both families. Never your calendar, health or money.</li>
+      <li><strong>Pland's team:</strong> Pland is run by its founder, who can technically reach the data. Pland's own tools, and the AI tools he uses to build it, are set to refuse another family's data unless he approves a look for a stated reason, and each look is logged. Error reports go to Telegram and GitHub with ID numbers, not your details.</li>
+      <li><strong>Your money:</strong> your bank connects through Plaid, and Pland never sees your bank login. Pland works out your Financial dial each hour on its own computer (below), and deletes its copy of another household's money after each run.</li>
+      <li><strong>Errands done for you:</strong> when Pland books, finds or buys something, it shares what that errand needs (see Instinct below). Card numbers never pass through Pland.</li>
     </ul>
 
     <h2>What the app collects</h2>
@@ -48,8 +49,13 @@
       <li><strong>Your account:</strong> name, email, phone number if you add one, birthday or whether a member is a child, sex, height, and your home address (used for travel times and the weather).</li>
       <li><strong>Your household:</strong> the members a parent adds, including children, and the friends and occasions you add.</li>
       <li><strong>Your calendar:</strong> events you add in Pland, and events from your iPhone calendars if you allow it.</li>
-      <li><strong>Health:</strong> readings you allow from Apple Health (such as weight, height, body fat, VO2 max and workouts), WHOOP data if you connect WHOOP, body scans you take (only the body-pose points and measurements; the camera image and your silhouette stay on your phone and are never uploaded), workouts and sets you log, and your answers to check-ins and journal entries.</li>
-      <li><strong>Money:</strong> the figures you enter, and, if you connect a bank, your accounts, balances and transactions (see Bank connections below).</li>
+      <li><strong>Health:</strong> readings you allow from Apple Health (such as weight, height, body fat, VO2 max, workouts, sleep, heart rate, resting heart rate, heart rate variability and active energy), WHOOP data if you connect WHOOP, body scans you take (only the body-pose points and measurements; the camera image and your silhouette stay on your phone and are never uploaded), workouts and sets you log, and your answers to check-ins and journal entries.</li>
+      <li><strong>Money:</strong> the figures you enter (including pay, retirement age and life cover), and, if you connect a bank, your accounts, balances, transactions, investments and loans (see Bank connections below).</li>
+      <li><strong>Food:</strong> diets and foods to avoid, the meals you plan and the recipes you add.</li>
+      <li><strong>Photos you send:</strong> flyers, schedules, recipes and school reports you snap for Pland, kept as taken.</li>
+      <li><strong>Voice:</strong> what you say to Talk, or dictate for a recipe, turned into words (on your phone where it can be), and what a child reads aloud in practice, which Apple may process to turn into words.</li>
+      <li><strong>Location:</strong> a place you search for when adding an event.</li>
+      <li><strong>Diagnostics:</strong> crash, hang and slow-screen reports from the app on each device, children's included, and request logs, used to fix problems.</li>
       <li><strong>Messages to Pland:</strong> texts you send to Pland's number, and Pland's replies.</li>
       <li><strong>Someone you ask Pland to contact:</strong> a number you give (for example your cleaner's), the one text Pland sends them on your behalf, and their reply. Pland never reads their texts as requests and contacts them only when you tap.</li>
     </ul>
@@ -58,40 +64,42 @@
     <p>To run Pland's features for your household: planning your week, suggesting plans, meals and workouts, and showing your health and money measures. We don't use it for advertising, and we don't build profiles to sell.</p>
 
     <h2>Bank connections (Plaid)</h2>
-    <p>Pland uses <a href="https://plaid.com">Plaid</a> to connect to your bank. You sign in to your bank inside Plaid; Pland never sees or stores your bank username or password. Plaid gives Pland access to your accounts, balances and transactions, which Pland uses to show your spending and your household's financial picture. By connecting an account you agree to <a href="https://plaid.com/legal/#end-user-privacy-policy">Plaid's End User Privacy Policy</a>.</p>
+    <p>Pland uses <a href="https://plaid.com">Plaid</a> to connect to your bank. You sign in to your bank inside Plaid; Pland never sees or stores your bank username or password. Plaid gives Pland access to your accounts, balances, transactions, investments and loans, which Pland uses to show your spending and your household's financial picture. By connecting an account you agree to <a href="https://plaid.com/legal/#end-user-privacy-policy">Plaid's End User Privacy Policy</a>.</p>
     <p>Before a bank is connected or bank data is shown, the app asks for Face ID or your phone's passcode. The access Plaid gives us is stored encrypted with its own key. You can disconnect a bank at any time in the app (Profile › Connections); that ends Pland's access at Plaid.</p>
 
     <h2>Who else handles it</h2>
     <p>We never sell or rent your information. These service providers handle it only to run Pland:</p>
     <ul>
       <li><strong>Amazon Web Services:</strong> stores and processes Pland's data.</li>
+      <li><strong>Pland's own computer:</strong> a Mac that Pland runs does the planning and sends and receives Pland's texts. It keeps a working copy of your calendar, profile and health readings, and your texts with Pland.</li>
       <li><strong>Plaid:</strong> bank connections, as above.</li>
       <li><strong>Apple and Google:</strong> Sign in with Apple or Google, if you use them, and the App Store.</li>
       <li><strong>WHOOP:</strong> only if you connect it.</li>
-      <li><strong>OpenAI and Anthropic:</strong> AI models that read the text of requests and messages to help plan and reply.</li>
-      <li><strong>Instinct:</strong> an assistant service Pland texts to find and book things you ask for. It receives only what that request needs: for a booking, a date, a time, the number of people and your preferences; for a life-cover quote you ask for, the person's age and date of birth, sex, state, height, weight, whether they use nicotine, and the amount and term. Never a name, a Social Security number, a health history, or your bank data. Anything that costs money waits for your approval in the app.</li>
+      <li><strong>Anthropic:</strong> an AI model that reads what you send Pland (texts, photos of flyers, recipes and school reports, children's writing) and your check-in results when it writes a meditation.</li>
+      <li><strong>Stripe (Link):</strong> when the errand service pays for something you approved, it pays through Stripe Link with your own card; you confirm the exact amount in Link.</li>
+      <li><strong>Instinct:</strong> an assistant service Pland texts to find and book things you ask for. It receives what that request needs: for a booking, a date, time, party size and preferences. For a present, the person's first name, age, relationship and what they like. For a delivery or a home value, your address. For a rate or insurance quote, the loan's or bill's figures. For a life-cover quote you ask for, the person's age and date of birth, sex, state, height, weight, whether they use nicotine, and the amount and term. Never a Social Security number, a health history, a bank login or a card number. Anything that costs money waits for your approval, in the app or by text. The errand service may earn a commission from sellers; Pland shows you the price it found and never adds to it.</li>
       <li><strong>Privacy.com:</strong> a card Pland controls, used only for a purchase you approve.</li>
       <li><strong>Amazon (Alexa):</strong> only if you link an Echo for the children's spoken practice. It hears the questions and answers and keeps its recordings under your Amazon account.</li>
       <li><strong>Open-Meteo and the US National Weather Service:</strong> your home's location, for the forecast.</li>
-      <li><strong>Telegram and WhatsApp:</strong> alerts to the founder when something in Pland fails. For your household they carry ID numbers, not your details.</li>
+      <li><strong>Telegram and GitHub:</strong> alerts and error reports to the founder when something in Pland fails. For your household they carry ID numbers, not your details.</li>
     </ul>
     <p>We may disclose information if the law requires it.</p>
 
     <h2>Security</h2>
-    <p>Everything travels over encrypted connections (TLS 1.2 or better) and is encrypted where it is stored. Access to production systems is limited to the founder, protected by multi-factor authentication, and logged.</p>
+    <p>Everything travels over encrypted connections, and the data Pland stores in the cloud is encrypted. Access to production systems is limited to the founder, protected by multi-factor authentication, and logged.</p>
 
     <h2>How long we keep it</h2>
-    <p>For as long as your account is active, so Pland can keep working from your history. When you disconnect a bank, Pland's access ends and the stored access to it is deleted. When you ask us to delete your data, we do so within 30 days and confirm in writing.</p>
+    <p>For as long as your account is active, so Pland can keep working from your history. When you disconnect a bank, Pland's access ends and the stored access is deleted; transactions and balances already received are kept until you ask us to delete them. When you ask us to delete your data, by email or in the app at Profile, Delete Account, we delete it everywhere Pland keeps it within 30 days and confirm in writing. Copies a partner holds (Amazon for Alexa, the errand service) are deleted under their own policies, and we ask them to.</p>
 
     <h2>Children</h2>
     <p>Pland is used by families, so a parent can add children to the household and their activities to the calendar. A child's information is used only to plan for the household, never for advertising, and a parent can ask for a copy or deletion at any time. Pland does not show children any health or money scores.</p>
-    <p>A parent creates a child's account. For a child's practice Pland keeps their answers and how long each took, the writing they type (an AI model marks it), photos of school reports a parent takes, exactly as taken, and what they ask to buy through Pland Bank. If a parent turns it on, Pland texts a child each morning about practice, at the address the parent gives; it never reads a child's replies. If you link an Echo for spoken practice, Amazon keeps the voice recordings under your Amazon account, and Pland keeps the words Alexa heard.</p>
+    <p>A parent creates a child's account. For a child's practice Pland keeps their answers and how long each took, the writing they type (an AI model marks it), photos of school reports a parent takes, exactly as taken, their mood check-ins (a feeling word and, if they choose, why), shown only to their parents; what they read aloud, turned into words; and what they ask to buy through Pland Bank. School-report photos are read by an AI model. Only if a parent asks for it, Pland texts a child each morning about practice, at the address the parent gives; it never reads a child's replies. If you link an Echo for spoken practice, Amazon keeps the voice recordings under your Amazon account, and Pland keeps the words Alexa heard.</p>
 
     <h2>Your choices and requests</h2>
     <p>You choose what to connect: Apple Health, your calendars, WHOOP and banks can each be left off or disconnected. To get a copy of your information, correct it or delete it, email <a href="mailto:hello@pland.ai">hello@pland.ai</a> from the address on your account. We'll reply within 30 days.</p>
 
     <h2>The pland.ai website and waitlist</h2>
-    <p>The website's pages are static, and we don't add our own analytics. The host (GitHub Pages) keeps its usual request logs, which can include an IP address. If you join the waitlist we ask for your name, email address, household size and whether the household uses iPhones, and keep them until we've written to you about the beta, you ask us to delete them, or we no longer need them, whichever comes first. The waitlist is for an adult; please don't enter a child's details.</p>
+    <p>The website's pages are static, and we don't add our own analytics. The host (GitHub Pages) keeps its usual request logs, which can include an IP address, and when you join the waitlist your IP address is kept for a few hours to limit abuse. If you join the waitlist we ask for your name, email address, household size and whether the household uses iPhones, and keep them until we've written to you about the beta, you ask us to delete them, or we no longer need them, whichever comes first. The waitlist is for an adult; please don't enter a child's details.</p>
 
     <h2>Changes</h2>
     <p>If this notice changes, the date at the top changes with it.</p>
